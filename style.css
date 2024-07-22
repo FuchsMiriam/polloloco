@@ -4,6 +4,10 @@ body{
     align-items: center;
 }
 
+button{
+    cursor: pointer;
+}
+
 canvas{
     background-color: black;
 }
