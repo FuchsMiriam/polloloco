@@ -25,3 +25,31 @@ button{
 canvas{
     background-color: black;
 }
+
+/*Privacy Sidebar*/
+
+.privacy-sidebar{
+    display: flex;
+    margin: 10px;
+    gap: 10px;
+}
+
+.privacy-button{
+    display: flex;
+    padding: 10px;
+    text-decoration: none;
+    color: black;
+    border-radius: 10px;
+    border: 2px solid white;
+    background-color: rgb(250, 164, 60);
+}
+
+.legal-button{
+    display: flex;
+    padding: 10px;
+    text-decoration: none;
+    color: black;
+    border-radius: 10px;
+    border: 2px solid white;
+    background-color: rgb(250, 164, 60);
+}

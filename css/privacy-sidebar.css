@@ -1,0 +1,60 @@
+a {
+  color: black;
+  display: contents;
+}
+
+p {
+  display: flex;
+  text-align: left;
+  margin: 0;
+}
+
+.head {
+  display: flex;
+  align-items: center;
+  flex-direction: row-reverse;
+  margin: 10px;
+  gap: 50px;
+}
+
+.arrow-backwards-link {
+  cursor: pointer;
+}
+
+.arrow-backwards {
+  height: 60px;
+  width: 60px;
+}
+
+.textarea {
+  display: flex;
+  flex-direction: column;
+  top: -50px;
+  position: relative;
+  padding-left: 50px;
+  padding-right: 50px;
+  box-sizing: border-box;
+}
+
+.imprint {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.imprint-headline {
+  text-align: center;
+  font-size: 28px;
+  margin-bottom: 10px;
+}
+
+.imprint a {
+  display: contents;
+  color: black;
+}
+
+/*Headline Privacy Policy*/
+
+.headline-privacy{
+    margin-bottom: 50px;
+}
