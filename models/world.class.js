@@ -51,13 +51,6 @@ class World {
       mo.x = mo.x * -1;
     }
 
-    /*if (mo.otherDirection) {
-      this.ctx.save();
-      this.ctx.translate(mo.x + mo.width, mo.y); // Verschieben des Ursprungs
-      this.ctx.scale(-1, 1); // Spiegeln des Bildes
-      this.ctx.translate(-mo.x, -mo.y); // Rückverschiebung
-    }*/
-
     this.ctx.drawImage(mo.img, mo.x, mo.y, mo.width, mo.height);
 
     if (mo.otherDirection) {
