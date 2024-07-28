@@ -52,7 +52,7 @@ class World {
     }
 
     this.ctx.drawImage(mo.img, mo.x, mo.y, mo.width, mo.height);
-
+  
     if (mo.otherDirection) {
       mo.x = mo.x * -1;
       this.ctx.restore();

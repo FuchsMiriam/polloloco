@@ -41,8 +41,15 @@ class MovableObject {
     });
   }
 
-  playAnimation(images) {
+  /*playAnimation(images) {
     let i = this.currentImage % this.IMAGES_WALKING.length;
+    let path = images[i];
+    this.img = this.imageCache[path];
+    this.currentImage++;
+  }*/
+
+  playAnimation(images) {
+    let i = this.currentImage % images.length;
     let path = images[i];
     this.img = this.imageCache[path];
     this.currentImage++;
