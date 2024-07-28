@@ -12,7 +12,7 @@ class Chicklets extends MovableObject {
   IMAGE_DEAD = ["./img/3_enemies_chicken/chicken_small/2_dead/dead.png"];
 
   constructor() {
-    super().loadImage("./img/3_enemies_chicken/chicken_small/1_walk/1_w.png");
+    super().loadImage(this.IMAGES_WALKING[0]);
     this.loadImages(this.IMAGES_WALKING);
     this.loadImages(this.IMAGE_DEAD);
 
