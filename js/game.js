@@ -50,3 +50,64 @@ window.addEventListener("keyup", (e) => {
     keyboard.SPACE = false;
   }
 });
+
+/*function fullscreen(){
+  let fullscreen = document.getElementById('fullscreen');
+  enterFullscreen(fullscreen);
+}*/
+
+function showFullscreenMessage() {
+  const message = document.getElementById('fullscreen-message');
+  message.classList.add('visible');
+  setTimeout(() => {
+    message.classList.remove('visible');
+  }, 3000);
+}
+
+function fullscreen() {
+  let fullscreenElement = document.getElementById('fullscreen');
+  
+  if (window.innerWidth > window.innerHeight) {
+    enterFullscreen(fullscreenElement);
+  } else {
+    showFullscreenMessage();
+  }
+}
+
+function enterFullscreen(element) {
+  if(element.requestFullscreen) {
+    element.requestFullscreen();
+  } else if(element.msRequestFullscreen) { 
+    element.msRequestFullscreen();
+  } else if(element.webkitRequestFullscreen) { 
+    element.webkitRequestFullscreen();
+  }
+  adjustCanvasSize(true);
+}
+
+function exitFullscreen() {
+  if(document.exitFullscreen) {
+    document.exitFullscreen();
+  } else if(document.webkitExitFullscreen) {
+    document.webkitExitFullscreen();
+  }
+  adjustCanvasSize(false);
+}
+
+function adjustCanvasSize(fullscreen) {
+  let canvas = document.getElementById('canvas');
+  if (fullscreen) {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+  } else {
+    canvas.width = 720;
+    canvas.height = 480;
+  }
+}
+
+
+document.addEventListener('fullscreenchange', () => {
+  if (!document.fullscreenElement) {
+    adjustCanvasSize(false);
+  }
+});
