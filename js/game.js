@@ -51,22 +51,28 @@ window.addEventListener("keyup", (e) => {
   }
 });
 
+function startGame() {
+  document.querySelector(".startscreen").classList.add("d-none");
+
+  initGame();
+}
+
 /*function fullscreen(){
   let fullscreen = document.getElementById('fullscreen');
   enterFullscreen(fullscreen);
 }*/
 
 function showFullscreenMessage() {
-  const message = document.getElementById('fullscreen-message');
-  message.classList.add('visible');
+  const message = document.getElementById("fullscreen-message");
+  message.classList.add("visible");
   setTimeout(() => {
-    message.classList.remove('visible');
+    message.classList.remove("visible");
   }, 3000);
 }
 
 function fullscreen() {
-  let fullscreenElement = document.getElementById('fullscreen');
-  
+  let fullscreenElement = document.getElementById("fullscreen");
+
   if (window.innerWidth > window.innerHeight) {
     enterFullscreen(fullscreenElement);
   } else {
@@ -75,27 +81,27 @@ function fullscreen() {
 }
 
 function enterFullscreen(element) {
-  if(element.requestFullscreen) {
+  if (element.requestFullscreen) {
     element.requestFullscreen();
-  } else if(element.msRequestFullscreen) { 
+  } else if (element.msRequestFullscreen) {
     element.msRequestFullscreen();
-  } else if(element.webkitRequestFullscreen) { 
+  } else if (element.webkitRequestFullscreen) {
     element.webkitRequestFullscreen();
   }
   adjustCanvasSize(true);
 }
 
 function exitFullscreen() {
-  if(document.exitFullscreen) {
+  if (document.exitFullscreen) {
     document.exitFullscreen();
-  } else if(document.webkitExitFullscreen) {
+  } else if (document.webkitExitFullscreen) {
     document.webkitExitFullscreen();
   }
   adjustCanvasSize(false);
 }
 
 function adjustCanvasSize(fullscreen) {
-  let canvas = document.getElementById('canvas');
+  let canvas = document.getElementById("canvas");
   if (fullscreen) {
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
@@ -105,8 +111,7 @@ function adjustCanvasSize(fullscreen) {
   }
 }
 
-
-document.addEventListener('fullscreenchange', () => {
+document.addEventListener("fullscreenchange", () => {
   if (!document.fullscreenElement) {
     adjustCanvasSize(false);
   }
