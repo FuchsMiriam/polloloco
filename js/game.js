@@ -1,6 +1,7 @@
 let canvas;
 let world;
 let keyboard = new Keyboard();
+let intervalIds = [];
 
 function startGame() {
   let startScreen = document.querySelector(".startscreen");
@@ -37,14 +38,24 @@ document.addEventListener("DOMContentLoaded", () => {
   document.querySelector(".game-controls-container").classList.add("d-none");
 });
 
+//Set Interval
+
+function addStoppableInterval(fn, time) {
+  let intervalId = setInterval(fn, time);
+  intervalIds.push(intervalId);
+}
+
 //Exit game
 
 function exitGame() {
-  if (world) {
-    world.stopGame();
-    world = null;
-  }
+  intervalIds.forEach(clearInterval);
+  intervalIds = [];
   showStartScreen();
+}
+
+
+function clearAllIntervals() {
+  for (let i = 1; i < 9999; i++) window.clearInterval(i);
 }
 
 window.addEventListener("keydown", (e) => {
