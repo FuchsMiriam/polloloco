@@ -15,25 +15,37 @@ function init() {
   //world = new World(canvas, keyboard);
 }
 
-function showControls(){
-  document.querySelector('.startscreen').classList.add('d-none');
-document.querySelector('.game-controls-container').classList.remove('d-none');
+function showControls() {
+  document.querySelector(".startscreen").classList.add("d-none");
+  document.querySelector(".game-controls-container").classList.remove("d-none");
 }
 
 function showStory() {
-  document.querySelector('.startscreen').classList.add('d-none');
-  document.querySelector('.story-container').classList.remove('d-none');
+  document.querySelector(".startscreen").classList.add("d-none");
+  document.querySelector(".story-container").classList.remove("d-none");
 }
 
 function showStartScreen() {
-  document.querySelector('.story-container').classList.add('d-none');
-  document.querySelector('.startscreen').classList.remove('d-none');
+  document.querySelector(".story-container").classList.add("d-none");
+  document.querySelector(".game-controls-container").classList.add("d-none");
+  document.querySelector(".startscreen").classList.remove("d-none");
 }
 
-document.addEventListener('DOMContentLoaded', () => {
-  document.querySelector('.startscreen').classList.remove('d-none');
-  document.querySelector('.story-container').classList.add('d-none');
+document.addEventListener("DOMContentLoaded", () => {
+  document.querySelector(".startscreen").classList.remove("d-none");
+  document.querySelector(".story-container").classList.add("d-none");
+  document.querySelector(".game-controls-container").classList.add("d-none");
 });
+
+//Exit game
+
+function exitGame() {
+  if (world) {
+    world.stopGame();
+    world = null;
+  }
+  showStartScreen();
+}
 
 window.addEventListener("keydown", (e) => {
   if (e.keyCode == 39) {
@@ -78,7 +90,6 @@ window.addEventListener("keyup", (e) => {
     keyboard.SPACE = false;
   }
 });
-
 
 /*function fullscreen(){
   let fullscreen = document.getElementById('fullscreen');

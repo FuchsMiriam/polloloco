@@ -71,7 +71,6 @@ button {
   cursor: pointer;
 }
 
-
 .close-btn {
   position: absolute;
   top: 10px;
@@ -87,7 +86,8 @@ button {
 
 /*Game Controls Container*/
 
-.game-controls-container{  position: fixed;
+.game-controls-container {
+  position: fixed;
   top: 50%;
   left: 50%;
   width: 820px;
@@ -105,7 +105,42 @@ button {
   line-height: 1.6;
   word-break: break-word;
   overflow-wrap: break-word;
-  padding: 40px;}
+  padding: 40px;
+}
+
+.controls-expl-container {
+  display: flex;
+  flex-direction: row;
+  gap: 120px;
+}
+
+.keyboard-icons {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.keyboard-img {
+  font-size: 24px;
+  display: flex;
+  align-items: center;
+}
+
+.keyboard-img img{
+  height: 40px;
+  width: 40px;
+}
+
+.keyboard-expl{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+
+.explanation-text{
+  font-size: 24px;
+}
 
 /*Story Container*/
 

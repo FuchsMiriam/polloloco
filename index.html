@@ -51,6 +51,12 @@
     <div id="fullscreen" class="fullscreen-container">
       <canvas id="canvas" width="720" height="480"></canvas>
       <img
+      src="./img/close.png"
+      alt="Exit"
+      class="close-btn"
+      onclick="exitGame()"
+    />
+      <img
         src="./img/fullscreen_icon.png"
         alt="Vollbild"
         class="fullscreen-icon"
@@ -66,7 +72,19 @@
         onclick="showStartScreen()"
       />
       <h2>Game Controls</h2>
-      
+      <div class="controls-expl-container">
+      <div class="keyboard-icons">
+        <div class="keyboard-img"><img src="./img/arrow_right.png" alt="Right"></div>
+        <div class="keyboard-img"><img src="./img/arrow_left.png" alt="Left"></div>
+        <div class="keyboard-img"><img src="./img/arrow_up.png" alt="Up">&nbsp;&nbsp;&nbsp;/&nbsp;&nbsp;&nbsp;<img src="./img/spacebar.svg" alt="Space"></div>
+        <div class="keyboard-img">B</div>
+      </div>
+      <div class="keyboard-expl">
+        <p class="explanation-text">Move right</p>
+        <p class="explanation-text">Move left</p>
+        <p class="explanation-text">Jump</p>
+        <p class="explanation-text">Throw</p>
+      </div></div>
     </div>
 
     <div class="story-container">
