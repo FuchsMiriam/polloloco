@@ -15,6 +15,26 @@ function init() {
   //world = new World(canvas, keyboard);
 }
 
+function showControls(){
+  document.querySelector('.startscreen').classList.add('d-none');
+document.querySelector('.game-controls-container').classList.remove('d-none');
+}
+
+function showStory() {
+  document.querySelector('.startscreen').classList.add('d-none');
+  document.querySelector('.story-container').classList.remove('d-none');
+}
+
+function showStartScreen() {
+  document.querySelector('.story-container').classList.add('d-none');
+  document.querySelector('.startscreen').classList.remove('d-none');
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  document.querySelector('.startscreen').classList.remove('d-none');
+  document.querySelector('.story-container').classList.add('d-none');
+});
+
 window.addEventListener("keydown", (e) => {
   if (e.keyCode == 39) {
     keyboard.RIGHT = true;
@@ -28,8 +48,8 @@ window.addEventListener("keydown", (e) => {
     keyboard.UP = true;
   }
 
-  if (e.keyCode == 40) {
-    keyboard.DOWN = true;
+  if (e.keyCode == 66) {
+    keyboard.THROW = true;
   }
 
   if (e.keyCode == 32) {
@@ -50,8 +70,8 @@ window.addEventListener("keyup", (e) => {
     keyboard.UP = false;
   }
 
-  if (e.keyCode == 40) {
-    keyboard.DOWN = false;
+  if (e.keyCode == 66) {
+    keyboard.THROW = false;
   }
 
   if (e.keyCode == 32) {

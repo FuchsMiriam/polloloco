@@ -35,8 +35,16 @@
         <button class="startscreen-button" id="start" onclick="startGame()">
           Start
         </button>
-        <button class="startscreen-button">Controls</button>
-        <button class="startscreen-button">Story</button>
+        <button
+          class="startscreen-button"
+          id="controls"
+          onclick="showControls()"
+        >
+          Controls
+        </button>
+        <button class="startscreen-button" id="story" onclick="showStory()">
+          Story
+        </button>
       </div>
     </div>
 
@@ -48,6 +56,39 @@
         class="fullscreen-icon"
         onclick="fullscreen()"
       />
+    </div>
+
+    <div class="game-controls-container">
+      <img
+        src="./img/close.png"
+        alt="Close"
+        class="close-btn"
+        onclick="showStartScreen()"
+      />
+      <h2>Game Controls</h2>
+      
+    </div>
+
+    <div class="story-container">
+      <img
+        src="./img/close.png"
+        alt="Close"
+        class="close-btn"
+        onclick="showStartScreen()"
+      />
+      <h1 class="story-headline">The story of Pepe Peligroso</h1>
+      <p>
+        Pepe Peligroso, a fearless farmer of Mexico, woke up to a nightmare: his
+        prized chickens had escaped! These weren’t ordinary chickens; they were
+        feisty, fearless, and had a knack for mischief. Armed with only a
+        sombrero and salsa bottles, Pepe embarked on a daring mission to reclaim
+        his runaway flock. As Pepe reached the cornfield, he saw them—his
+        chickens, led by the notorious Cluck Norris. The chickens had formed a
+        rowdy circle, clucking like a mariachi band. Pepe knew he had to act
+        fast. With swift throws of his salsa bottles, he shouted, “¡Vuelvan a la
+        granja!” But Cluck Norris wasn’t backing down. The lead chicken squared
+        off, flapping his wings like a prizefighter. And so the fight began!
+      </p>
     </div>
 
     <div id="fullscreen-message" class="fullscreen-message">

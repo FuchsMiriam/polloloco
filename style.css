@@ -13,7 +13,7 @@ body {
 }
 
 .d-none {
-  display: none;
+  display: none !important;
 }
 
 .button-container {
@@ -33,7 +33,7 @@ body {
   width: 820px;
   height: 480px;
   transform: translate(-50%, -50%);
-  z-index: 1000;
+  z-index: 3;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -69,6 +69,71 @@ h1 {
 
 button {
   cursor: pointer;
+}
+
+
+.close-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 14px;
+  height: 14px;
+  cursor: pointer;
+}
+
+.close-btn:hover {
+  background-color: rgb(252, 226, 106);
+}
+
+/*Game Controls Container*/
+
+.game-controls-container{  position: fixed;
+  top: 50%;
+  left: 50%;
+  width: 820px;
+  height: 480px;
+  transform: translate(-50%, -50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  background-color: rgb(250, 164, 60);
+  box-sizing: border-box;
+  text-align: center;
+  letter-spacing: 1.2px;
+  margin-top: 50px;
+  line-height: 1.6;
+  word-break: break-word;
+  overflow-wrap: break-word;
+  padding: 40px;}
+
+/*Story Container*/
+
+.story-container {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  width: 820px;
+  height: 480px;
+  transform: translate(-50%, -50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  background-color: rgb(250, 164, 60);
+  box-sizing: border-box;
+  text-align: center;
+  letter-spacing: 1.2px;
+  margin-top: 50px;
+  line-height: 1.6;
+  word-break: break-word;
+  overflow-wrap: break-word;
+  padding: 40px;
+}
+
+.story-headline {
+  font-size: 36px;
+  margin: 0;
 }
 
 canvas {
