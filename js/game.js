@@ -2,9 +2,17 @@ let canvas;
 let world;
 let keyboard = new Keyboard();
 
+function startGame() {
+  let startScreen = document.querySelector(".startscreen");
+  startScreen.style.zIndex = "-1";
+  startScreen.classList.add("d-none");
+  initGame();
+  world = new World(canvas, keyboard);
+}
+
 function init() {
   canvas = document.getElementById("canvas");
-  world = new World(canvas, keyboard);
+  //world = new World(canvas, keyboard);
 }
 
 window.addEventListener("keydown", (e) => {
@@ -51,11 +59,6 @@ window.addEventListener("keyup", (e) => {
   }
 });
 
-function startGame() {
-  document.querySelector(".startscreen").classList.add("d-none");
-
-  initGame();
-}
 
 /*function fullscreen(){
   let fullscreen = document.getElementById('fullscreen');
