@@ -29,6 +29,7 @@ function showStory() {
 function showStartScreen() {
   document.querySelector(".story-container").classList.add("d-none");
   document.querySelector(".game-controls-container").classList.add("d-none");
+  document.querySelector("canvas").classList.add("d-none");
   document.querySelector(".startscreen").classList.remove("d-none");
 }
 
@@ -52,7 +53,6 @@ function exitGame() {
   intervalIds = [];
   showStartScreen();
 }
-
 
 function clearAllIntervals() {
   for (let i = 1; i < 9999; i++) window.clearInterval(i);
