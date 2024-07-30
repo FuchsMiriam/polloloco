@@ -8,11 +8,16 @@
     <link rel="stylesheet" href="./fonts.css" />
     <title>El pollo loco</title>
 
+    <script src="./models/drawable-object.class.js"></script>
     <script src="./models/movable-object.class.js"></script>
     <script src="./models/character.class.js"></script>
     <script src="./models/chicken.class.js"></script>
     <script src="./models/cloud.class.js"></script>
     <script src="./models//background-object.class.js"></script>
+    <script src="./models/statusbar.class.js"></script>
+    <script src="./models/statusbar-bottle.class.js"></script>
+    <script src="./models//statusbar-coin.class.js"></script>
+    <script src="./models/statusbar-endboss-health.class.js"></script>
     <script src="./models/world.class.js"></script>
     <script src="./models/keyboard.class.js"></script>
     <script src="./models/level.class.js"></script>
@@ -51,11 +56,11 @@
     <div id="fullscreen" class="fullscreen-container">
       <canvas id="canvas" width="720" height="480"></canvas>
       <img
-      src="./img/close.png"
-      alt="Exit"
-      class="close-btn"
-      onclick="exitGame()"
-    />
+        src="./img/close.png"
+        alt="Exit"
+        class="close-btn"
+        onclick="exitGame()"
+      />
       <img
         src="./img/fullscreen_icon.png"
         alt="Vollbild"
@@ -73,18 +78,31 @@
       />
       <h2>Game Controls</h2>
       <div class="controls-expl-container">
-      <div class="keyboard-icons">
-        <div class="keyboard-img"><img src="./img/arrow_right.png" alt="Right"></div>
-        <div class="keyboard-img"><img src="./img/arrow_left.png" alt="Left"></div>
-        <div class="keyboard-img"><img src="./img/arrow_up.png" alt="Up">&nbsp;&nbsp;&nbsp;/&nbsp;&nbsp;&nbsp;<img src="./img/spacebar.svg" alt="Space"></div>
-        <div class="keyboard-img">B</div>
+        <div class="keyboard-icons">
+          <div class="keyboard-img">
+            <img src="./img/arrow_right.png" alt="Right" />
+          </div>
+          <div class="keyboard-img">
+            <img src="./img/arrow_left.png" alt="Left" />
+          </div>
+          <div class="keyboard-img">
+            <img
+              src="./img/arrow_up.png"
+              alt="Up"
+            />&nbsp;&nbsp;&nbsp;/&nbsp;&nbsp;&nbsp;<img
+              src="./img/spacebar.svg"
+              alt="Space"
+            />
+          </div>
+          <div class="keyboard-img">B</div>
+        </div>
+        <div class="keyboard-expl">
+          <p class="explanation-text">Move right</p>
+          <p class="explanation-text">Move left</p>
+          <p class="explanation-text">Jump</p>
+          <p class="explanation-text">Throw</p>
+        </div>
       </div>
-      <div class="keyboard-expl">
-        <p class="explanation-text">Move right</p>
-        <p class="explanation-text">Move left</p>
-        <p class="explanation-text">Jump</p>
-        <p class="explanation-text">Throw</p>
-      </div></div>
     </div>
 
     <div class="story-container">
