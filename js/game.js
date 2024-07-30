@@ -3,6 +3,7 @@ let world;
 let keyboard = new Keyboard();
 let intervalIds = [];
 
+
 function startGame() {
   let startScreen = document.querySelector(".startscreen");
   startScreen.style.zIndex = "-1";
@@ -30,6 +31,8 @@ function showStartScreen() {
   document.querySelector(".story-container").classList.add("d-none");
   document.querySelector(".game-controls-container").classList.add("d-none");
   document.querySelector("canvas").classList.add("d-none");
+  document.querySelector(".close-btn").classList.add("d-none");
+  document.querySelector(".fullscreen-icon").classList.add("d-none");
   document.querySelector(".startscreen").classList.remove("d-none");
 }
 
@@ -51,7 +54,9 @@ function addStoppableInterval(fn, time) {
 function exitGame() {
   intervalIds.forEach(clearInterval);
   intervalIds = [];
+  clearAllIntervals();
   showStartScreen();
+
 }
 
 function clearAllIntervals() {
