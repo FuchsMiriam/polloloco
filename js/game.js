@@ -3,13 +3,38 @@ let world;
 let keyboard = new Keyboard();
 let intervalIds = [];
 
-
 function startGame() {
   let startScreen = document.querySelector(".startscreen");
   startScreen.style.zIndex = "-1";
   startScreen.classList.add("d-none");
+
+  showCanvas();
+
+  showCloseButton();
+
+  showFullscreenIcon();
+
   initGame();
   world = new World(canvas, keyboard);
+}
+
+function showCanvas() {
+  let canvas = document.getElementById("canvas");
+  canvas.classList.remove("d-none");
+}
+
+function showCloseButton() {
+  let closeButton = document.querySelector(".close-btn");
+  if (closeButton) {
+    closeButton.classList.remove("d-none");
+  }
+}
+
+function showFullscreenIcon() {
+  let fullscreenIcon = document.querySelector(".fullscreen-icon");
+  if (fullscreenIcon) {
+    fullscreenIcon.classList.remove("d-none");
+  }
 }
 
 function init() {
@@ -55,8 +80,10 @@ function exitGame() {
   intervalIds.forEach(clearInterval);
   intervalIds = [];
   clearAllIntervals();
-  showStartScreen();
 
+  let startScreen = document.querySelector(".startscreen");
+  startScreen.style.zIndex = "";
+  showStartScreen();
 }
 
 function clearAllIntervals() {
