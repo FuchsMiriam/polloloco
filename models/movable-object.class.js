@@ -5,6 +5,8 @@ class MovableObject extends DrawableObject {
   acceleration = 3;
   energy = 100;
   lastHit = 0;
+  coins = 0;
+  bottles = 0;
   timePassed;
 
   offset = {
@@ -24,18 +26,12 @@ class MovableObject extends DrawableObject {
   }
 
   isAboveGround() {
-    return this.y < 210;
+    if (this instanceof ThrowableObject) {
+      return true;
+    } else {
+      return this.y < 210;
+    }
   }
-
-  /*isColliding(obj) {
-    return (
-      this.X + this.width >= obj.X &&
-      this.X <= obj.X + obj.width &&
-      this.Y + this.offsetY + this.height >= obj.Y &&
-      this.Y + this.offsetY <= obj.Y + obj.height &&
-      obj.onCollisionCourse
-    ); // Optional: hiermit könnten wir schauen, ob ein Objekt sich in die richtige Richtung bewegt. Nur dann kollidieren wir. Nützlich bei Gegenständen, auf denen man stehen kann.
-  }*/
 
   /* isColliding(obj) {
     return (
@@ -91,5 +87,13 @@ class MovableObject extends DrawableObject {
 
   jump() {
     this.speedY = 30;
+  }
+
+  addCoins() {
+    this.coins += 10;
+  }
+
+  addBottles() {
+    this.bottles += 10;
   }
 }
