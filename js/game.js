@@ -1,28 +1,54 @@
+/**
+ * The canvas element where the game is rendered.
+ * @type {HTMLCanvasElement}
+ */
 let canvas;
+
+/**
+ * The main game world object.
+ * @type {World}
+ */
 let world;
+
+/**
+ * The keyboard input handler.
+ * @type {Keyboard}
+ */
 let keyboard = new Keyboard();
+
+/**
+ * Stores the interval IDs for stoppable intervals.
+ * @type {number[]}
+ */
 let intervalIds = [];
 
+/**
+ * Starts the game by initializing the game world and displaying the game canvas.
+ */
 function startGame() {
   let startScreen = document.querySelector(".startscreen");
   startScreen.style.zIndex = "-1";
   startScreen.classList.add("d-none");
 
   showCanvas();
-
   showCloseButton();
-
   showFullscreenIcon();
 
   initGame();
   world = new World(canvas, keyboard);
 }
 
+/**
+ * Displays the game canvas by removing the 'd-none' class.
+ */
 function showCanvas() {
   let canvas = document.getElementById("canvas");
   canvas.classList.remove("d-none");
 }
 
+/**
+ * Displays the close button by removing the 'd-none' class.
+ */
 function showCloseButton() {
   let closeButton = document.querySelector(".close-btn");
   if (closeButton) {
@@ -30,6 +56,9 @@ function showCloseButton() {
   }
 }
 
+/**
+ * Displays the fullscreen icon by removing the 'd-none' class.
+ */
 function showFullscreenIcon() {
   let fullscreenIcon = document.querySelector(".fullscreen-icon");
   if (fullscreenIcon) {
@@ -37,21 +66,33 @@ function showFullscreenIcon() {
   }
 }
 
+/**
+ * Initializes the canvas element and sets up the initial game state.
+ */
 function init() {
   canvas = document.getElementById("canvas");
-  //world = new World(canvas, keyboard);
+  // world = new World(canvas, keyboard);
 }
 
+/**
+ * Displays the game controls screen.
+ */
 function showControls() {
   document.querySelector(".startscreen").classList.add("d-none");
   document.querySelector(".game-controls-container").classList.remove("d-none");
 }
 
+/**
+ * Displays the game story screen.
+ */
 function showStory() {
   document.querySelector(".startscreen").classList.add("d-none");
   document.querySelector(".story-container").classList.remove("d-none");
 }
 
+/**
+ * Displays the start screen and hides other UI elements.
+ */
 function showStartScreen() {
   document.querySelector(".story-container").classList.add("d-none");
   document.querySelector(".game-controls-container").classList.add("d-none");
@@ -67,15 +108,19 @@ document.addEventListener("DOMContentLoaded", () => {
   document.querySelector(".game-controls-container").classList.add("d-none");
 });
 
-//Set Interval
-
+/**
+ * Adds a stoppable interval and stores its ID.
+ * @param {Function} fn - The function to execute repeatedly.
+ * @param {number} time - The interval time in milliseconds.
+ */
 function addStoppableInterval(fn, time) {
   let intervalId = setInterval(fn, time);
   intervalIds.push(intervalId);
 }
 
-//Exit game
-
+/**
+ * Exits the game by clearing all intervals and resetting the UI.
+ */
 function exitGame() {
   intervalIds.forEach(clearInterval);
   intervalIds = [];
@@ -86,6 +131,9 @@ function exitGame() {
   showStartScreen();
 }
 
+/**
+ * Clears all intervals on the page.
+ */
 function clearAllIntervals() {
   for (let i = 1; i < 9999; i++) window.clearInterval(i);
 }
@@ -134,11 +182,9 @@ window.addEventListener("keyup", (e) => {
   }
 });
 
-/*function fullscreen(){
-  let fullscreen = document.getElementById('fullscreen');
-  enterFullscreen(fullscreen);
-}*/
-
+/**
+ * Displays a message indicating that the device is not in landscape mode when attempting to enter fullscreen.
+ */
 function showFullscreenMessage() {
   const message = document.getElementById("fullscreen-message");
   message.classList.add("visible");
@@ -147,6 +193,9 @@ function showFullscreenMessage() {
   }, 3000);
 }
 
+/**
+ * Enters fullscreen mode if the device is in landscape orientation, otherwise shows a warning message.
+ */
 function fullscreen() {
   let fullscreenElement = document.getElementById("fullscreen");
 
@@ -157,6 +206,10 @@ function fullscreen() {
   }
 }
 
+/**
+ * Requests fullscreen mode for a given element.
+ * @param {Element} element - The element to enter fullscreen.
+ */
 function enterFullscreen(element) {
   if (element.requestFullscreen) {
     element.requestFullscreen();
@@ -168,6 +221,9 @@ function enterFullscreen(element) {
   adjustCanvasSize(true);
 }
 
+/**
+ * Exits fullscreen mode.
+ */
 function exitFullscreen() {
   if (document.exitFullscreen) {
     document.exitFullscreen();
@@ -177,6 +233,10 @@ function exitFullscreen() {
   adjustCanvasSize(false);
 }
 
+/**
+ * Adjusts the size of the game canvas based on whether the game is in fullscreen mode.
+ * @param {boolean} fullscreen - Whether the game is in fullscreen mode.
+ */
 function adjustCanvasSize(fullscreen) {
   let canvas = document.getElementById("canvas");
   if (fullscreen) {
@@ -193,3 +253,4 @@ document.addEventListener("fullscreenchange", () => {
     adjustCanvasSize(false);
   }
 });
+
