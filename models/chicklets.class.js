@@ -30,7 +30,7 @@ class Chicklets extends MovableObject {
     }, 1000 / 60);
 
     setInterval(() => {
-       this.chicklet_sound.play();
+      this.chicklet_sound.play();
       this.playAnimation(this.IMAGES_WALKING);
     }, 250);
   }

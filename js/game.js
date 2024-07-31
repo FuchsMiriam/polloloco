@@ -22,6 +22,12 @@ let keyboard = new Keyboard();
  */
 let intervalIds = [];
 
+let inGame_sound = new Audio("../audio/game-music.mp3");
+let enemy_sounds = [
+  new Audio("../audio/chicken.mp3"),
+  new Audio("../audio/baby_chicken.mp3"),
+];
+
 /**
  * Starts the game by initializing the game world and displaying the game canvas.
  */
@@ -33,6 +39,10 @@ function startGame() {
   showCanvas();
   showCloseButton();
   showFullscreenIcon();
+
+  inGame_sound.play().catch((error) => {
+    console.error("Failed to play audio:", error);
+  });
 
   initGame();
   world = new World(canvas, keyboard);
@@ -117,14 +127,17 @@ document.addEventListener("DOMContentLoaded", () => {
   const startscreen = document.getElementById("startscreen");
 
   document.addEventListener("click", (event) => {
-      if (!controlsContainer.contains(event.target) && !startscreen.contains(event.target)) {
-          controlsContainer.classList.add("d-none");
-          startscreen.classList.remove("d-none");
-      }
+    if (
+      !controlsContainer.contains(event.target) &&
+      !startscreen.contains(event.target)
+    ) {
+      controlsContainer.classList.add("d-none");
+      startscreen.classList.remove("d-none");
+    }
   });
 
   controlsContainer.addEventListener("click", (event) => {
-      event.stopPropagation();
+    event.stopPropagation();
   });
 });
 
@@ -137,14 +150,17 @@ document.addEventListener("DOMContentLoaded", () => {
   const startscreen = document.getElementById("startscreen");
 
   document.addEventListener("click", (event) => {
-      if (!storyContainer.contains(event.target) && !startscreen.contains(event.target)) {
-          storyContainer.classList.add("d-none");
-          startscreen.classList.remove("d-none");
-      }
+    if (
+      !storyContainer.contains(event.target) &&
+      !startscreen.contains(event.target)
+    ) {
+      storyContainer.classList.add("d-none");
+      startscreen.classList.remove("d-none");
+    }
   });
 
   storyContainer.addEventListener("click", (event) => {
-      event.stopPropagation();
+    event.stopPropagation();
   });
 });
 
@@ -162,6 +178,8 @@ function addStoppableInterval(fn, time) {
  * Exits the game by clearing all intervals and resetting the UI.
  */
 function exitGame() {
+  stopAllSounds();
+
   intervalIds.forEach(clearInterval);
   intervalIds = [];
   clearAllIntervals();
@@ -169,6 +187,16 @@ function exitGame() {
   let startScreen = document.querySelector(".startscreen");
   startScreen.style.zIndex = "";
   showStartScreen();
+}
+
+function stopAllSounds() {
+  if (inGame_sound) {
+    inGame_sound.pause();
+  }
+
+  enemy_sounds.forEach((audio) => {
+    audio.pause();
+  });
 }
 
 /**
