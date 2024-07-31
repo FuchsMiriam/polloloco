@@ -5,12 +5,13 @@ class MovableObject extends DrawableObject {
   acceleration = 3;
   energy = 100;
   lastHit = 0;
+  timePassed;
 
   offset = {
     top: 0,
     bottom: 0,
     left: 0,
-    right: 0
+    right: 0,
   };
 
   applyGravity() {
@@ -36,7 +37,7 @@ class MovableObject extends DrawableObject {
     ); // Optional: hiermit könnten wir schauen, ob ein Objekt sich in die richtige Richtung bewegt. Nur dann kollidieren wir. Nützlich bei Gegenständen, auf denen man stehen kann.
   }*/
 
- /* isColliding(obj) {
+  /* isColliding(obj) {
     return (
       this.x + this.width >= obj.x &&
       this.x <= obj.x + obj.width &&
@@ -45,14 +46,33 @@ class MovableObject extends DrawableObject {
     );
   }*/
 
-    isColliding(obj) {
-      return (
-        this.x + this.width - this.offset.right >= obj.x + obj.offset.left &&
-        this.x + this.offset.left <= obj.x + obj.width - obj.offset.right &&
-        this.y + this.height - this.offset.bottom >= obj.y + obj.offset.top &&
-        this.y + this.offset.top <= obj.y + obj.height - obj.offset.bottom
-      );
+  isColliding(obj) {
+    return (
+      this.x + this.width - this.offset.right >= obj.x + obj.offset.left &&
+      this.x + this.offset.left <= obj.x + obj.width - obj.offset.right &&
+      this.y + this.height - this.offset.bottom >= obj.y + obj.offset.top &&
+      this.y + this.offset.top <= obj.y + obj.height - obj.offset.bottom
+    );
+  }
+
+  hit() {
+    this.energy -= 5;
+    if (this.energy <= 0) {
+      this.energy = 0;
+    } else {
+      this.lastHit = new Date().getTime();
     }
+  }
+
+  isHurt() {
+    this.timePassed = new Date().getTime() - this.lastHit;
+    this.timePassed = this.timePassed / 1000;
+    return this.timePassed < 1;
+  }
+
+  isDead() {
+    return this.energy == 0;
+  }
 
   playAnimation(images) {
     let i = this.currentImage % images.length;

@@ -71,6 +71,7 @@ class Character extends MovableObject {
   walking_sound = new Audio("audio/walking.mp3");
   jumping_sound = new Audio("audio/jump.mp3");
   snoring_sound = new Audio("audio/snoring.mp3");
+  hurt_sound = new Audio("audio/hurt.mp3");
 
   constructor() {
     super().loadImage(this.IMAGES_WALKING[0]);
@@ -114,15 +115,23 @@ class Character extends MovableObject {
     }, 1000 / 60);
 
     setInterval(() => {
-      if (this.isAboveGround()) {
+      if (this.isDead()) {
+        this.playAnimation(this.IMAGES_DEAD);
+      } else if (this.isHurt()) {
+        this.playAnimation(this.IMAGES_HURT);
+      } else if (this.isAboveGround()) {
         this.playAnimation(this.IMAGES_JUMPING);
       } else {
         if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
-          // Walk animation
           this.playAnimation(this.IMAGES_WALKING);
         }
       }
-    }, 1000/10);
+    }, 1000 / 10);
+  }
+
+  characterIsHurt() {
+    this.playAnimation(this.IMAGES_HURT);
+    this.hurt_sound.play();
   }
 
   jump() {
