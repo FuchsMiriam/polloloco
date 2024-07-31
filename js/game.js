@@ -109,6 +109,46 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 /**
+ * Closes Controls window when clicked outside dialogue window
+ */
+
+document.addEventListener("DOMContentLoaded", () => {
+  const controlsContainer = document.getElementById("controlsContainer");
+  const startscreen = document.getElementById("startscreen");
+
+  document.addEventListener("click", (event) => {
+      if (!controlsContainer.contains(event.target) && !startscreen.contains(event.target)) {
+          controlsContainer.classList.add("d-none");
+          startscreen.classList.remove("d-none");
+      }
+  });
+
+  controlsContainer.addEventListener("click", (event) => {
+      event.stopPropagation();
+  });
+});
+
+/**
+ * Closes Story window when clicked outside dialogue window
+ */
+
+document.addEventListener("DOMContentLoaded", () => {
+  const storyContainer = document.getElementById("storyContainer");
+  const startscreen = document.getElementById("startscreen");
+
+  document.addEventListener("click", (event) => {
+      if (!storyContainer.contains(event.target) && !startscreen.contains(event.target)) {
+          storyContainer.classList.add("d-none");
+          startscreen.classList.remove("d-none");
+      }
+  });
+
+  storyContainer.addEventListener("click", (event) => {
+      event.stopPropagation();
+  });
+});
+
+/**
  * Adds a stoppable interval and stores its ID.
  * @param {Function} fn - The function to execute repeatedly.
  * @param {number} time - The interval time in milliseconds.
@@ -253,4 +293,3 @@ document.addEventListener("fullscreenchange", () => {
     adjustCanvasSize(false);
   }
 });
-
