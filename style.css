@@ -127,18 +127,18 @@ button {
   align-items: center;
 }
 
-.keyboard-img img{
+.keyboard-img img {
   height: 40px;
   width: 40px;
 }
 
-.keyboard-expl{
+.keyboard-expl {
   display: flex;
   flex-direction: column;
   justify-content: space-around;
 }
 
-.explanation-text{
+.explanation-text {
   font-size: 24px;
 }
 
@@ -173,6 +173,7 @@ button {
 
 canvas {
   background-color: black;
+  display: block;
 }
 
 /*Privacy Sidebar*/
@@ -233,19 +234,18 @@ canvas {
 
 /*Fullscreen message*/
 .fullscreen-message {
-  position: fixed;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   background: rgba(0, 0, 0, 0.8);
   color: white;
-  padding: 20px;
-  border-radius: 5px;
-  display: none;
-  z-index: 2000;
-  max-width: 80%;
   text-align: center;
-  font-size: 16px;
+  position: absolute;
+  font-size: 36px;
+  text-align: center;
+  height: 100vh;
+  width: 100%;
+  letter-spacing: 2px;
 }
 
 .fullscreen-message.visible {

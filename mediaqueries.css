@@ -1,0 +1,56 @@
+@media (max-width: 820px) and (orientation: portrait) {
+  .fullscreen-message {
+    display: flex !important;
+    z-index: 99;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+@media only screen and (min-height: 480px) and (max-width: 820px) and (orientation: landscape) {
+  .startscreen {
+    height: 100%;
+    width: 100%;
+    margin-top: 0;
+  }
+}
+
+/* Smartphones*/
+
+@media only screen and (max-width: 740px) {
+  canvas {
+    width: 100%;
+  }
+
+  .startscreen {
+    height: 100%;
+    width: 100%;
+    margin-top: 0;
+  }
+
+  .game-controls-container {
+    height: 100%;
+    width: 100%;
+    margin-top: 0;
+  }
+
+  .story-container {
+    height: 100%;
+    width: 100%;
+    margin-top: 0;
+  }
+}
+
+@media only screen and (max-heigth: 480px) {
+  canvas {
+    height: 100%;
+  }
+
+  h1 {
+    display: none !important;
+  }
+
+  .privacy-sidebar {
+    display: none;
+  }
+}

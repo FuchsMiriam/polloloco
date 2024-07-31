@@ -132,6 +132,7 @@ class Character extends MovableObject {
   characterIsHurt() {
     this.playAnimation(this.IMAGES_HURT);
     this.hurt_sound.play();
+    this.resetIdle();
   }
 
   jump() {
