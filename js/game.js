@@ -46,6 +46,10 @@ function startGame() {
 
   initGame();
   world = new World(canvas, keyboard);
+
+  canvas.addEventListener("click", (event) => {
+    event.stopPropagation();
+  });
 }
 
 /**
@@ -109,6 +113,7 @@ function showStartScreen() {
   document.querySelector("canvas").classList.add("d-none");
   document.querySelector(".close-btn").classList.add("d-none");
   document.querySelector(".fullscreen-icon").classList.add("d-none");
+  document.querySelector(".game-over-container").classList.add("d-none");
   document.querySelector(".startscreen").classList.remove("d-none");
 }
 
@@ -117,6 +122,12 @@ document.addEventListener("DOMContentLoaded", () => {
   document.querySelector(".story-container").classList.add("d-none");
   document.querySelector(".game-controls-container").classList.add("d-none");
 });
+
+function restartGame() {
+  exitGame();
+  init();
+  startGame();
+}
 
 /**
  * Closes Controls window when clicked outside dialogue window
@@ -195,7 +206,7 @@ function stopAllSounds() {
   }
 
   enemy_sounds.forEach((audio) => {
-    audio.pause();
+    audio.volume = 0;
   });
 }
 

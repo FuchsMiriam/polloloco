@@ -6,7 +6,7 @@
     <link rel="shortcut icon" href="./img/chicken.ico" type="image/x-icon" />
     <link rel="stylesheet" href="style.css" />
     <link rel="stylesheet" href="fonts.css" />
-    <link rel="stylesheet" href="mediaqueries.css">
+    <link rel="stylesheet" href="mediaqueries.css" />
     <title>El pollo loco</title>
 
     <script src="./models/drawable-object.class.js"></script>
@@ -131,6 +131,14 @@
 
     <div id="fullscreen-message" class="fullscreen-message d-none">
       Fullscreen mode is not supported in portrait orientation.
+    </div>
+
+    <div id="gameOver" class="game-over-container d-none">
+      <p>Oh no! You lost!</p>
+      <div class="game-over-button-container">
+        <button class="startscreen-button" onclick="showStartScreen()">Menu</button>
+        <button class="startscreen-button" onclick="restartGame()">Retry</button>
+      </div>
     </div>
 
     <div id="privacyNav" class="privacy-sidebar">

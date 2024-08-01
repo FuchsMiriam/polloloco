@@ -96,4 +96,18 @@ class MovableObject extends DrawableObject {
   addBottles() {
     this.bottles += 10;
   }
+
+  addCoins() {
+    this.coins += 20;
+    if (this.world) {
+      this.world.statusbarCoin.setPercentage(this.coins * 20);
+    }
+  }
+
+  addBottles() {
+    this.bottles += 20;
+    if (this.world) {
+      this.world.statusbarBottle.setPercentage(this.bottles * 20);
+    }
+  }
 }
