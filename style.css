@@ -206,6 +206,29 @@ canvas {
   justify-content: space-evenly;
 }
 
+/*Game won*/
+
+.game-won-container {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  width: 820px;
+  height: 485px;
+  transform: translate(-50%, -50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  background-color: rgb(250, 164, 60);
+  box-sizing: border-box;
+  text-align: center;
+  letter-spacing: 1.2px;
+  margin-top: 50px;
+  line-height: 1.6;
+  padding: 40px;
+  font-size: 24px;
+}
+
 /*Privacy Sidebar*/
 
 .privacy-sidebar {

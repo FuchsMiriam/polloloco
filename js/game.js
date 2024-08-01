@@ -114,6 +114,7 @@ function showStartScreen() {
   document.querySelector(".close-btn").classList.add("d-none");
   document.querySelector(".fullscreen-icon").classList.add("d-none");
   document.querySelector(".game-over-container").classList.add("d-none");
+  document.querySelector(".game-won-container").classList.add("d-none");
   document.querySelector(".startscreen").classList.remove("d-none");
 }
 

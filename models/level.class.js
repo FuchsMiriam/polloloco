@@ -1,8 +1,8 @@
 class Level {
   enemies;
   clouds;
-  //bottles;
-  //coins;
+  bottles;
+  coins;
   backgroundObjects;
   level_end_x = 2250;
 
@@ -10,7 +10,7 @@ class Level {
     this.enemies = enemies;
     this.clouds = clouds;
     this.backgroundObjects = backgroundObjects;
-    //this.bottles = bottles;
-    //this.coins = coins;
+    this.bottles = bottles;
+    this.coins = coins;
   }
 }

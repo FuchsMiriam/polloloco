@@ -27,4 +27,17 @@ class Cloud extends MovableObject {
     });
   }
 
+  /*animate() {
+    setInterval(() => {
+      this.moveLeft();
+      this.updateImage();
+    }, 1000 / 60);
+  }
+
+   //Optional: Wechselt das Bild für die Wolkenanimation.
+  updateImage() {
+    const imageIndex = Math.floor((Date.now() / 1000) % this.IMAGES_CLOUDS.length);
+    this.loadImage(this.IMAGES_CLOUDS[imageIndex]);
+  }*/
+
 }
