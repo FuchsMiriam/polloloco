@@ -8,13 +8,20 @@ class World {
   statusBar = new Statusbar();
   statusbarBottle = new BottleStatusbar();
   statusbarCoin = new CoinStatusbar();
-  bottle = [new Bottle()];
+  //bottle = [new Bottle()];
   throwableObject = [];
+
+  bottleSound;
+  coinSound;
 
   constructor(canvas, keyboard) {
     this.ctx = canvas.getContext("2d");
     this.canvas = canvas;
     this.keyboard = keyboard;
+
+    this.bottleSound = new Audio("../audio/bottle.mp3");
+    this.coinSound = new Audio("../audio/coin.mp3");
+
     this.draw();
     this.setWorld();
     this.run();
@@ -28,6 +35,8 @@ class World {
     setInterval(() => {
       this.checkCollisions();
       this.checkThrowObjects();
+      this.collectBottles();
+      this.collectCoins();
     }, 1000);
   }
 
@@ -105,5 +114,45 @@ class World {
   flipImageBack(mo) {
     mo.x = mo.x * -1;
     this.ctx.restore();
+  }
+
+  /**
+   * Collect bottles and coins
+   */
+
+  collectBottles() {
+    this.level.bottles.forEach((bottle) => {
+      if (this.character.isColliding(bottle) && this.character.bottles < 80) {
+        this.bottleCollected(bottle);
+        this.bottleSound.play();
+        this.character.addBottles();
+        this.statusbarBottle.setPercentage(this.character.bottles);
+      }
+    });
+  }
+
+  collectCoins() {
+    this.level.coins.forEach((coin) => {
+      if (this.character.isColliding(coin)) {
+        this.coinCollected(coin);
+        this.coinSound.play();
+        this.character.addCoins();
+        this.statusbarCoin.setPercentage(this.character.coins);
+      }
+    });
+  }
+
+  bottleCollected(bottle) {
+    let i = this.level.bottles.indexOf(bottle);
+    if (i > -1) {
+      this.level.bottles.splice(i, 1); // Flasche entfernen
+    }
+  }
+
+  coinCollected(coin) {
+    let i = this.level.coins.indexOf(coin);
+    if (i > -1) {
+      this.level.coins.splice(i, 1); // Münze entfernen
+    }
   }
 }

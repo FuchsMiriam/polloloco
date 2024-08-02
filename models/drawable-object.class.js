@@ -20,7 +20,8 @@ class DrawableObject {
     if (
       this instanceof Character ||
       this instanceof Chicken ||
-      this instanceof Chicklets
+      this instanceof Chicklets ||
+      this instanceof Bottle
     ) {
       ctx.beginPath();
       ctx.lineWidth = "5";
