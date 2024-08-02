@@ -204,10 +204,12 @@ function exitGame() {
 function stopAllSounds() {
   if (inGame_sound) {
     inGame_sound.pause();
+    inGame_sound.currentTime = 0;
   }
 
   enemy_sounds.forEach((audio) => {
     audio.volume = 0;
+    audio.currentTime = 0;
   });
 }
 
