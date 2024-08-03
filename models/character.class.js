@@ -91,6 +91,7 @@ class Character extends MovableObject {
     this.loadImages(this.IMAGES_LONG_IDLE);
     this.applyGravity();
     this.animate(this.IMAGES_WALKING);
+    this.lastMovementTime = Date.now();
   }
 
   animate() {
@@ -117,7 +118,7 @@ class Character extends MovableObject {
         this.resetIdle();
       }
 
-      this.checkIdleState();
+      //this.checkIdleState();
 
       this.world.camera_x = -this.x + 100;
     }, 1000 / 60);
@@ -140,6 +141,18 @@ class Character extends MovableObject {
         }
       }
     }, 1000 / 10);
+
+    setInterval(() => {
+      if (!this.isAboveGround() && !this.isDead() && !this.isHurt()) {
+        if (this.idleState === "long") {
+          this.characterLongIdle();
+        } else {
+          this.characterIdleAnimation();
+        }
+      }
+
+      this.checkIdleState();
+    }, 1000 / 5);
   }
 
   characterIsHurt() {

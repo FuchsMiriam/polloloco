@@ -37,7 +37,7 @@ class World {
       this.checkThrowObjects();
       this.collectBottles();
       this.collectCoins();
-    }, 1000);
+    }, 500);
   }
 
   checkCollisions() {
@@ -56,6 +56,7 @@ class World {
         this.character.y + 100
       );
       this.throwableObject.push(bottle);
+      this.character.resetIdle();
     }
   }
 
