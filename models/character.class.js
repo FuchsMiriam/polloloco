@@ -123,12 +123,15 @@ class Character extends MovableObject {
     }, 1000 / 60);
 
     setInterval(() => {
-      if (this.isDead()) {
+      /*if (this.isDead()) {
         this.playAnimation(this.IMAGES_DEAD);
         this.death_sound.play();
         this.walking_sound.pause();
+      }*/ if (this.isDead()) {
+        this.deathAnimation();
       } else if (this.isHurt()) {
-        this.playAnimation(this.IMAGES_HURT);
+        //this.playAnimation(this.IMAGES_HURT);
+        this.characterIsHurt();
       } else if (this.isAboveGround()) {
         this.playAnimation(this.IMAGES_JUMPING);
       } else {
@@ -143,6 +146,17 @@ class Character extends MovableObject {
     this.playAnimation(this.IMAGES_HURT);
     this.hurt_sound.play();
     this.resetIdle();
+  }
+
+  deathAnimation() {
+    this.playAnimation(this.IMAGES_DEAD);
+    this.death_sound.play();
+    inGame_sound.pause();
+    this.walking_sound.pause();
+
+    setTimeout(() => {
+      deathScreen();
+    }, 1500);
   }
 
   jump() {

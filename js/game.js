@@ -33,8 +33,9 @@ let enemy_sounds = [
  */
 function startGame() {
   let startScreen = document.querySelector(".startscreen");
-  startScreen.style.zIndex = "-1";
-  startScreen.classList.add("d-none");
+  //startScreen.style.zIndex = "-10";
+  //startScreen.classList.add("d-none");
+  startScreen.style.display = "none";
 
   showCanvas();
   showCloseButton();
@@ -102,6 +103,19 @@ function showControls() {
 function showStory() {
   document.querySelector(".startscreen").classList.add("d-none");
   document.querySelector(".story-container").classList.remove("d-none");
+}
+
+/**
+ * Death Screen
+ */
+
+function deathScreen() {
+  setTimeout(() => {
+    document.getElementById("canvas").classList.add("d-none");
+    document.querySelector(".close-btn").classList.add("d-none");
+    document.querySelector(".fullscreen-icon").classList.add("d-none");
+    document.getElementById("gameOver").classList.remove("d-none");
+  }, 500);
 }
 
 /**
@@ -177,6 +191,24 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 /**
+ * Closes Game over window when clicked outside dialogue window
+ */
+
+document.addEventListener("DOMContentLoaded", () => {
+  const gameOverContainer = document.getElementById("gameOver");
+
+  document.addEventListener("click", (event) => {
+    if (!gameOverContainer.contains(event.target)) {
+      gameOverContainer.classList.add("d-none");
+    }
+  });
+
+  gameOverContainer.addEventListener("click", (event) => {
+    event.stopPropagation();
+  });
+});
+
+/**
  * Adds a stoppable interval and stores its ID.
  * @param {Function} fn - The function to execute repeatedly.
  * @param {number} time - The interval time in milliseconds.
@@ -198,6 +230,8 @@ function exitGame() {
 
   let startScreen = document.querySelector(".startscreen");
   startScreen.style.zIndex = "";
+  startScreen.classList.remove("d-none");
+  startScreen.style.display = "";
   showStartScreen();
 }
 
