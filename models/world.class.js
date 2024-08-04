@@ -89,7 +89,8 @@ class World {
     if (this.keyboard.THROW && canThrow && (currentTime - this.lastThrowTime) >= this.throwCooldown) {
         let bottle = new ThrowableObject(
           this.character.x + 20,
-          this.character.y + 100
+          this.character.y + 100,
+          this.character.otherDirection
         );
         this.throwableObject.push(bottle);
         this.character.bottles -= 1;

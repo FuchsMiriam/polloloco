@@ -201,4 +201,5 @@ class Character extends MovableObject {
     this.playAnimation(this.IMAGES_LONG_IDLE);
     this.snoring_sound.play();
   }
+  
 }
