@@ -8,12 +8,17 @@ class World {
   statusBar = new Statusbar();
   statusbarBottle = new BottleStatusbar();
   statusbarCoin = new CoinStatusbar();
-  //bottle = [new Bottle()];
+  statusbarEndboss = new EndbossStatusbar();
   throwableObject = [];
   collisionWithEndboss = false;
+  endbossIsDefenseless = false;
+  lastThrowTime = 0;
+  throwCooldown = 1500;
 
   bottleSound;
   coinSound;
+
+  endboss_fight = new Audio("../audio/endboss_fight.mp3");
 
   constructor(canvas, keyboard) {
     this.ctx = canvas.getContext("2d");
@@ -22,6 +27,12 @@ class World {
 
     this.bottleSound = new Audio("../audio/bottle.mp3");
     this.coinSound = new Audio("../audio/coin.mp3");
+
+    this.level.enemies.forEach(enemy => {
+      if (enemy instanceof Endboss) {
+        this.endboss = enemy;
+      }
+    });
 
     this.draw();
     this.setWorld();
@@ -51,21 +62,45 @@ class World {
       this.throwableObject.forEach((bottle) => {//neu hinzugefügt
         if (bottle.isColliding(enemy)) {
           this.collisionWithEndboss = true;
+          enemy.hurtEndboss();
+          this.statusbarEndboss.setPercentage(enemy.energy);
         }
       });
     });
   }
 
-  checkThrowObjects() {
+  /*checkThrowObjects() {
     if (this.keyboard.THROW) {
       let bottle = new ThrowableObject(
         this.character.x + 20,
         this.character.y + 100
       );
       this.throwableObject.push(bottle);
+      this.character.bottles -= 1;
       this.character.resetIdle();
+      this.statusbarBottle.setPercentage(this.character.bottles);
     }
-  }
+  }*/
+
+    checkThrowObjects() {
+      let currentTime = Date.now();
+      let canThrow = this.endboss && this.endboss.hadFirstContact && this.endboss.isMoving();
+
+    if (this.keyboard.THROW && canThrow && (currentTime - this.lastThrowTime) >= this.throwCooldown) {
+        let bottle = new ThrowableObject(
+          this.character.x + 20,
+          this.character.y + 100
+        );
+        this.throwableObject.push(bottle);
+        this.character.bottles -= 1;
+        this.character.resetIdle();
+        this.statusbarBottle.setPercentage(this.character.bottles);
+    
+        // Setze den Zeitpunkt des letzten Wurfs
+        this.lastThrowTime = currentTime;
+      }
+    }
+    
 
   draw() {
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
@@ -77,6 +112,7 @@ class World {
     this.addToMap(this.statusBar);
     this.addToMap(this.statusbarBottle);
     this.addToMap(this.statusbarCoin);
+    this.addToMap(this.statusbarEndboss);
 
     this.ctx.translate(this.camera_x, 0);
     this.addObjectsToMap(this.level.enemies);

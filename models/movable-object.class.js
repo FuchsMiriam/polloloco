@@ -60,11 +60,36 @@ class MovableObject extends DrawableObject {
     }
   }
 
+  /*hurtEndboss() {
+    this.energy -= 10;
+    if (this.energy < 0) {
+        this.energy = 0;
+    } else {
+        this.lastHit = new Date().getTime();
+    }
+}*/
+
+hurtEndboss() {
+  this.energy -= 5;
+  if (this.energy <= 0) {
+    this.energy = 0;
+    this.deathAnimation();
+  } else {
+    this.endbossIsHurtAnimation();
+  }
+}
+
   isHurt() {
     this.timePassed = new Date().getTime() - this.lastHit;
     this.timePassed = this.timePassed / 1000;
     return this.timePassed < 1;
   }
+
+  endbossIsHurt() {
+    let timePassed = new Date().getTime() - this.lastHit; 
+    timePassed = timePassed / 1000;                         
+    return timePassed < 1;    
+}
 
   isDead() {
     return this.energy == 0;

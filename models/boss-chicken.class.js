@@ -54,6 +54,9 @@ class Endboss extends MovableObject {
 
   hadFirstContact = false;
 
+  endboss_fight = new Audio("audio/endboss_fight.mp3");
+  win_sound = new Audio("audio/win.mp3");
+
   constructor() {
     super().loadImage(this.IMAGES_ALERT[0]);
     this.loadImages(this.IMAGES_ALERT);
@@ -69,18 +72,42 @@ class Endboss extends MovableObject {
   animate() {
     let i = 0;
     setInterval(() => {
-      if (i < 10) {
-        this.playAnimation(this.IMAGES_ALERT);
+      if (this.isDead()) {
+        this.deathAnimation();
       } else {
-        this.playAnimation(this.IMAGES_WALKING);
-        this.moveLeft();
-      }
-      i++;
+        if (i < 10) {
+          this.playAnimation(this.IMAGES_ALERT);
+        } else {
+          this.playAnimation(this.IMAGES_WALKING);
+          this.moveLeft();
+        }
+        i++;
 
-      if (world.character.x > 1900 && !this.hadFirstContact) {
-        i = 0;
-        this.hadFirstContact = true;
+        if (world.character.x > 1900 && !this.hadFirstContact) {
+          i = 0;
+          this.hadFirstContact = true;
+          this.endboss_fight.play();
+        }
       }
     }, 250);
   }
+
+  isMoving() {
+    return this.speed > 0;
+  }
+
+  endbossIsHurtAnimation() {
+    this.playAnimation(this.IMAGES_HURT);
+}
+
+  deathAnimation() {
+    this.playAnimation(this.IMAGES_DEAD);
+    this.endboss_fight.pause();
+    this.win_sound.play();
+
+    setTimeout(() => {
+        clearAllIntervals();
+        gameWon();
+    }, 1500);
+}
 }

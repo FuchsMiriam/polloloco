@@ -91,7 +91,7 @@ function showFullscreenIcon() {
  */
 function init() {
   canvas = document.getElementById("canvas");
-  // world = new World(canvas, keyboard);
+  //world = new World(canvas, keyboard);
 }
 
 /**
@@ -250,6 +250,20 @@ function stopAllSounds() {
     audio.volume = 0;
     audio.currentTime = 0;
   });
+}
+
+function startEndbossMusic() {
+  let endbossMusic = new Audio("../audio/endboss_fight.mp3");
+  endbossMusic.play().catch((error) => {
+    console.error("Failed to play audio:", error);
+  });
+}
+
+function gameWon() {
+  document.getElementById("canvas").classList.add("d-none");
+  document.querySelector(".close-btn").classList.add("d-none");
+  document.querySelector(".fullscreen-icon").classList.add("d-none");
+  document.querySelector(".game-won-container").classList.remove("d-none");
 }
 
 /**

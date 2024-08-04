@@ -1,6 +1,6 @@
 class EndbossStatusbar extends Statusbar {
-  x = 560;
-  y = 60;
+  x = 420;
+  y = 10;
 
   IMAGES = [
     "./img/7_statusbars/1_statusbar/2_statusbar_health/green/0.png",
