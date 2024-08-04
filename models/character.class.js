@@ -202,4 +202,5 @@ class Character extends MovableObject {
     this.snoring_sound.play();
   }
   
+  
 }

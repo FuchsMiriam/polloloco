@@ -3,6 +3,13 @@ class Chicklets extends MovableObject {
   width = 50;
   height = 50;
 
+  offset = {
+    top: 10,
+    bottom: 10,
+    left: 10,
+    right: 10
+  };
+
   IMAGES_WALKING = [
     "./img/3_enemies_chicken/chicken_small/1_walk/1_w.png",
     "./img/3_enemies_chicken/chicken_small/1_walk/2_w.png",
@@ -33,5 +40,9 @@ class Chicklets extends MovableObject {
       this.chicklet_sound.play();
       this.playAnimation(this.IMAGES_WALKING);
     }, 250);
+  }
+
+  deathAnimation() {
+    this.playAnimation(this.IMAGE_DEAD);
   }
 }

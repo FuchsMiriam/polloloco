@@ -28,7 +28,7 @@ class World {
     this.bottleSound = new Audio("../audio/bottle.mp3");
     this.coinSound = new Audio("../audio/coin.mp3");
 
-    this.level.enemies.forEach(enemy => {
+    this.level.enemies.forEach((enemy) => {
       if (enemy instanceof Endboss) {
         this.endboss = enemy;
       }
@@ -52,7 +52,7 @@ class World {
     }, 500);
   }
 
-  checkCollisions() {
+  /*checkCollisions() {
     this.collisionWithEndboss = false;
     this.level.enemies.forEach((enemy) => {
       if (this.character.isColliding(enemy)) {
@@ -67,7 +67,61 @@ class World {
         }
       });
     });
+  }*/
+
+  checkCollisions() {
+    this.collisionWithEndboss = false;
+    this.level.enemies.forEach((enemy, index) => {
+      if (this.character.isColliding(enemy)) {
+        if (enemy instanceof Endboss) {
+          // Endboss-Kollisionslogik
+          this.endboss = enemy;
+          this.character.hit();
+          this.statusBar.setPercentage(this.character.energy);
+        } else if (this.character.isAboveGround()) {
+          this.killChickens(enemy, index);
+        } else {
+          this.character.hit();
+          this.statusBar.setPercentage(this.character.energy);
+        }
+      }
+      this.throwableObject.forEach((bottle) => {
+        if (bottle.isColliding(enemy)) {
+          if (enemy instanceof Endboss) {
+            this.collisionWithEndboss = true;
+            enemy.hurtEndboss();
+            this.statusbarEndboss.setPercentage(enemy.energy);
+          }
+        }
+      });
+    });
   }
+
+  killChickens(enemy, index) {
+    if (enemy instanceof Chicken || enemy instanceof Chicklets) {
+      if (typeof enemy.deathAnimation === 'function') {
+        enemy.deathAnimation();
+        
+        setTimeout(() => {
+          const i = this.level.enemies.indexOf(enemy);
+          if (i > -1) {
+            this.level.enemies.splice(index, 1);
+          }
+        }, 200);
+      } else {
+        console.error('deathAnimation nicht definiert für:', enemy);
+      }
+    }
+  }
+  
+
+  /*killChickens(enemy, index) {
+    // Aufruf der Todesanimation für den Feind
+    enemy.deathAnimation();
+
+    // Entferne den Feind aus der Liste der Feinde
+    this.level.enemies.splice(index, 1);
+  }*/
 
   /*checkThrowObjects() {
     if (this.keyboard.THROW) {
@@ -82,26 +136,30 @@ class World {
     }
   }*/
 
-    checkThrowObjects() {
-      let currentTime = Date.now();
-      let canThrow = this.endboss && this.endboss.hadFirstContact && this.endboss.isMoving();
+  checkThrowObjects() {
+    let currentTime = Date.now();
+    let canThrow =
+      this.endboss && this.endboss.hadFirstContact && this.endboss.isMoving();
 
-    if (this.keyboard.THROW && canThrow && (currentTime - this.lastThrowTime) >= this.throwCooldown) {
-        let bottle = new ThrowableObject(
-          this.character.x + 20,
-          this.character.y + 100,
-          this.character.otherDirection
-        );
-        this.throwableObject.push(bottle);
-        this.character.bottles -= 1;
-        this.character.resetIdle();
-        this.statusbarBottle.setPercentage(this.character.bottles);
-    
-        // Setze den Zeitpunkt des letzten Wurfs
-        this.lastThrowTime = currentTime;
-      }
+    if (
+      this.keyboard.THROW &&
+      canThrow &&
+      currentTime - this.lastThrowTime >= this.throwCooldown
+    ) {
+      let bottle = new ThrowableObject(
+        this.character.x + 20,
+        this.character.y + 100,
+        this.character.otherDirection
+      );
+      this.throwableObject.push(bottle);
+      this.character.bottles -= 1;
+      this.character.resetIdle();
+      this.statusbarBottle.setPercentage(this.character.bottles);
+
+      // Setze den Zeitpunkt des letzten Wurfs
+      this.lastThrowTime = currentTime;
     }
-    
+  }
 
   draw() {
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
