@@ -15,6 +15,7 @@ class BottleStatusbar extends Statusbar {
     this.setPercentage(0);
   }
 
+
  /* resolveImageIndex() {
     if (this.percentage == 0) {
       return 0;

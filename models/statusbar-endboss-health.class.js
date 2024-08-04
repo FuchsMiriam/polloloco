@@ -16,7 +16,7 @@ class EndbossStatusbar extends Statusbar {
     this.setPercentage(100);
   }
 
-  setPercentage(percentage) {
+  /*setPercentage(percentage) {
     this.percentage = percentage;
     let path = this.IMAGES[this.resolveImageIndex()];
     this.img = this.imageCache[path];
@@ -36,6 +36,6 @@ class EndbossStatusbar extends Statusbar {
     } else {
       return 0;
     }
-  }
+  }*/
 
 }

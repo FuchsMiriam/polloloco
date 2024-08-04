@@ -74,7 +74,6 @@ class World {
     this.level.enemies.forEach((enemy, index) => {
       if (this.character.isColliding(enemy)) {
         if (enemy instanceof Endboss) {
-          // Endboss-Kollisionslogik
           this.endboss = enemy;
           this.character.hit();
           this.statusBar.setPercentage(this.character.energy);
@@ -161,6 +160,13 @@ class World {
     }
   }
 
+  showEndbossHealthbar() {
+    if (this.endboss && this.endboss.hadFirstContact) {
+      this.addToMap(this.statusbarEndboss);
+    }
+  }
+  
+
   draw() {
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     this.ctx.translate(this.camera_x, 0);
@@ -171,7 +177,7 @@ class World {
     this.addToMap(this.statusBar);
     this.addToMap(this.statusbarBottle);
     this.addToMap(this.statusbarCoin);
-    this.addToMap(this.statusbarEndboss);
+    this.showEndbossHealthbar();
 
     this.ctx.translate(this.camera_x, 0);
     this.addObjectsToMap(this.level.enemies);
@@ -225,7 +231,7 @@ class World {
 
   collectBottles() {
     this.level.bottles.forEach((bottle) => {
-      if (this.character.isColliding(bottle) && this.character.bottles < 80) {
+      if (this.character.isColliding(bottle) && this.character.bottles < 100) {
         this.bottleCollected(bottle);
         this.bottleSound.play();
         this.character.addBottles();
@@ -248,14 +254,14 @@ class World {
   bottleCollected(bottle) {
     let i = this.level.bottles.indexOf(bottle);
     if (i > -1) {
-      this.level.bottles.splice(i, 1); // Flasche entfernen
+      this.level.bottles.splice(i, 1);
     }
   }
 
   coinCollected(coin) {
     let i = this.level.coins.indexOf(coin);
     if (i > -1) {
-      this.level.coins.splice(i, 1); // Münze entfernen
+      this.level.coins.splice(i, 1);
     }
   }
 }

@@ -88,6 +88,7 @@ class Endboss extends MovableObject {
           this.hadFirstContact = true;
           this.endboss_fight.play();
         }
+        world.showEndbossHealthbar();
       }
     }, 250);
   }
