@@ -10,6 +10,7 @@ class World {
   statusbarCoin = new CoinStatusbar();
   //bottle = [new Bottle()];
   throwableObject = [];
+  collisionWithEndboss = false;
 
   bottleSound;
   coinSound;
@@ -41,11 +42,17 @@ class World {
   }
 
   checkCollisions() {
+    this.collisionWithEndboss = false;
     this.level.enemies.forEach((enemy) => {
       if (this.character.isColliding(enemy)) {
         this.character.hit();
         this.statusBar.setPercentage(this.character.energy);
       }
+      this.throwableObject.forEach((bottle) => {//neu hinzugefügt
+        if (bottle.isColliding(enemy)) {
+          this.collisionWithEndboss = true;
+        }
+      });
     });
   }
 

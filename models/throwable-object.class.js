@@ -15,6 +15,8 @@ class ThrowableObject extends MovableObject {
     "./img/6_salsa_bottle/bottle_rotation/bottle_splash/6_bottle_splash.png",
   ];
 
+  throw_sound = new Audio("audio/glass_breaking.mp3");
+
   constructor(x, y) {
     super().loadImage(this.BOTTLE_ROTATING[0]);
     this.loadImages(this.BOTTLE_ROTATING);
@@ -24,6 +26,7 @@ class ThrowableObject extends MovableObject {
     this.height = 80;
     this.width = 60;
     this.throw();
+    this.animateBottle();
   }
 
   throw() {
@@ -33,4 +36,30 @@ class ThrowableObject extends MovableObject {
       this.x += 10;
     }, 25);
   }
+
+  /**
+ * Handles bottle animation: rotates until a collision is detected, then plays the collision animation.
+ */
+  animateBottle() {
+    this.splash = setInterval(() => {
+        world.checkCollisions();
+
+        if (this.y > 350 || world.collisionWithEndboss) {
+            this.playCollisionAnimation();
+            clearInterval(this.splash);
+        } else {
+            this.playAnimation(this.BOTTLE_ROTATING);
+        }
+    }, 1000 / 60);
+}
+
+/**
+* Plays the collision animation and sound, and stops the bottle's rotation.
+*/
+playCollisionAnimation() {
+  this.throw_sound.play();
+  this.playAnimation(this.BOTTLE_SPLASH);
+  this.speed = 0;
+}
+
 }

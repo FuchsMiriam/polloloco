@@ -34,8 +34,13 @@ let enemy_sounds = [
 function startGame() {
   let startScreen = document.querySelector(".startscreen");
   //startScreen.style.zIndex = "-10";
-  //startScreen.classList.add("d-none");
-  startScreen.style.display = "none";
+  startScreen.classList.add("d-none");
+  //startScreen.style.display = "none";
+
+  let gameOverContainer = document.getElementById("gameOver");
+  if (gameOverContainer) {
+    gameOverContainer.classList.add("d-none");
+  }
 
   showCanvas();
   showCloseButton();
@@ -48,7 +53,7 @@ function startGame() {
   initGame();
   world = new World(canvas, keyboard);
 
-  canvas.addEventListener("click", (event) => {
+  document.body.addEventListener("click", (event) => {
     event.stopPropagation();
   });
 }
