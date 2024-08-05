@@ -118,8 +118,6 @@ class Character extends MovableObject {
         this.resetIdle();
       }
 
-      //this.checkIdleState();
-
       this.world.camera_x = -this.x + 100;
     }, 1000 / 60);
 

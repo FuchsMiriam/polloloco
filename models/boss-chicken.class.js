@@ -54,6 +54,7 @@ class Endboss extends MovableObject {
 
   hadFirstContact = false;
 
+  endboss_hit = new Audio("audio/endboss_hit.mp3");
   endboss_fight = new Audio("audio/endboss_fight.mp3");
   win_sound = new Audio("audio/win.mp3");
 
@@ -64,7 +65,7 @@ class Endboss extends MovableObject {
     this.loadImages(this.IMAGES_WALKING);
     this.loadImages(this.IMAGES_HURT);
     this.loadImages(this.IMAGES_DEAD);
-    this.x = 2500;
+    this.x = 2850;
 
     this.animate();
   }
@@ -99,6 +100,8 @@ class Endboss extends MovableObject {
 
   endbossIsHurtAnimation() {
     this.playAnimation(this.IMAGES_HURT);
+    this.endboss_hit.play();
+
 }
 
   deathAnimation() {

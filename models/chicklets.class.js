@@ -1,7 +1,7 @@
 class Chicklets extends MovableObject {
   y = 380;
-  width = 50;
   height = 50;
+  width = 50;
 
   offset = {
     top: 10,
@@ -26,7 +26,7 @@ class Chicklets extends MovableObject {
     this.loadImages(this.IMAGE_DEAD);
 
     this.x = 700 + Math.random() * 300;
-    this.speed = 0.15 + Math.random() * 0.5;
+    this.speed = 0.15 + Math.random() * 0.3;
 
     this.animate();
   }
