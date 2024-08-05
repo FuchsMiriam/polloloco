@@ -253,6 +253,10 @@ function stopAllSounds() {
     chicklet_sound.pause();
     chicklet_sound.currentTime = 0;
   }
+  if (endboss_fight){
+    endboss_fight.pause();
+    endboss_fight.currentTime = 0;
+  }
 }
 
 function startEndbossMusic() {
