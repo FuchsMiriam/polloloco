@@ -25,7 +25,7 @@ class Chicklets extends MovableObject {
     this.loadImages(this.IMAGES_WALKING);
     this.loadImages(this.IMAGE_DEAD);
 
-    this.x = 700 + Math.random() * 300;
+    this.x = 700 + Math.random() * 600;
     this.speed = 0.15 + Math.random() * 0.3;
 
     this.animate();
