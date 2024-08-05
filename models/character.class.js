@@ -75,11 +75,11 @@ class Character extends MovableObject {
     "./img/2_character_pepe/1_idle/long_idle/I-20.png",
   ];
 
-  walking_sound = new Audio("audio/walking.mp3");
+  /*walking_sound = new Audio("audio/walking.mp3");
   jumping_sound = new Audio("audio/jump.mp3");
   snoring_sound = new Audio("audio/snoring.mp3");
   hurt_sound = new Audio("audio/hurt.mp3");
-  death_sound = new Audio("audio/death.mp3");
+  death_sound = new Audio("audio/death.mp3");*/
 
   constructor() {
     super().loadImage(this.IMAGES_WALKING[0]);
@@ -96,18 +96,18 @@ class Character extends MovableObject {
 
   animate() {
     setInterval(() => {
-      this.walking_sound.pause();
+      walking_sound.pause();
       if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
         this.moveRight();
         this.resetIdle();
         this.otherDirection = false;
-        this.walking_sound.play();
+        walking_sound.play();
       }
       if (this.world.keyboard.LEFT && this.x > 0) {
         this.moveLeft();
         this.resetIdle();
         this.otherDirection = true;
-        this.walking_sound.play();
+        walking_sound.play();
       }
 
       if (
@@ -155,15 +155,15 @@ class Character extends MovableObject {
 
   characterIsHurt() {
     this.playAnimation(this.IMAGES_HURT);
-    this.hurt_sound.play();
+    hurt_sound.play();
     this.resetIdle();
   }
 
   deathAnimation() {
     this.playAnimation(this.IMAGES_DEAD);
-    this.death_sound.play();
+    death_sound.play();
     inGame_sound.pause();
-    this.walking_sound.pause();
+    walking_sound.pause();
 
     setTimeout(() => {
       deathScreen();
@@ -172,13 +172,13 @@ class Character extends MovableObject {
 
   jump() {
     this.speedY = 30;
-    this.jumping_sound.play();
+    jumping_sound.play();
     this.resetIdle();
   }
 
   resetIdle() {
     this.lastMovementTime = Date.now();
-    this.snoring_sound.pause();
+    snoring_sound.pause();
   }
 
   checkIdleState() {
@@ -192,12 +192,12 @@ class Character extends MovableObject {
 
   characterIdleAnimation() {
     this.playAnimation(this.IMAGES_IDLE);
-    this.snoring_sound.pause();
+    snoring_sound.pause();
   }
 
   characterLongIdle() {
     this.playAnimation(this.IMAGES_LONG_IDLE);
-    this.snoring_sound.play();
+    snoring_sound.play();
   }
   
   

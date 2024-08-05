@@ -18,7 +18,7 @@ class World {
   bottleSound;
   coinSound;
 
-  endboss_fight = new Audio("../audio/endboss_fight.mp3");
+  /*endboss_fight = new Audio("../audio/endboss_fight.mp3");*/
 
   constructor(canvas, keyboard) {
     this.ctx = canvas.getContext("2d");
@@ -262,7 +262,7 @@ class World {
     this.level.bottles.forEach((bottle) => {
       if (this.character.isColliding(bottle) && this.character.bottles < 100) {
         this.bottleCollected(bottle);
-        this.bottleSound.play();
+        bottleSound.play();
         this.character.addBottles();
         this.statusbarBottle.setPercentage(this.character.bottles);
       }
@@ -273,7 +273,7 @@ class World {
     this.level.coins.forEach((coin) => {
       if (this.character.isColliding(coin)) {
         this.coinCollected(coin);
-        this.coinSound.play();
+        coinSound.play();
         this.character.addCoins();
         this.statusbarCoin.setPercentage(this.character.coins);
       }

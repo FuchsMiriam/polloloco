@@ -54,9 +54,9 @@ class Endboss extends MovableObject {
 
   hadFirstContact = false;
 
-  endboss_hit = new Audio("audio/endboss_hit.mp3");
+  /*endboss_hit = new Audio("audio/endboss_hit.mp3");
   endboss_fight = new Audio("audio/endboss_fight.mp3");
-  win_sound = new Audio("audio/win.mp3");
+  win_sound = new Audio("audio/win.mp3");*/
 
   constructor() {
     super().loadImage(this.IMAGES_ALERT[0]);
@@ -84,10 +84,10 @@ class Endboss extends MovableObject {
         }
         i++;
 
-        if (world.character.x > 1900 && !this.hadFirstContact) {
+        if (world.character.x > 2500 && !this.hadFirstContact) {
           i = 0;
           this.hadFirstContact = true;
-          this.endboss_fight.play();
+          endboss_fight.play();
         }
         world.showEndbossHealthbar();
       }
@@ -100,14 +100,14 @@ class Endboss extends MovableObject {
 
   endbossIsHurtAnimation() {
     this.playAnimation(this.IMAGES_HURT);
-    this.endboss_hit.play();
+    endboss_hit.play();
 
 }
 
   deathAnimation() {
     this.playAnimation(this.IMAGES_DEAD);
-    this.endboss_fight.pause();
-    this.win_sound.play();
+    endboss_fight.pause();
+    win_sound.play();
 
     setTimeout(() => {
         clearAllIntervals();

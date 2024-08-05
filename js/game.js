@@ -22,11 +22,11 @@ let keyboard = new Keyboard();
  */
 let intervalIds = [];
 
-let inGame_sound = new Audio("../audio/game-music.mp3");
+/*let inGame_sound = new Audio("../audio/game-music.mp3");
 let enemy_sounds = [
   new Audio("../audio/chicken.mp3"),
   new Audio("../audio/baby_chicken.mp3"),
-];
+];*/
 
 /**
  * Starts the game by initializing the game world and displaying the game canvas.
@@ -46,7 +46,7 @@ function startGame() {
   showCloseButton();
   showFullscreenIcon();
 
-  inGame_sound.play().catch((error) => {
+  game_music.play().catch((error) => {
     console.error("Failed to play audio:", error);
   });
 
@@ -241,15 +241,18 @@ function exitGame() {
 }
 
 function stopAllSounds() {
-  if (inGame_sound) {
-    inGame_sound.pause();
-    inGame_sound.currentTime = 0;
+  if (game_music) {
+    game_music.pause();
+    game_music.currentTime = 0;
   }
-
-  enemy_sounds.forEach((audio) => {
-    audio.volume = 0;
-    audio.currentTime = 0;
-  });
+  if (chicken_sound) {
+    chicken_sound.pause();
+    chicken_sound.currentTime = 0;
+  }
+  if (chicklet_sound) {
+    chicklet_sound.pause();
+    chicklet_sound.currentTime = 0;
+  }
 }
 
 function startEndbossMusic() {
