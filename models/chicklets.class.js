@@ -4,8 +4,8 @@ class Chicklets extends MovableObject {
   width = 50;
 
   offset = {
-    top: 10,
-    bottom: 10,
+    top: 5,
+    bottom: 15,
     left: 10,
     right: 10
   };

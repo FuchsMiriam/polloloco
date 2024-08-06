@@ -43,13 +43,25 @@ class World {
     this.character.world = this;
   }
 
-  run() {
+  /*run() {
     setInterval(() => {
       this.checkCollisions();
       this.checkThrowObjects();
       this.collectBottles();
       this.collectCoins();
     }, 500);
+  }*/
+
+  run() {
+    setInterval(() => {
+      this.checkThrowObjects();
+      this.collectBottles();
+      this.collectCoins();
+    }, 500);
+
+    setInterval(() => {
+      this.checkCollisions();
+    }, 150);
   }
 
   /*checkCollisions() {
@@ -78,7 +90,9 @@ class World {
           this.character.hit();
           this.statusBar.setPercentage(this.character.energy);
         } else if (this.character.isAboveGround()) {
-          console.log(`Character is above ground and collided with ${enemy.constructor.name}`);
+          console.log(
+            `Character is above ground and collided with ${enemy.constructor.name}`
+          );
           this.killChickens(enemy, index);
         } else {
           this.character.hit();
@@ -98,18 +112,40 @@ class World {
     this.checkThrowableCollisions();
   }
 
-  killChickens(enemy, index) {
+  /*killChickens(enemy, index) {
     if (enemy instanceof Chicken || enemy instanceof Chicklets) {
-      if (typeof enemy.deathAnimation === 'function') {
+      if (typeof enemy.deathAnimation === "function") {
         enemy.deathAnimation();
-        
+
         setTimeout(() => {
           if (index > -1) {
             this.level.enemies.splice(index, 1);
           }
         }, 200);
       } else {
-        console.error('deathAnimation nicht definiert für:', enemy);
+        console.error("deathAnimation not defined for:", enemy);
+      }
+    }
+  }*/
+
+  killChickens(enemy, index) {
+    if (enemy instanceof Chicken || enemy instanceof Chicklets) {
+      if (typeof enemy.deathAnimation === "function") {
+        enemy.deathAnimation();
+
+        // Entferne das Objekt nach einer Verzögerung, um der Todesanimation Zeit zu geben
+        setTimeout(() => {
+          console.log(`Removing enemy at index ${index}`);
+          if (this.level.enemies[index] === enemy) {
+            this.level.enemies.splice(index, 1);
+          } else {
+            console.error(
+              `Enemy at index ${index} not found or already removed`
+            );
+          }
+        }, 200);
+      } else {
+        console.error("deathAnimation not defined for:", enemy);
       }
     }
   }
@@ -141,8 +177,6 @@ class World {
       });
     });
   }
-  
-
 
   /*killChickens(enemy, index) {
     // Aufruf der Todesanimation für den Feind
@@ -168,7 +202,7 @@ class World {
   checkThrowObjects() {
     let currentTime = Date.now();
     //let canThrow =
-      //this.endboss && this.endboss.hadFirstContact && this.endboss.isMoving();
+    //this.endboss && this.endboss.hadFirstContact && this.endboss.isMoving();
 
     if (
       this.keyboard.THROW &&
@@ -194,7 +228,6 @@ class World {
       this.addToMap(this.statusbarEndboss);
     }
   }
-  
 
   draw() {
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
