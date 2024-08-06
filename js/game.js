@@ -249,28 +249,25 @@ function stopAllSounds() {
     chicken_sound.pause();
     chicken_sound.currentTime = 0;
   }
-  if (chicklet_sound) {
-    chicklet_sound.pause();
-    chicklet_sound.currentTime = 0;
-  }
   if (endboss_fight){
     endboss_fight.pause();
     endboss_fight.currentTime = 0;
   }
 }
 
-function startEndbossMusic() {
+/*function startEndbossMusic() {
   let endbossMusic = new Audio("../audio/endboss_fight.mp3");
   endbossMusic.play().catch((error) => {
     console.error("Failed to play audio:", error);
   });
-}
+}*/
 
 function gameWon() {
   document.getElementById("canvas").classList.add("d-none");
   document.querySelector(".close-btn").classList.add("d-none");
   document.querySelector(".fullscreen-icon").classList.add("d-none");
   document.querySelector(".game-won-container").classList.remove("d-none");
+  stopAllSounds();
 }
 
 /**

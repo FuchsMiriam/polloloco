@@ -18,8 +18,6 @@ class Chicklets extends MovableObject {
 
   IMAGE_DEAD = ["./img/3_enemies_chicken/chicken_small/2_dead/dead.png"];
 
-  /*chicklet_sound = new Audio("audio/baby_chicken.mp3");*/
-
   constructor() {
     super().loadImage(this.IMAGES_WALKING[0]);
     this.loadImages(this.IMAGES_WALKING);
@@ -37,12 +35,12 @@ class Chicklets extends MovableObject {
     }, 1000 / 60);
 
     setInterval(() => {
-      chicklet_sound.play();
       this.playAnimation(this.IMAGES_WALKING);
     }, 250);
   }
 
   deathAnimation() {
+    chicken_sound.play();
     this.playAnimation(this.IMAGE_DEAD);
   }
 }

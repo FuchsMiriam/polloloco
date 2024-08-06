@@ -65,12 +65,12 @@ class Endboss extends MovableObject {
     this.loadImages(this.IMAGES_WALKING);
     this.loadImages(this.IMAGES_HURT);
     this.loadImages(this.IMAGES_DEAD);
-    this.x = 2850;
+    this.x = 2950;
 
     this.animate();
   }
 
-  animate() {
+  /* animate() {
     let i = 0;
     setInterval(() => {
       if (this.isDead()) {
@@ -84,11 +84,46 @@ class Endboss extends MovableObject {
         }
         i++;
 
-        if (world.character.x > 2500 && !this.hadFirstContact) {
+        if (world.character.x > 2700 && !this.hadFirstContact) {
           i = 0;
           this.hadFirstContact = true;
+          game_music.pause();
+          chicken_sound.pause();
+          chicklet_sound.pause();
           endboss_fight.play();
         }
+        world.showEndbossHealthbar();
+      }
+    }, 250);
+  }*/
+
+  animate() {
+    let i = 0;
+    setInterval(() => {
+      if (this.isDead()) {
+        this.deathAnimation();
+      } else {
+        if (!this.hadFirstContact && world.character.x > 2700) {
+          // Überprüfen, ob der Charakter nahe genug ist
+          i = 0;
+          this.hadFirstContact = true;
+          game_music.pause();
+          chicken_sound.pause();
+          endboss_fight.play();
+        }
+
+        if (this.hadFirstContact) {
+          if (i < 10) {
+            this.playAnimation(this.IMAGES_ALERT);
+          } else {
+            this.playAnimation(this.IMAGES_WALKING);
+            this.moveLeft();
+          }
+          i++;
+        } else {
+          this.playAnimation(this.IMAGES_ALERT);
+        }
+
         world.showEndbossHealthbar();
       }
     }, 250);
@@ -101,8 +136,7 @@ class Endboss extends MovableObject {
   endbossIsHurtAnimation() {
     this.playAnimation(this.IMAGES_HURT);
     endboss_hit.play();
-
-}
+  }
 
   deathAnimation() {
     this.playAnimation(this.IMAGES_DEAD);
@@ -110,8 +144,8 @@ class Endboss extends MovableObject {
     win_sound.play();
 
     setTimeout(() => {
-        clearAllIntervals();
-        gameWon();
+      clearAllIntervals();
+      gameWon();
     }, 1500);
-}
+  }
 }
