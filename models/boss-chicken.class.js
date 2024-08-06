@@ -65,7 +65,7 @@ class Endboss extends MovableObject {
     this.loadImages(this.IMAGES_WALKING);
     this.loadImages(this.IMAGES_HURT);
     this.loadImages(this.IMAGES_DEAD);
-    this.x = 2950;
+    this.x = 3000;
 
     this.animate();
   }
@@ -103,7 +103,7 @@ class Endboss extends MovableObject {
       if (this.isDead()) {
         this.deathAnimation();
       } else {
-        if (!this.hadFirstContact && world.character.x > 2700) {
+        if (!this.hadFirstContact && world.character.x > 2800) {
           // Überprüfen, ob der Charakter nahe genug ist
           i = 0;
           this.hadFirstContact = true;

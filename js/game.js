@@ -121,6 +121,7 @@ function deathScreen() {
     document.querySelector(".fullscreen-icon").classList.add("d-none");
     document.getElementById("gameOver").classList.remove("d-none");
   }, 500);
+  stopAllSounds();
 }
 
 /**
@@ -249,9 +250,17 @@ function stopAllSounds() {
     chicken_sound.pause();
     chicken_sound.currentTime = 0;
   }
-  if (endboss_fight){
+  if (endboss_fight) {
     endboss_fight.pause();
     endboss_fight.currentTime = 0;
+  }
+  if (death_sound) {
+    death_sound.pause();
+    death_sound.currentTime = 0;
+  }
+  if (snoring_sound) {
+    snoring_sound.pause();
+    snoring_sound.currentTime = 0;
   }
 }
 
