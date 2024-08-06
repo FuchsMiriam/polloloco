@@ -166,6 +166,7 @@ class Character extends MovableObject {
     walking_sound.pause();
 
     setTimeout(() => {
+      clearAllIntervals();
       deathScreen();
     }, 1500);
   }

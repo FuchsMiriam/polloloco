@@ -103,8 +103,7 @@ class Endboss extends MovableObject {
       if (this.isDead()) {
         this.deathAnimation();
       } else {
-        if (!this.hadFirstContact && world.character.x > 2800) {
-          // Überprüfen, ob der Charakter nahe genug ist
+        if (!this.hadFirstContact && world.character.x > 2750) {
           i = 0;
           this.hadFirstContact = true;
           game_music.pause();
