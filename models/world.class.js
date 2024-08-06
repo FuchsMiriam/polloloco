@@ -90,24 +90,12 @@ class World {
           this.character.hit();
           this.statusBar.setPercentage(this.character.energy);
         } else if (this.character.isAboveGround()) {
-          console.log(
-            `Character is above ground and collided with ${enemy.constructor.name}`
-          );
           this.killChickens(enemy, index);
-        } else {
+        } else if (!this.character.isAboveGround()) {
           this.character.hit();
           this.statusBar.setPercentage(this.character.energy);
         }
       }
-      /*this.throwableObject.forEach((bottle) => {
-        if (bottle.isColliding(enemy)) {
-          if (enemy instanceof Endboss) {
-            this.collisionWithEndboss = true;
-            enemy.hurtEndboss();
-            this.statusbarEndboss.setPercentage(enemy.energy);
-          }
-        }
-      });*/
     });
     this.checkThrowableCollisions();
   }
@@ -128,25 +116,26 @@ class World {
     }
   }*/
 
-  killChickens(enemy, index) {
+  killChickens(enemy) {
     if (enemy instanceof Chicken || enemy instanceof Chicklets) {
       if (typeof enemy.deathAnimation === "function") {
         enemy.deathAnimation();
 
-        // Entferne das Objekt nach einer Verzögerung, um der Todesanimation Zeit zu geben
         setTimeout(() => {
-          console.log(`Removing enemy at index ${index}`);
-          if (this.level.enemies[index] === enemy) {
-            this.level.enemies.splice(index, 1);
-          } else {
-            console.error(
-              `Enemy at index ${index} not found or already removed`
-            );
-          }
+          this.deleteChickens(enemy);
         }, 200);
       } else {
         console.error("deathAnimation not defined for:", enemy);
       }
+    }
+  }
+
+  deleteChickens(enemy) {
+    let i = this.level.enemies.indexOf(enemy);
+    if (i > -1) {
+      this.level.enemies.splice(i, 1);
+    } else {
+      console.error("Enemy not found in the list");
     }
   }
 
@@ -177,14 +166,6 @@ class World {
       });
     });
   }
-
-  /*killChickens(enemy, index) {
-    // Aufruf der Todesanimation für den Feind
-    enemy.deathAnimation();
-
-    // Entferne den Feind aus der Liste der Feinde
-    this.level.enemies.splice(index, 1);
-  }*/
 
   /*checkThrowObjects() {
     if (this.keyboard.THROW) {
