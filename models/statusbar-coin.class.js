@@ -23,6 +23,7 @@ class CoinStatusbar extends Statusbar {
      }*/
 
   /*resolveImageIndex() {
+
     if (this.percentage == 0) {
       return 0;
     } else if (this.percentage >= 20) {
@@ -37,4 +38,5 @@ class CoinStatusbar extends Statusbar {
       return 5;
     }
   }*/
+ 
 }

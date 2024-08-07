@@ -53,6 +53,8 @@ function startGame() {
   initGame();
   world = new World(canvas, keyboard);
 
+  buttonsPressEvents();
+
   document.body.addEventListener("click", (event) => {
     event.stopPropagation();
   });
@@ -329,6 +331,54 @@ window.addEventListener("keyup", (e) => {
     keyboard.SPACE = false;
   }
 });
+
+function buttonsPressEvents() {
+  document.getElementById("canvas").addEventListener("touchstart", (e) => {
+      e.preventDefault();
+  });
+
+  document.getElementById("button-left").addEventListener("touchstart", (e) => {
+      e.preventDefault();
+      keyboard.LEFT = true;
+  });
+
+  document.getElementById("button-left").addEventListener("touchend", (e) => {
+      e.preventDefault();
+      keyboard.LEFT = false;
+  });
+
+  document.getElementById("button-right").addEventListener("touchstart", (e) => {
+      e.preventDefault();
+      keyboard.RIGHT = true;
+  });
+
+  document.getElementById("button-right").addEventListener("touchend", (e) => {
+      e.preventDefault();
+      keyboard.RIGHT = false;
+  });
+
+  document.getElementById("button-up").addEventListener("touchstart", (e) => {
+      e.preventDefault();
+      keyboard.UP = true;
+  });
+
+  document.getElementById("button-up").addEventListener("touchend", (e) => {
+      e.preventDefault();
+      keyboard.UP = false;
+  });
+
+  document.getElementById("button-throw").addEventListener("touchstart", (e) => {
+      e.preventDefault();
+      keyboard.THROW = true;
+  });
+
+  document.getElementById("button-throw").addEventListener("touchend", (e) => {
+      e.preventDefault();
+      keyboard.THROW = false;
+  });
+
+  document.getElementById('mobile-buttons-container').classList.remove('d-none');
+}
 
 /**
  * Displays a message indicating that the device is not in landscape mode when attempting to enter fullscreen.
