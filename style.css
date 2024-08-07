@@ -334,3 +334,22 @@ canvas {
   border-radius: 10px;
   padding: 3px;
 }
+
+/*Sound*/
+
+.gameSetting {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  top: 0px;
+  position: absolute;
+}
+
+.mute {
+  height: 25px;
+  position: absolute;
+  top: 5px;
+  right: 30px;
+  cursor: pointer;
+  width: 25px;
+}

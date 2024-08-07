@@ -182,9 +182,6 @@ class World {
 
   checkThrowObjects() {
     let currentTime = Date.now();
-    //let canThrow =
-    //this.endboss && this.endboss.hadFirstContact && this.endboss.isMoving();
-
     if (
       this.keyboard.THROW &&
       this.character.bottles > 0 &&

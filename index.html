@@ -58,12 +58,15 @@
 
     <div id="fullscreen" class="fullscreen-container">
       <canvas id="canvas" width="720" height="480"></canvas>
-      <img
-        src="./img/close.png"
-        alt="Exit"
-        class="close-btn"
-        onclick="exitGame()"
-      />
+      <div class="gameSetting">
+        <img src="./img/mute.png" alt="Mute" class="mute" onclick="toggleMute()" />
+        <img
+          src="./img/close.png"
+          alt="Exit"
+          class="close-btn"
+          onclick="exitGame()"
+        />
+      </div>
       <img
         src="./img/fullscreen_icon.png"
         alt="Vollbild"
@@ -136,22 +139,22 @@
 
     <div id="mobile-buttons-container" class="d-none hide">
       <div class="mobile-panel">
-          <div class="mobile-buttons">
-              <img id="button-left" src="./img/arrow_left.png" alt="Left">
-          </div>
-          <div class="mobile-buttons">
-              <img id="button-right" src="./img/arrow_right.png" alt="Right">
-          </div>
+        <div class="mobile-buttons">
+          <img id="button-left" src="./img/arrow_left.png" alt="Left" />
+        </div>
+        <div class="mobile-buttons">
+          <img id="button-right" src="./img/arrow_right.png" alt="Right" />
+        </div>
       </div>
       <div class="mobile-panel">
-          <div class="mobile-buttons">
-             <img id="button-up" src="./img/arrow_up.png" alt="Up">
-          </div>
-          <div class="mobile-buttons">
-              <img id="button-throw" src="./img/arrow_t.png" alt="Throw">
-          </div>
+        <div class="mobile-buttons">
+          <img id="button-up" src="./img/arrow_up.png" alt="Up" />
+        </div>
+        <div class="mobile-buttons">
+          <img id="button-throw" src="./img/arrow_t.png" alt="Throw" />
+        </div>
       </div>
-  </div>
+    </div>
 
     <div id="gameOver" class="game-over-container d-none">
       <p>Oh no! You lost!</p>
@@ -173,7 +176,9 @@
         His farm was safe, but the legend of Pepe Peligroso and the Great
         Chicken Escape had only just begun.
       </p>
-      <button class="startscreen-button" onclick="showStartScreen()">Menu</button>
+      <button class="startscreen-button" onclick="showStartScreen()">
+        Menu
+      </button>
     </div>
 
     <div id="privacyNav" class="privacy-sidebar">
