@@ -40,42 +40,42 @@ class ThrowableObject extends MovableObject {
     }, 25);
   }*/
 
-    throw() {
-      this.speedY = 30;
-      this.applyGravity();
-  
-      this.throwInterval = setInterval(() => {
-        if (this.characterDirection) {
-          this.x -= 10;
-        } else {
-          this.x += 10;
-        }
-      }, 25);
-    }
+  throw() {
+    throwing_sound.play();
+    this.speedY = 30;
+    this.applyGravity();
+
+    this.throwInterval = setInterval(() => {
+      if (this.characterDirection) {
+        this.x -= 10;
+      } else {
+        this.x += 10;
+      }
+    }, 25);
+  }
 
   /**
- * Handles bottle animation: rotates until a collision is detected, then plays the collision animation.
- */
+   * Handles bottle animation: rotates until a collision is detected, then plays the collision animation.
+   */
   animateBottle() {
     this.splash = setInterval(() => {
-        world.checkCollisions();
+      world.checkCollisions();
 
-        if (this.y > 350 || world.collisionWithEndboss) {
-            this.playCollisionAnimation();
-            clearInterval(this.splash);
-        } else {
-            this.playAnimation(this.BOTTLE_ROTATING);
-        }
+      if (this.y > 350 || world.collisionWithEndboss) {
+        this.playCollisionAnimation();
+        clearInterval(this.splash);
+      } else {
+        this.playAnimation(this.BOTTLE_ROTATING);
+      }
     }, 1000 / 60);
-}
+  }
 
-/**
-* Plays the collision animation and sound, and stops the bottle's rotation.
-*/
-playCollisionAnimation() {
-  this.throw_sound.play();
-  this.playAnimation(this.BOTTLE_SPLASH);
-  this.speed = 0;
-}
-
+  /**
+   * Plays the collision animation and sound, and stops the bottle's rotation.
+   */
+  playCollisionAnimation() {
+    glass_sound.play();
+    this.playAnimation(this.BOTTLE_SPLASH);
+    this.speed = 0;
+  }
 }

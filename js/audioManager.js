@@ -43,4 +43,18 @@ function toggleMute() {
   allSounds.forEach((sound) => {
     sound.muted = isMuted;
   });
+
+  updateMuteIcon(isMuted);
+}
+
+function updateMuteIcon(isMuted) {
+  let image = document.getElementById("soundIcon");
+
+  if (isMuted) {
+    image.src = "../img/mute.png";
+    image.alt = "Mute";
+  } else {
+    image.src = "../img/volume.png";
+    image.alt = "Volume";
+  }
 }

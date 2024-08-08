@@ -75,19 +75,6 @@ button {
   cursor: pointer;
 }
 
-.close-btn {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  width: 14px;
-  height: 14px;
-  cursor: pointer;
-}
-
-.close-btn:hover {
-  background-color: rgb(252, 226, 106);
-}
-
 /*Game Controls Container*/
 
 .game-controls-container {
@@ -337,7 +324,7 @@ canvas {
 
 /*Sound*/
 
-.gameSetting {
+.game-setting {
   display: flex;
   align-items: center;
   justify-content: space-around;
@@ -352,4 +339,17 @@ canvas {
   right: 30px;
   cursor: pointer;
   width: 25px;
+}
+
+.close-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 14px;
+  height: 14px;
+  cursor: pointer;
+}
+
+.close-btn:hover {
+  background-color: rgb(252, 226, 106);
 }
