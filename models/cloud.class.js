@@ -3,41 +3,23 @@ class Cloud extends MovableObject {
   width = 400;
   height = 200;
   canvasWidth = 720;
+  speed = 0.5;
 
   IMAGES_CLOUDS = [
     "img/5_background/layers/4_clouds/1.png",
-    "img/5_background/layers/4_clouds/2.png"
+    "img/5_background/layers/4_clouds/2.png",
   ];
 
-  constructor() {
-    super().loadImage("img/5_background/layers/4_clouds/1.png");
-
-    this.x = Math.random() * 500;
+  constructor(imagePath, x) {
+    super().loadImage(imagePath, x);
     this.animate();
+    this.x = x;
   }
 
-  /*animate() {
-    this.moveLeft();
-  }*/
-
+  /**
+   * Animation of the clouds' movement.
+   */
   animate() {
-    requestAnimationFrame(() => {
-      this.moveLeft();
-      this.animate();
-    });
+    setInterval(() => this.moveLeft(), 1000 / 25);
   }
-
-  /*animate() {
-    setInterval(() => {
-      this.moveLeft();
-      this.updateImage();
-    }, 1000 / 60);
-  }
-
-   //Optional: Wechselt das Bild für die Wolkenanimation.
-  updateImage() {
-    const imageIndex = Math.floor((Date.now() / 1000) % this.IMAGES_CLOUDS.length);
-    this.loadImage(this.IMAGES_CLOUDS[imageIndex]);
-  }*/
-
 }

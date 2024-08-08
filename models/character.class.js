@@ -7,7 +7,7 @@ class Character extends MovableObject {
 
   offset = {
     top: 120,
-    bottom: 0,
+    bottom: -10,
     left: 30,
     right: 30,
   };
@@ -75,12 +75,6 @@ class Character extends MovableObject {
     "./img/2_character_pepe/1_idle/long_idle/I-20.png",
   ];
 
-  /*walking_sound = new Audio("audio/walking.mp3");
-  jumping_sound = new Audio("audio/jump.mp3");
-  snoring_sound = new Audio("audio/snoring.mp3");
-  hurt_sound = new Audio("audio/hurt.mp3");
-  death_sound = new Audio("audio/death.mp3");*/
-
   constructor() {
     super().loadImage(this.IMAGES_WALKING[0]);
     this.loadImages(this.IMAGES_WALKING);
@@ -122,11 +116,7 @@ class Character extends MovableObject {
     }, 1000 / 60);
 
     setInterval(() => {
-      /*if (this.isDead()) {
-        this.playAnimation(this.IMAGES_DEAD);
-        this.death_sound.play();
-        this.walking_sound.pause();
-      }*/ if (this.isDead()) {
+      if (this.isDead()) {
         this.deathAnimation();
       } else if (this.isHurt()) {
         //this.playAnimation(this.IMAGES_HURT);
@@ -200,6 +190,4 @@ class Character extends MovableObject {
     this.playAnimation(this.IMAGES_LONG_IDLE);
     snoring_sound.play();
   }
-  
-  
 }

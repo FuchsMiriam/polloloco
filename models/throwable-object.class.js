@@ -32,14 +32,6 @@ class ThrowableObject extends MovableObject {
     this.animateBottle();
   }
 
-  /*throw() {
-    this.speedY = 30;
-    this.applyGravity();
-    setInterval(() => {
-      this.x += 10;
-    }, 25);
-  }*/
-
   throw() {
     throwing_sound.play();
     this.speedY = 30;
