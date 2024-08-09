@@ -70,33 +70,6 @@ class Endboss extends MovableObject {
     this.animate();
   }
 
-  /* animate() {
-    let i = 0;
-    setInterval(() => {
-      if (this.isDead()) {
-        this.deathAnimation();
-      } else {
-        if (i < 10) {
-          this.playAnimation(this.IMAGES_ALERT);
-        } else {
-          this.playAnimation(this.IMAGES_WALKING);
-          this.moveLeft();
-        }
-        i++;
-
-        if (world.character.x > 2700 && !this.hadFirstContact) {
-          i = 0;
-          this.hadFirstContact = true;
-          game_music.pause();
-          chicken_sound.pause();
-          chicklet_sound.pause();
-          endboss_fight.play();
-        }
-        world.showEndbossHealthbar();
-      }
-    }, 250);
-  }*/
-
   animate() {
     let i = 0;
     setInterval(() => {

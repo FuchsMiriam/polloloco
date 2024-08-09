@@ -69,7 +69,7 @@ class World {
     this.checkThrowableCollisions();
   }
 
-  killChickens(enemy) {
+  /*killChickens(enemy) {
     this.character.speedY = 30;
     if (enemy instanceof Chicken || enemy instanceof Chicklets) {
       if (typeof enemy.deathAnimation === "function") {
@@ -81,6 +81,23 @@ class World {
         }, 200);
       } else {
         console.error("deathAnimation not defined for:", enemy);
+      }
+    }
+  }*/
+
+  killChickens(enemy) {
+    if (enemy instanceof Chicken || enemy instanceof Chicklets) {
+      if (this.character.speedY > 0 && this.character.isAboveGround()) {
+        if (typeof enemy.deathAnimation === "function") {
+          enemy.deathAnimation();
+
+          setTimeout(() => {
+            enemy.chickenKilled();
+            this.deleteChickens(enemy);
+          }, 100);
+        } else {
+          console.error("deathAnimation not defined for:", enemy);
+        }
       }
     }
   }

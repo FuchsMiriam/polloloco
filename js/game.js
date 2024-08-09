@@ -22,12 +22,6 @@ let keyboard = new Keyboard();
  */
 let intervalIds = [];
 
-/*let inGame_sound = new Audio("../audio/game-music.mp3");
-let enemy_sounds = [
-  new Audio("../audio/chicken.mp3"),
-  new Audio("../audio/baby_chicken.mp3"),
-];*/
-
 /**
  * Starts the game by initializing the game world and displaying the game canvas.
  */
@@ -265,13 +259,6 @@ function stopAllSounds() {
     snoring_sound.currentTime = 0;
   }
 }
-
-/*function startEndbossMusic() {
-  let endbossMusic = new Audio("../audio/endboss_fight.mp3");
-  endbossMusic.play().catch((error) => {
-    console.error("Failed to play audio:", error);
-  });
-}*/
 
 function gameWon() {
   document.getElementById("canvas").classList.add("d-none");
