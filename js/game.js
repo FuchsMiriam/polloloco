@@ -25,11 +25,9 @@ let intervalIds = [];
 /**
  * Starts the game by initializing the game world and displaying the game canvas.
  */
-function startGame() {
+/*function startGame() {
   let startScreen = document.querySelector(".startscreen");
-  //startScreen.style.zIndex = "-10";
   startScreen.classList.add("d-none");
-  //startScreen.style.display = "none";
 
   let gameOverContainer = document.getElementById("gameOver");
   if (gameOverContainer) {
@@ -53,6 +51,40 @@ function startGame() {
   document.body.addEventListener("click", (event) => {
     event.stopPropagation();
   });
+}*/
+
+function startGame() {
+  hideStartScreen();
+  hideGameOverContainer();
+  showCanvas();
+  showCloseButton();
+  showFullscreenIcon();
+  showVolumeIcon();
+  playMusic();
+  initGame();
+  world = new World(canvas, keyboard);
+  buttonsPressEvents();
+  preventBodyClick();
+}
+
+function hideStartScreen() {
+  const startScreen = document.querySelector(".startscreen");
+  if (startScreen) startScreen.classList.add("d-none");
+}
+
+function hideGameOverContainer() {
+  const gameOverContainer = document.getElementById("gameOver");
+  if (gameOverContainer) gameOverContainer.classList.add("d-none");
+}
+
+function playMusic() {
+  game_music.play().catch((error) => {
+    console.error("Failed to play audio:", error);
+  });
+}
+
+function preventBodyClick() {
+  document.body.addEventListener("click", (event) => event.stopPropagation());
 }
 
 /**
@@ -160,7 +192,7 @@ function restartGame() {
  * Closes Controls window when clicked outside dialogue window
  */
 
-document.addEventListener("DOMContentLoaded", () => {
+/*document.addEventListener("DOMContentLoaded", () => {
   const controlsContainer = document.getElementById("controlsContainer");
   const startscreen = document.getElementById("startscreen");
 
@@ -177,13 +209,13 @@ document.addEventListener("DOMContentLoaded", () => {
   controlsContainer.addEventListener("click", (event) => {
     event.stopPropagation();
   });
-});
+});*/
 
 /**
  * Closes Story window when clicked outside dialogue window
  */
 
-document.addEventListener("DOMContentLoaded", () => {
+/*document.addEventListener("DOMContentLoaded", () => {
   const storyContainer = document.getElementById("storyContainer");
   const startscreen = document.getElementById("startscreen");
 
@@ -199,6 +231,30 @@ document.addEventListener("DOMContentLoaded", () => {
 
   storyContainer.addEventListener("click", (event) => {
     event.stopPropagation();
+  });
+});*/
+
+document.addEventListener("DOMContentLoaded", () => {
+  const containers = [
+    { id: "controlsContainer", hide: "startscreen" },
+    { id: "storyContainer", hide: "startscreen" },
+  ];
+
+  containers.forEach(({ id, hide }) => {
+    const container = document.getElementById(id);
+    const hideElement = document.getElementById(hide);
+
+    document.addEventListener("click", (event) => {
+      if (
+        !container.contains(event.target) &&
+        !hideElement.contains(event.target)
+      ) {
+        container.classList.add("d-none");
+        hideElement.classList.remove("d-none");
+      }
+    });
+
+    container.addEventListener("click", (event) => event.stopPropagation());
   });
 });
 
@@ -247,7 +303,7 @@ function exitGame() {
   showStartScreen();
 }
 
-function stopAllSounds() {
+/*function stopAllSounds() {
   if (game_music) {
     game_music.pause();
     game_music.currentTime = 0;
@@ -268,6 +324,22 @@ function stopAllSounds() {
     snoring_sound.pause();
     snoring_sound.currentTime = 0;
   }
+}*/
+
+function stopAllSounds() {
+  const sounds = [
+    game_music,
+    chicken_sound,
+    endboss_fight,
+    death_sound,
+    snoring_sound,
+  ];
+  sounds.forEach((sound) => {
+    if (sound) {
+      sound.pause();
+      sound.currentTime = 0;
+    }
+  });
 }
 
 function gameWon() {
@@ -332,50 +404,56 @@ window.addEventListener("keyup", (e) => {
 
 function buttonsPressEvents() {
   document.getElementById("canvas").addEventListener("touchstart", (e) => {
-      e.preventDefault();
+    e.preventDefault();
   });
 
   document.getElementById("button-left").addEventListener("touchstart", (e) => {
-      e.preventDefault();
-      keyboard.LEFT = true;
+    e.preventDefault();
+    keyboard.LEFT = true;
   });
 
   document.getElementById("button-left").addEventListener("touchend", (e) => {
-      e.preventDefault();
-      keyboard.LEFT = false;
+    e.preventDefault();
+    keyboard.LEFT = false;
   });
 
-  document.getElementById("button-right").addEventListener("touchstart", (e) => {
+  document
+    .getElementById("button-right")
+    .addEventListener("touchstart", (e) => {
       e.preventDefault();
       keyboard.RIGHT = true;
-  });
+    });
 
   document.getElementById("button-right").addEventListener("touchend", (e) => {
-      e.preventDefault();
-      keyboard.RIGHT = false;
+    e.preventDefault();
+    keyboard.RIGHT = false;
   });
 
   document.getElementById("button-up").addEventListener("touchstart", (e) => {
-      e.preventDefault();
-      keyboard.UP = true;
+    e.preventDefault();
+    keyboard.UP = true;
   });
 
   document.getElementById("button-up").addEventListener("touchend", (e) => {
-      e.preventDefault();
-      keyboard.UP = false;
+    e.preventDefault();
+    keyboard.UP = false;
   });
 
-  document.getElementById("button-throw").addEventListener("touchstart", (e) => {
+  document
+    .getElementById("button-throw")
+    .addEventListener("touchstart", (e) => {
       e.preventDefault();
       keyboard.THROW = true;
-  });
+    });
 
   document.getElementById("button-throw").addEventListener("touchend", (e) => {
-      e.preventDefault();
-      keyboard.THROW = false;
+    e.preventDefault();
+    keyboard.THROW = false;
   });
 
-  document.getElementById('mobile-buttons-container').classList.remove('d-none');
+  document
+    .getElementById("mobile-buttons-container")
+    .classList.remove("d-none");
 }
 
 /**
