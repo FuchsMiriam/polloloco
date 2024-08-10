@@ -105,7 +105,7 @@ class MovableObject extends DrawableObject {
   }
 
   chickenKilled() {
-    return (this.energy = 0);
+    return (this.energy == 0);
   }
 
   playAnimation(images) {

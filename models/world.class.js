@@ -11,7 +11,6 @@ class World {
   statusbarEndboss = new EndbossStatusbar();
   throwableObject = [];
   collisionWithEndboss = false;
-  //endbossIsDefenseless = false;
   lastThrowTime = 0;
   throwCooldown = 1500;
 
