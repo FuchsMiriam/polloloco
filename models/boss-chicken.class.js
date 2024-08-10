@@ -53,10 +53,7 @@ class Endboss extends MovableObject {
   ];
 
   hadFirstContact = false;
-
-  /*endboss_hit = new Audio("audio/endboss_hit.mp3");
-  endboss_fight = new Audio("audio/endboss_fight.mp3");
-  win_sound = new Audio("audio/win.mp3");*/
+  i = 0;
 
   constructor() {
     super().loadImage(this.IMAGES_ALERT[0]);
@@ -66,39 +63,44 @@ class Endboss extends MovableObject {
     this.loadImages(this.IMAGES_HURT);
     this.loadImages(this.IMAGES_DEAD);
     this.x = 3000;
+    this.endbossIsHurt = false;
 
     this.animate();
   }
 
   animate() {
-    let i = 0;
     setInterval(() => {
       if (this.isDead()) {
         this.deathAnimation();
       } else {
         if (!this.hadFirstContact && world.character.x > 2750) {
-          i = 0;
-          this.hadFirstContact = true;
-          game_music.pause();
-          chicken_sound.pause();
-          endboss_fight.play();
+          this.firstContactRoutine();
         }
-
         if (this.hadFirstContact) {
-          if (i < 10) {
-            this.playAnimation(this.IMAGES_ALERT);
-          } else {
-            this.playAnimation(this.IMAGES_WALKING);
-            this.moveLeft();
-          }
-          i++;
+          this.firstContactAnimation();
         } else {
           this.playAnimation(this.IMAGES_ALERT);
         }
-
         world.showEndbossHealthbar();
       }
     }, 250);
+  }
+
+  firstContactRoutine() {
+    this.hadFirstContact = true;
+    game_music.pause();
+    chicken_sound.pause();
+    endboss_fight.play();
+  }
+
+  firstContactAnimation() {
+    if (this.i < 10) {
+      this.playAnimation(this.IMAGES_ALERT);
+    } else {
+      this.playAnimation(this.IMAGES_WALKING);
+      this.moveLeft();
+    }
+    this.i++;
   }
 
   isMoving() {

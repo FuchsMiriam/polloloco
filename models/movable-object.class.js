@@ -61,15 +61,6 @@ class MovableObject extends DrawableObject {
   }
 
   /*hurtEndboss() {
-    this.energy -= 10;
-    if (this.energy < 0) {
-        this.energy = 0;
-    } else {
-        this.lastHit = new Date().getTime();
-    }
-}*/
-
-hurtEndboss() {
   this.energy -= 5;
   if (this.energy <= 0) {
     this.energy = 0;
@@ -77,7 +68,25 @@ hurtEndboss() {
   } else {
     this.endbossIsHurtAnimation();
   }
-}
+}*/
+
+  hurtEndboss() {
+    if (!this.endbossIsHurt) {
+      this.endbossIsHurt = true;
+      this.energy -= 10;
+
+      if (this.energy <= 0) {
+        this.energy = 0;
+        this.deathAnimation();
+      } else {
+        this.endbossIsHurtAnimation();
+      }
+
+      setTimeout(() => {
+        this.endbossIsHurt = false;
+      }, 500); // Verzögerung von 1 Sekunde
+    }
+  }
 
   isHurt() {
     this.timePassed = new Date().getTime() - this.lastHit;
@@ -86,18 +95,18 @@ hurtEndboss() {
   }
 
   endbossIsHurt() {
-    let timePassed = new Date().getTime() - this.lastHit; 
-    timePassed = timePassed / 1000;                         
-    return timePassed < 1;    
-}
+    let timePassed = new Date().getTime() - this.lastHit;
+    timePassed = timePassed / 1000;
+    return timePassed < 1;
+  }
 
   isDead() {
     return this.energy == 0;
   }
 
   chickenKilled() {
-    return this.energy = 0;
-}
+    return (this.energy = 0);
+  }
 
   playAnimation(images) {
     let i = this.currentImage % images.length;

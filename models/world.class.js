@@ -11,7 +11,7 @@ class World {
   statusbarEndboss = new EndbossStatusbar();
   throwableObject = [];
   collisionWithEndboss = false;
-  endbossIsDefenseless = false;
+  //endbossIsDefenseless = false;
   lastThrowTime = 0;
   throwCooldown = 1500;
 
@@ -43,11 +43,11 @@ class World {
       this.checkThrowObjects();
       this.collectBottles();
       this.collectCoins();
-    }, 500);
+    }, 200);
 
     setInterval(() => {
       this.checkCollisions();
-    }, 150);
+    }, 100);
   }
 
   checkCollisions() {
@@ -58,7 +58,10 @@ class World {
           this.endboss = enemy;
           this.character.hit();
           this.statusBar.setPercentage(this.character.energy);
-        } else if (this.character.isAboveGround()) {
+        } else if (
+          this.character.speedY > 0 &&
+          this.character.isAboveGround()
+        ) {
           this.killChickens(enemy, index);
         } else if (!this.character.isAboveGround()) {
           this.character.hit();
@@ -94,7 +97,7 @@ class World {
           setTimeout(() => {
             enemy.chickenKilled();
             this.deleteChickens(enemy);
-          }, 100);
+          }, 250);
         } else {
           console.error("deathAnimation not defined for:", enemy);
         }
@@ -116,9 +119,11 @@ class World {
       this.level.enemies.forEach((enemy, index) => {
         if (bottle.isColliding(enemy)) {
           if (enemy instanceof Endboss) {
-            this.collisionWithEndboss = true;
-            enemy.hurtEndboss();
-            this.statusbarEndboss.setPercentage(enemy.energy);
+            if (!enemy.endbossIsHurt) {
+              this.collisionWithEndboss = true;
+              enemy.hurtEndboss();
+              this.statusbarEndboss.setPercentage(enemy.energy);
+            }
           } else if (enemy instanceof Chicken || enemy instanceof Chicklets) {
             this.killChickens(enemy, index);
           }

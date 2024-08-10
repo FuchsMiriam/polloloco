@@ -39,6 +39,7 @@ function startGame() {
   showCanvas();
   showCloseButton();
   showFullscreenIcon();
+  showVolumeIcon();
 
   game_music.play().catch((error) => {
     console.error("Failed to play audio:", error);
@@ -82,6 +83,13 @@ function showFullscreenIcon() {
   }
 }
 
+function showVolumeIcon() {
+  let volumeIcon = document.querySelector(".mute");
+  if (volumeIcon) {
+    volumeIcon.classList.remove("d-none");
+  }
+}
+
 /**
  * Initializes the canvas element and sets up the initial game state.
  */
@@ -115,6 +123,7 @@ function deathScreen() {
     document.getElementById("canvas").classList.add("d-none");
     document.querySelector(".close-btn").classList.add("d-none");
     document.querySelector(".fullscreen-icon").classList.add("d-none");
+    document.querySelector(".mute").classList.add("d-none");
     document.getElementById("gameOver").classList.remove("d-none");
   }, 500);
   stopAllSounds();
@@ -129,6 +138,7 @@ function showStartScreen() {
   document.querySelector("canvas").classList.add("d-none");
   document.querySelector(".close-btn").classList.add("d-none");
   document.querySelector(".fullscreen-icon").classList.add("d-none");
+  document.querySelector(".mute").classList.add("d-none");
   document.querySelector(".game-over-container").classList.add("d-none");
   document.querySelector(".game-won-container").classList.add("d-none");
   document.querySelector(".startscreen").classList.remove("d-none");
@@ -264,6 +274,7 @@ function gameWon() {
   document.getElementById("canvas").classList.add("d-none");
   document.querySelector(".close-btn").classList.add("d-none");
   document.querySelector(".fullscreen-icon").classList.add("d-none");
+  document.querySelector(".mute").classList.add("d-none");
   document.querySelector(".game-won-container").classList.remove("d-none");
   stopAllSounds();
 }
