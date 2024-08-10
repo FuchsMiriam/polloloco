@@ -84,7 +84,7 @@ class MovableObject extends DrawableObject {
 
       setTimeout(() => {
         this.endbossIsHurt = false;
-      }, 500); // Verzögerung von 1 Sekunde
+      }, 500);
     }
   }
 

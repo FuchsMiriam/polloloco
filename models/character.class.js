@@ -88,7 +88,7 @@ class Character extends MovableObject {
     this.lastMovementTime = Date.now();
   }
 
-  animate() {
+  /*animate() {
     setInterval(() => {
       walking_sound.pause();
       if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
@@ -129,6 +129,79 @@ class Character extends MovableObject {
       }
     }, 1000 / 10);
 
+    setInterval(() => {
+      if (!this.isAboveGround() && !this.isDead() && !this.isHurt()) {
+        if (this.idleState === "long") {
+          this.characterLongIdle();
+        } else {
+          this.characterIdleAnimation();
+        }
+      }
+
+      this.checkIdleState();
+    }, 1000 / 5);
+  }*/
+
+  animate() {
+    this.handleMovement();
+    this.handleAnimations();
+    this.handleIdle();
+  }
+
+  handleMovement() {
+    setInterval(() => {
+      this.manageMovement();
+      this.handleJump();
+      this.updateCamera();
+    }, 1000 / 60);
+  }
+
+  manageMovement() {
+    walking_sound.pause();
+    if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
+      this.moveRight();
+      this.resetIdle();
+      this.otherDirection = false;
+      walking_sound.play();
+    } else if (this.world.keyboard.LEFT && this.x > 0) {
+      this.moveLeft();
+      this.resetIdle();
+      this.otherDirection = true;
+      walking_sound.play();
+    }
+  }
+
+  handleJump() {
+    if (
+      (this.world.keyboard.SPACE || this.world.keyboard.UP) &&
+      !this.isAboveGround()
+    ) {
+      this.jump();
+      this.resetIdle();
+    }
+  }
+
+  updateCamera() {
+    this.world.camera_x = -this.x + 100;
+  }
+
+  handleAnimations() {
+    setInterval(() => {
+      if (this.isDead()) {
+        this.deathAnimation();
+      } else if (this.isHurt()) {
+        this.characterIsHurt();
+      } else if (this.isAboveGround()) {
+        this.playAnimation(this.IMAGES_JUMPING);
+      } else {
+        if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
+          this.playAnimation(this.IMAGES_WALKING);
+        }
+      }
+    }, 1000 / 10);
+  }
+
+  handleIdle() {
     setInterval(() => {
       if (!this.isAboveGround() && !this.isDead() && !this.isHurt()) {
         if (this.idleState === "long") {
