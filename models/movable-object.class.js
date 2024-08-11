@@ -58,14 +58,23 @@ class MovableObject extends DrawableObject {
    * @param {Object} obj - The object to check for a collision with.
    * @returns {boolean} - Returns true if the two objects are colliding.
    */
-  isColliding(obj) {
+  /*isColliding(obj) {
     return (
       this.x + this.width - this.offset.right >= obj.x + obj.offset.left &&
       this.x + this.offset.left <= obj.x + obj.width - obj.offset.right &&
       this.y + this.height - this.offset.bottom >= obj.y + obj.offset.top &&
       this.y + this.offset.top <= obj.y + obj.height - obj.offset.bottom
     );
-  }
+  }*/
+
+  isColliding(obj) {
+    return (
+        this.x < obj.x + obj.width &&
+        this.x + this.width > obj.x &&
+        this.y < obj.y + obj.height &&
+        this.y + this.height > obj.y
+    );
+}
 
   /**
    * Reduces the character's energy by 5 points when hit.
