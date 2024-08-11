@@ -13,6 +13,8 @@ class World {
   collisionWithEndboss = false;
   lastThrowTime = 0;
   throwCooldown = 1500;
+  characterIsInvulnerable = false;
+  invulnerabilityDuration = 3000;
 
   bottleSound;
   coinSound;
@@ -33,39 +35,36 @@ class World {
     this.run();
   }
 
+  /**
+   * Sets the world context for the character.
+   * @function
+   */
   setWorld() {
     this.character.world = this;
   }
 
+  /**
+   * Starts the game loops by setting intervals for various game checks and actions.
+   * @function
+   */
   run() {
+    // Check for throw objects, collect bottles and coins every 200 milliseconds
     setInterval(() => {
       this.checkThrowObjects();
       this.collectBottles();
       this.collectCoins();
     }, 200);
 
+    // Check for collisions every 100 milliseconds
     setInterval(() => {
       this.checkCollisions();
     }, 100);
   }
 
-  checkCollisions() {
+  /*checkCollisions() {
     this.collisionWithEndboss = false;
     this.level.enemies.forEach((enemy, index) => {
       if (this.character.isColliding(enemy) && !this.character.isHurt()) {
-        console.log('Collision detected with:', enemy);
-        console.log('Character Position:', {
-          x: this.character.x,
-          y: this.character.y,
-          width: this.character.width,
-          height: this.character.height,
-        });
-        console.log('Enemy Position:', {
-          x: enemy.x,
-          y: enemy.y,
-          width: enemy.width,
-          height: enemy.height,
-        });
         if (enemy instanceof Endboss) {
           this.endboss = enemy;
           this.character.hit();
@@ -74,7 +73,6 @@ class World {
           this.character.speedY > 0 &&
           this.character.isAboveGround()
         ) {
-          console.log('Character is above ground and falling onto:', enemy);
           this.killChickens(enemy, index);
         } else if (!this.character.isAboveGround()) {
           this.character.hit();
@@ -83,6 +81,63 @@ class World {
       }
     });
     this.checkThrowableCollisions();
+  }*/
+
+  /**
+   * Checks for collisions between the character and enemies, and handles the collisions.
+   * @function
+   */
+  checkCollisions() {
+    this.collisionWithEndboss = false;
+    this.level.enemies.forEach((enemy, index) => {
+      if (this.character.isColliding(enemy) && !this.characterIsInvulnerable) {
+        this.handleEnemyCollision(enemy, index);
+      }
+    });
+    this.checkThrowableCollisions();
+  }
+
+  /**
+   * Handles the collision between the character and an enemy.
+   * @function
+   * @param {object} enemy - The enemy that was collided with.
+   * @param {number} index - The index of the enemy in the enemies array.
+   */
+  handleEnemyCollision(enemy, index) {
+    if (enemy instanceof Endboss) {
+      this.handleEndbossCollision();
+    } else if (this.character.speedY > 0 && this.character.isAboveGround()) {
+      this.killChickens(enemy, index);
+    } else if (!this.character.isAboveGround()) {
+      this.character.hit();
+      this.statusBar.setPercentage(this.character.energy);
+      this.activateInvulnerability();
+    }
+  }
+
+  /**
+   * Activates invulnerability for the character for a specified duration.
+   * The character will be immune to damage during this time.
+   *
+   * @function
+   * @memberof World
+   * @returns {void}
+   */
+  activateInvulnerability() {
+    this.characterIsInvulnerable = true;
+    setTimeout(() => {
+      this.characterIsInvulnerable = false;
+    }, this.invulnerabilityDuration);
+  }
+
+  /**
+   * Handles the collision with an Endboss, updating the character's health and status bar.
+   * @function
+   */
+  handleEndbossCollision() {
+    this.endboss = this.level.enemies.find((e) => e instanceof Endboss);
+    this.character.hit();
+    this.statusBar.setPercentage(this.character.energy);
   }
 
   /*killChickens(enemy) {
@@ -104,7 +159,6 @@ class World {
   killChickens(enemy) {
     if (enemy instanceof Chicken || enemy instanceof Chicklets) {
       if (this.character.speedY > 0 && this.character.isAboveGround()) {
-        console.log('Character is falling from above. Initiating death animation.');
         if (typeof enemy.deathAnimation === "function") {
           enemy.deathAnimation();
 
@@ -128,7 +182,7 @@ class World {
     }
   }
 
-  checkThrowableCollisions() {
+  /*checkThrowableCollisions() {
     this.throwableObject.forEach((bottle) => {
       this.level.enemies.forEach((enemy, index) => {
         if (bottle.isColliding(enemy)) {
@@ -144,9 +198,50 @@ class World {
         }
       });
     });
+  }*/
+
+  /**
+   * Checks for collisions between throwable objects and enemies, and handles the collisions.
+   * @function
+   */
+  checkThrowableCollisions() {
+    this.throwableObject.forEach((bottle) => {
+      this.level.enemies.forEach((enemy, index) => {
+        if (bottle.isColliding(enemy)) {
+          this.handleCollision(enemy, index);
+        }
+      });
+    });
   }
 
-  checkThrowObjects() {
+  /**
+   * Handles the collision between a throwable object and an enemy.
+   * @function
+   * @param {object} enemy - The enemy that was collided with.
+   * @param {number} index - The index of the enemy in the enemies array.
+   */
+  handleCollision(enemy, index) {
+    if (enemy instanceof Endboss) {
+      this.handleEndbossCollision(enemy);
+    } else if (enemy instanceof Chicken || enemy instanceof Chicklets) {
+      this.killChickens(enemy, index);
+    }
+  }
+
+  /**
+   * Handles the collision with an Endboss.
+   * @function
+   * @param {Endboss} endboss - The Endboss that was collided with.
+   */
+  handleEndbossCollision(endboss) {
+    if (!endboss.endbossIsHurt) {
+      this.collisionWithEndboss = true;
+      endboss.hurtEndboss();
+      this.statusbarEndboss.setPercentage(endboss.energy);
+    }
+  }
+
+  /*checkThrowObjects() {
     let currentTime = Date.now();
     if (
       this.keyboard.THROW &&
@@ -165,14 +260,73 @@ class World {
 
       this.lastThrowTime = currentTime;
     }
+  }*/
+
+  /**
+   * Checks if the character can throw an object and handles the throwing process.
+   * @function
+   */
+  checkThrowObjects() {
+    if (this.canThrow()) {
+      this.createBottle();
+      this.updateCharacterState();
+    }
   }
 
+  /**
+   * Determines whether the character can throw an object based on keyboard input,
+   * the number of available bottles, and the cooldown period.
+   * @function
+   * @returns {boolean} True if the object can be thrown, false otherwise.
+   */
+  canThrow() {
+    let currentTime = Date.now();
+    return (
+      this.keyboard.THROW &&
+      this.character.bottles > 0 &&
+      currentTime - this.lastThrowTime >= this.throwCooldown
+    );
+  }
+
+  /**
+   * Creates a new ThrowableObject and adds it to the list of throwable objects.
+   * @function
+   */
+  createBottle() {
+    let bottle = new ThrowableObject(
+      this.character.x + 20,
+      this.character.y + 100,
+      this.character.otherDirection
+    );
+    this.throwableObject.push(bottle);
+  }
+
+  /**
+   * Updates the character's state after throwing an object, including decreasing
+   * the number of bottles, resetting the idle state, and updating the status bar.
+   * @function
+   */
+  updateCharacterState() {
+    this.character.bottles -= 1;
+    this.character.resetIdle();
+    this.statusbarBottle.setPercentage(this.character.bottles);
+    this.lastThrowTime = Date.now();
+  }
+
+  /**
+   * Displays the Endboss health bar on the canvas if the Endboss has had first contact.
+   * @function
+   */
   showEndbossHealthbar() {
     if (this.endboss && this.endboss.hadFirstContact) {
       this.addToMap(this.statusbarEndboss);
     }
   }
 
+  /**
+   * Clears the canvas and redraws all game objects, including background, status bars, and characters.
+   * @function
+   */
   draw() {
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     this.ctx.translate(this.camera_x, 0);
@@ -200,12 +354,22 @@ class World {
     });
   }
 
+  /**
+   * Adds a list of objects to the canvas map.
+   * @function
+   * @param {Array} objects - Array of objects to be added to the map.
+   */
   addObjectsToMap(objects) {
     objects.forEach((o) => {
       this.addToMap(o);
     });
   }
 
+  /**
+   * Draws an object on the canvas and handles its direction.
+   * @function
+   * @param {object} mo - The object to be drawn on the canvas.
+   */
   addToMap(mo) {
     if (mo.otherDirection) {
       this.flipImage(mo);
@@ -219,6 +383,11 @@ class World {
     }
   }
 
+  /**
+   * Flips an object horizontally on the canvas.
+   * @function
+   * @param {object} mo - The object to be flipped.
+   */
   flipImage(mo) {
     this.ctx.save();
     this.ctx.translate(mo.width, 0);
@@ -226,15 +395,20 @@ class World {
     mo.x = mo.x * -1;
   }
 
+  /**
+   * Restores the canvas state and flips the object back to its original orientation.
+   * @function
+   * @param {object} mo - The object to be flipped back.
+   */
   flipImageBack(mo) {
     mo.x = mo.x * -1;
     this.ctx.restore();
   }
 
   /**
-   * Collect bottles and coins
+   * Collects bottles from the level if the character is colliding with them and the number of bottles is less than 100.
+   * @function
    */
-
   collectBottles() {
     this.level.bottles.forEach((bottle) => {
       if (this.character.isColliding(bottle) && this.character.bottles < 100) {
@@ -246,6 +420,10 @@ class World {
     });
   }
 
+  /**
+   * Collects coins from the level if the character is colliding with them.
+   * @function
+   */
   collectCoins() {
     this.level.coins.forEach((coin) => {
       if (this.character.isColliding(coin)) {
@@ -257,6 +435,11 @@ class World {
     });
   }
 
+  /**
+   * Handles the removal of a collected bottle from the level's list of bottles.
+   * @function
+   * @param {object} bottle - The bottle that was collected.
+   */
   bottleCollected(bottle) {
     let i = this.level.bottles.indexOf(bottle);
     if (i > -1) {
@@ -264,6 +447,11 @@ class World {
     }
   }
 
+  /**
+   * Handles the removal of a collected coin from the level's list of coins.
+   * @function
+   * @param {object} coin - The coin that was collected.
+   */
   coinCollected(coin) {
     let i = this.level.coins.indexOf(coin);
     if (i > -1) {
