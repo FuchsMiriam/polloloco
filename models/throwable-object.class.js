@@ -6,7 +6,7 @@ class ThrowableObject extends MovableObject {
     top: 5,
     bottom: 5,
     left: 5,
-    right: 5
+    right: 5,
   };
 
   BOTTLE_ROTATING = [
@@ -39,6 +39,12 @@ class ThrowableObject extends MovableObject {
     this.throw();
     this.animateBottle();
   }
+
+  /**
+   * Throws the bottle in the direction specified by characterDirection.
+   * Plays the throw sound and applies gravity to the bottle.
+   * Moves the bottle in the x direction based on the characterDirection.
+   */
 
   throw() {
     throwing_sound.play();

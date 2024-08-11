@@ -53,6 +53,19 @@ class World {
     this.collisionWithEndboss = false;
     this.level.enemies.forEach((enemy, index) => {
       if (this.character.isColliding(enemy) && !this.character.isHurt()) {
+        console.log('Collision detected with:', enemy);
+        console.log('Character Position:', {
+          x: this.character.x,
+          y: this.character.y,
+          width: this.character.width,
+          height: this.character.height,
+        });
+        console.log('Enemy Position:', {
+          x: enemy.x,
+          y: enemy.y,
+          width: enemy.width,
+          height: enemy.height,
+        });
         if (enemy instanceof Endboss) {
           this.endboss = enemy;
           this.character.hit();
@@ -61,6 +74,7 @@ class World {
           this.character.speedY > 0 &&
           this.character.isAboveGround()
         ) {
+          console.log('Character is above ground and falling onto:', enemy);
           this.killChickens(enemy, index);
         } else if (!this.character.isAboveGround()) {
           this.character.hit();
@@ -90,6 +104,7 @@ class World {
   killChickens(enemy) {
     if (enemy instanceof Chicken || enemy instanceof Chicklets) {
       if (this.character.speedY > 0 && this.character.isAboveGround()) {
+        console.log('Character is falling from above. Initiating death animation.');
         if (typeof enemy.deathAnimation === "function") {
           enemy.deathAnimation();
 

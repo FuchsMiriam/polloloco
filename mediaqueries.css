@@ -1,20 +1,21 @@
 /* Smartphones*/
 
-/*@media (max-height: 920px) and (orientation: portrait) {
-  .fullscreen-message {
-    display: flex !important;
-    z-index: 99;
-    align-items: center;
-    justify-content: center;
-  }
-}*/
-
 @media (max-width: 820px) and (orientation: portrait) {
   .fullscreen-message {
     display: flex !important;
     z-index: 99;
     align-items: center;
     justify-content: center;
+  }
+}
+
+@media only screen and (max-width: 1368px) and (max-height: 912px) {
+  .privacy-sidebar {
+    display: none;
+  }
+
+  .hide {
+    opacity: 1;
   }
 }
 
