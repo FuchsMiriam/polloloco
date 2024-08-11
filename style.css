@@ -255,10 +255,8 @@ canvas {
   justify-content: flex-end;
   align-items: flex-end;
   position: relative;
-  width: 720px;
-  height: 480px;
   max-width: 100%;
-  max-height: 100%;
+  max-height: 100vh;
 }
 
 #canvas {
@@ -335,7 +333,7 @@ canvas {
 .mute {
   height: 25px;
   position: absolute;
-  top: 5px;
+  top: 25px;
   right: 30px;
   cursor: pointer;
   width: 25px;
@@ -343,7 +341,7 @@ canvas {
 
 .close-btn {
   position: absolute;
-  top: 10px;
+  top: 30px;
   right: 10px;
   width: 14px;
   height: 14px;
