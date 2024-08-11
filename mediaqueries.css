@@ -28,7 +28,7 @@
     display: none;
   }
 
-  .startscreen {
+  .startscreen, .loadingscreen {
     /*height: 100%;*/
     width: 100%;
     margin-top: 0;
@@ -52,7 +52,7 @@
 }
 
 @media only screen and (max-height: 480px) {
-  .startscreen {
+  .startscreen, .loadingscreen {
     height: 100vh;
   }
 

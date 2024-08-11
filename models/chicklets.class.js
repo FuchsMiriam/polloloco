@@ -3,13 +3,6 @@ class Chicklets extends MovableObject {
   height = 50;
   width = 50;
 
-  offset = {
-    top: 5,
-    bottom: 15,
-    left: 10,
-    right: 10,
-  };
-
   IMAGES_WALKING = [
     "./img/3_enemies_chicken/chicken_small/1_walk/1_w.png",
     "./img/3_enemies_chicken/chicken_small/1_walk/2_w.png",
@@ -23,7 +16,7 @@ class Chicklets extends MovableObject {
     this.loadImages(this.IMAGES_WALKING);
     this.loadImages(this.IMAGE_DEAD);
 
-    this.x = 700 + Math.random() * 600;
+    this.x = 700 + Math.random() * 800;
     this.speed = 0.15 + Math.random() * 0.3;
 
     this.animate();

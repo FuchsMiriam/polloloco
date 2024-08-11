@@ -205,7 +205,6 @@ class World {
     this.throwableObject.forEach((bottle) => {
       this.level.enemies.forEach((enemy, index) => {
         if (bottle.isColliding(enemy)) {
-          console.log("Collision detected!");
           this.handleCollision(enemy, index);
         }
       });

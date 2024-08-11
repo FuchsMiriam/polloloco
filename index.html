@@ -56,10 +56,21 @@
       </div>
     </div>
 
+    <div id="loadingscreen" class="loadingscreen d-none">
+      <h1>Loading ...</h1>
+      <img src="./img/loading.gif" alt="Loading" />
+    </div>
+
     <div id="fullscreen" class="fullscreen-container">
       <canvas id="canvas" width="720" height="480"></canvas>
       <div class="game-setting">
-        <img id="soundIcon" src="./img/volume.png" alt="Mute" class="mute d-none" onclick="toggleMute()" />
+        <img
+          id="soundIcon"
+          src="./img/volume.png"
+          alt="Mute"
+          class="mute d-none"
+          onclick="toggleMute()"
+        />
         <img
           src="./img/close.png"
           alt="Exit"

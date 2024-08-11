@@ -30,7 +30,7 @@ body {
   top: 50px;
 }
 
-.startscreen {
+.startscreen, .loadingscreen {
   position: fixed;
   top: 50%;
   left: 50%;
@@ -44,6 +44,10 @@ body {
   background: rgba(0, 0, 0, 0.5);
   box-sizing: border-box;
   margin-top: 50px;
+}
+
+.loadingscreen{
+  background-color: black;
 }
 
 .start-img {

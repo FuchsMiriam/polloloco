@@ -1,25 +1,6 @@
-/**
- * The canvas element where the game is rendered.
- * @type {HTMLCanvasElement}
- */
 let canvas;
-
-/**
- * The main game world object.
- * @type {World}
- */
 let world;
-
-/**
- * The keyboard input handler.
- * @type {Keyboard}
- */
 let keyboard = new Keyboard();
-
-/**
- * Stores the interval IDs for stoppable intervals.
- * @type {number[]}
- */
 let intervalIds = [];
 
 /**
@@ -53,7 +34,7 @@ let intervalIds = [];
   });
 }*/
 
-function startGame() {
+/*function startGame() {
   hideStartScreen();
   hideGameOverContainer();
   showCanvas();
@@ -65,6 +46,43 @@ function startGame() {
   world = new World(canvas, keyboard);
   buttonsPressEvents();
   preventBodyClick();
+}*/
+
+function startGame() {
+  showLoadingScreen();
+
+  setTimeout(() => {
+    hideStartScreen();
+    hideGameOverContainer();
+    showCanvas();
+    showCloseButton();
+    showFullscreenIcon();
+    showVolumeIcon();
+    playMusic();
+    initGame();
+    world = new World(canvas, keyboard);
+    buttonsPressEvents();
+    preventBodyClick();
+
+    showGame();
+  }, 3000);
+}
+
+/**
+ * Hides the startscreen and shows the loading screen.
+ */
+function showLoadingScreen() {
+  document.getElementById("startscreen").classList.add("d-none");
+  document.getElementById("loadingscreen").classList.remove("d-none");
+}
+
+/**
+ * Hides the loading screen and shows the game.
+ */
+function showGame() {
+  document.getElementById("startscreen").classList.add("d-none");
+  document.getElementById("loadingscreen").classList.add("d-none");
+  document.getElementById("fullscreen").classList.remove("d-none");
 }
 
 function hideStartScreen() {
