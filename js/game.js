@@ -3,37 +3,6 @@ let world;
 let keyboard = new Keyboard();
 let intervalIds = [];
 
-/**
- * Starts the game by initializing the game world and displaying the game canvas.
- */
-/*function startGame() {
-  let startScreen = document.querySelector(".startscreen");
-  startScreen.classList.add("d-none");
-
-  let gameOverContainer = document.getElementById("gameOver");
-  if (gameOverContainer) {
-    gameOverContainer.classList.add("d-none");
-  }
-
-  showCanvas();
-  showCloseButton();
-  showFullscreenIcon();
-  showVolumeIcon();
-
-  game_music.play().catch((error) => {
-    console.error("Failed to play audio:", error);
-  });
-
-  initGame();
-  world = new World(canvas, keyboard);
-
-  buttonsPressEvents();
-
-  document.body.addEventListener("click", (event) => {
-    event.stopPropagation();
-  });
-}*/
-
 /*function startGame() {
   hideStartScreen();
   hideGameOverContainer();
@@ -48,6 +17,9 @@ let intervalIds = [];
   preventBodyClick();
 }*/
 
+/**
+ * Starts the game by setting up the initial UI, playing music, and initializing the game world.
+ */
 function startGame() {
   showLoadingScreen();
 
@@ -85,22 +57,34 @@ function showGame() {
   document.getElementById("fullscreen").classList.remove("d-none");
 }
 
+/**
+ * Hides the start screen by adding the `d-none` class.
+ */
 function hideStartScreen() {
   const startScreen = document.querySelector(".startscreen");
   if (startScreen) startScreen.classList.add("d-none");
 }
 
+/**
+ * Hides the game over container by adding the `d-none` class.
+ */
 function hideGameOverContainer() {
   const gameOverContainer = document.getElementById("gameOver");
   if (gameOverContainer) gameOverContainer.classList.add("d-none");
 }
 
+/**
+ * Plays the background music and logs an error if it fails.
+ */
 function playMusic() {
   game_music.play().catch((error) => {
     console.error("Failed to play audio:", error);
   });
 }
 
+/**
+ * Prevents clicks on the body element from propagating.
+ */
 function preventBodyClick() {
   document.body.addEventListener("click", (event) => event.stopPropagation());
 }
@@ -133,6 +117,9 @@ function showFullscreenIcon() {
   }
 }
 
+/**
+ * Displays the volume icon by removing the `d-none` class.
+ */
 function showVolumeIcon() {
   let volumeIcon = document.querySelector(".mute");
   if (volumeIcon) {
@@ -165,7 +152,7 @@ function showStory() {
 }
 
 /**
- * Death Screen
+ * Displays the death screen after a short delay.
  */
 
 function deathScreen() {
@@ -200,6 +187,9 @@ document.addEventListener("DOMContentLoaded", () => {
   document.querySelector(".game-controls-container").classList.add("d-none");
 });
 
+/**
+ * Restarts the game
+ */
 function restartGame() {
   exitGame();
   init();
@@ -207,51 +197,8 @@ function restartGame() {
 }
 
 /**
- * Closes Controls window when clicked outside dialogue window
+ * Closes Story and Controls window when clicked outside dialogue window
  */
-
-/*document.addEventListener("DOMContentLoaded", () => {
-  const controlsContainer = document.getElementById("controlsContainer");
-  const startscreen = document.getElementById("startscreen");
-
-  document.addEventListener("click", (event) => {
-    if (
-      !controlsContainer.contains(event.target) &&
-      !startscreen.contains(event.target)
-    ) {
-      controlsContainer.classList.add("d-none");
-      startscreen.classList.remove("d-none");
-    }
-  });
-
-  controlsContainer.addEventListener("click", (event) => {
-    event.stopPropagation();
-  });
-});*/
-
-/**
- * Closes Story window when clicked outside dialogue window
- */
-
-/*document.addEventListener("DOMContentLoaded", () => {
-  const storyContainer = document.getElementById("storyContainer");
-  const startscreen = document.getElementById("startscreen");
-
-  document.addEventListener("click", (event) => {
-    if (
-      !storyContainer.contains(event.target) &&
-      !startscreen.contains(event.target)
-    ) {
-      storyContainer.classList.add("d-none");
-      startscreen.classList.remove("d-none");
-    }
-  });
-
-  storyContainer.addEventListener("click", (event) => {
-    event.stopPropagation();
-  });
-});*/
-
 document.addEventListener("DOMContentLoaded", () => {
   const containers = [
     { id: "controlsContainer", hide: "startscreen" },
@@ -279,7 +226,6 @@ document.addEventListener("DOMContentLoaded", () => {
 /**
  * Closes Game over window when clicked outside dialogue window
  */
-
 document.addEventListener("DOMContentLoaded", () => {
   const gameOverContainer = document.getElementById("gameOver");
 
@@ -321,29 +267,9 @@ function exitGame() {
   showStartScreen();
 }
 
-/*function stopAllSounds() {
-  if (game_music) {
-    game_music.pause();
-    game_music.currentTime = 0;
-  }
-  if (chicken_sound) {
-    chicken_sound.pause();
-    chicken_sound.currentTime = 0;
-  }
-  if (endboss_fight) {
-    endboss_fight.pause();
-    endboss_fight.currentTime = 0;
-  }
-  if (death_sound) {
-    death_sound.pause();
-    death_sound.currentTime = 0;
-  }
-  if (snoring_sound) {
-    snoring_sound.pause();
-    snoring_sound.currentTime = 0;
-  }
-}*/
-
+/**
+ * Pauses all currently playing sounds and resets their playback position to the beginning.
+ */
 function stopAllSounds() {
   const sounds = [
     game_music,
@@ -360,6 +286,15 @@ function stopAllSounds() {
   });
 }
 
+/**
+ * Displays the game won message and hides UI elements.
+ *
+ * Hides the canvas, certain UI controls, and shows the game won message.
+ * Calls `stopAllSounds()` to stop all audio playback.
+ *
+ * @function
+ * @returns {void}
+ */
 function gameWon() {
   document.getElementById("canvas").classList.add("d-none");
   document.querySelector(".close-btn").classList.add("d-none");
@@ -376,50 +311,30 @@ function clearAllIntervals() {
   for (let i = 1; i < 9999; i++) window.clearInterval(i);
 }
 
+/**
+ * Listens for keydown and keyup events to update the `keyboard` object.
+ */
 window.addEventListener("keydown", (e) => {
-  if (e.keyCode == 39) {
-    keyboard.RIGHT = true;
-  }
-
-  if (e.keyCode == 37) {
-    keyboard.LEFT = true;
-  }
-
-  if (e.keyCode == 38) {
-    keyboard.UP = true;
-  }
-
-  if (e.keyCode == 66) {
-    keyboard.THROW = true;
-  }
-
-  if (e.keyCode == 32) {
-    keyboard.SPACE = true;
-  }
+  if (e.keyCode == 39) keyboard.RIGHT = true;
+  if (e.keyCode == 37) keyboard.LEFT = true;
+  if (e.keyCode == 38) keyboard.UP = true;
+  if (e.keyCode == 66) keyboard.THROW = true;
+  if (e.keyCode == 32) keyboard.SPACE = true;
 });
 
 window.addEventListener("keyup", (e) => {
-  if (e.keyCode == 39) {
-    keyboard.RIGHT = false;
-  }
-
-  if (e.keyCode == 37) {
-    keyboard.LEFT = false;
-  }
-
-  if (e.keyCode == 38) {
-    keyboard.UP = false;
-  }
-
-  if (e.keyCode == 66) {
-    keyboard.THROW = false;
-  }
-
-  if (e.keyCode == 32) {
-    keyboard.SPACE = false;
-  }
+  if (e.keyCode == 39) keyboard.RIGHT = false;
+  if (e.keyCode == 37) keyboard.LEFT = false;
+  if (e.keyCode == 38) keyboard.UP = false;
+  if (e.keyCode == 66) keyboard.THROW = false;
+  if (e.keyCode == 32) keyboard.SPACE = false;
 });
 
+/**
+ * Initializes touch event listeners for mobile control buttons.
+ *
+ * Also prevents default touch behavior on the canvas element.
+ */
 function buttonsPressEvents() {
   document.getElementById("canvas").addEventListener("touchstart", (e) => {
     e.preventDefault();
@@ -540,6 +455,9 @@ function adjustCanvasSize(fullscreen) {
   }
 }
 
+/**
+ * Event listener for fullscreen change events.
+ */
 document.addEventListener("fullscreenchange", () => {
   if (!document.fullscreenElement) {
     adjustCanvasSize(false);

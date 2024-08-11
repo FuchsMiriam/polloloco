@@ -38,6 +38,9 @@ const allSounds = [
 
 let isMuted = false;
 
+/**
+ * Toggles the mute state for all sounds and updates the mute icon accordingly.
+ */
 function toggleMute() {
   isMuted = !isMuted;
   allSounds.forEach((sound) => {
@@ -47,6 +50,14 @@ function toggleMute() {
   updateMuteIcon(isMuted);
 }
 
+/**
+ * Updates the mute icon based on the current mute state.
+ * Sets the icon image and alternative text depending on whether sounds are muted or not.
+ *
+ * @function
+ * @param {boolean} isMuted - The current mute state.
+ * @returns {void}
+ */
 function updateMuteIcon(isMuted) {
   let image = document.getElementById("soundIcon");
 

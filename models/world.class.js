@@ -153,6 +153,14 @@ class World {
     }
   }*/
 
+  /**
+   * Handles the killing of a given enemy if it is of type `Chicken` or `Chicklets`.
+   * The enemy is animated with a death animation, then removed from the level's enemies list after a short delay.
+   *
+   * @param {Chicken|Chicklets} enemy - The enemy object to be killed. Must be an instance of `Chicken` or `Chicklets`.
+   * @returns {void}
+   * @throws {Error} Throws an error if `deathAnimation` is not defined for the enemy.
+   */
   killChickens(enemy) {
     if (enemy instanceof Chicken || enemy instanceof Chicklets) {
       if (this.character.speedY > 0 && this.character.isAboveGround()) {
@@ -170,6 +178,13 @@ class World {
     }
   }
 
+  /**
+   * Removes the specified enemy from the level's enemies list.
+   *
+   * @param {Chicken|Chicklets} enemy - The enemy object to be removed from the level.
+   * @returns {void}
+   * @throws {Error} Throws an error if the enemy is not found in the level's enemies list.
+   */
   deleteChickens(enemy) {
     let i = this.level.enemies.indexOf(enemy);
     if (i > -1) {

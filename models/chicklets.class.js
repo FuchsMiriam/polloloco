@@ -1,5 +1,5 @@
 class Chicklets extends MovableObject {
-  y = 380;
+  y = 375;
   height = 50;
   width = 50;
 
