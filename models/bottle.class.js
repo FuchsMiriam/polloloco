@@ -1,7 +1,7 @@
 class Bottle extends MovableObject {
   height = 80;
   width = 60;
-  x= 0;
+  x = 0;
   y = 350;
 
   BOTTLE_IMAGES = [
@@ -17,6 +17,10 @@ class Bottle extends MovableObject {
     this.x = 300 + Math.random() * 2550;
   }
 
+  /**
+   * Initiates an animation loop that plays the bottle animation.
+   * The animation runs every 500 milliseconds, cycling through the images in `this.BOTTLE_IMAGES`.
+   */
   animate() {
     setInterval(() => this.playAnimation(this.BOTTLE_IMAGES), 500);
   }

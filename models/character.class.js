@@ -88,66 +88,20 @@ class Character extends MovableObject {
     this.lastMovementTime = Date.now();
   }
 
-  /*animate() {
-    setInterval(() => {
-      walking_sound.pause();
-      if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
-        this.moveRight();
-        this.resetIdle();
-        this.otherDirection = false;
-        walking_sound.play();
-      }
-      if (this.world.keyboard.LEFT && this.x > 0) {
-        this.moveLeft();
-        this.resetIdle();
-        this.otherDirection = true;
-        walking_sound.play();
-      }
-
-      if (
-        (this.world.keyboard.SPACE && !this.isAboveGround()) ||
-        (this.world.keyboard.UP && !this.isAboveGround())
-      ) {
-        this.jump();
-        this.resetIdle();
-      }
-
-      this.world.camera_x = -this.x + 100;
-    }, 1000 / 60);
-
-    setInterval(() => {
-      if (this.isDead()) {
-        this.deathAnimation();
-      } else if (this.isHurt()) {
-        this.characterIsHurt();
-      } else if (this.isAboveGround()) {
-        this.playAnimation(this.IMAGES_JUMPING);
-      } else {
-        if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
-          this.playAnimation(this.IMAGES_WALKING);
-        }
-      }
-    }, 1000 / 10);
-
-    setInterval(() => {
-      if (!this.isAboveGround() && !this.isDead() && !this.isHurt()) {
-        if (this.idleState === "long") {
-          this.characterLongIdle();
-        } else {
-          this.characterIdleAnimation();
-        }
-      }
-
-      this.checkIdleState();
-    }, 1000 / 5);
-  }*/
-
+  /**
+   * Initiates the animation and movement handling for the character.
+   * This function triggers movement, animation, and idle state management.
+   */
   animate() {
     this.handleMovement();
     this.handleAnimations();
     this.handleIdle();
   }
 
+  /**
+   * Manages the character's movement by checking keyboard input for right, left, and jump actions.
+   * Also updates the camera position.
+   */
   handleMovement() {
     setInterval(() => {
       this.manageMovement();
@@ -156,6 +110,10 @@ class Character extends MovableObject {
     }, 1000 / 60);
   }
 
+  /**
+   * Handles the actual movement of the character based on keyboard input.
+   * The character moves left or right, and the corresponding sounds are played.
+   */
   manageMovement() {
     walking_sound.pause();
     if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
@@ -171,6 +129,9 @@ class Character extends MovableObject {
     }
   }
 
+  /**
+   * Handles the character's jump action if the appropriate keys are pressed.
+   */
   handleJump() {
     if (
       (this.world.keyboard.SPACE || this.world.keyboard.UP) &&
@@ -181,10 +142,16 @@ class Character extends MovableObject {
     }
   }
 
+  /**
+   * Updates the camera position to follow the character as it moves.
+   */
   updateCamera() {
     this.world.camera_x = -this.x + 100;
   }
 
+  /**
+   * Manages the character's animations based on its current state (e.g., walking, jumping, hurt, or dead).
+   */
   handleAnimations() {
     setInterval(() => {
       if (this.isDead()) {
@@ -201,6 +168,9 @@ class Character extends MovableObject {
     }, 1000 / 10);
   }
 
+  /**
+   * Manages the character's idle animations when no movement or action occurs for a period of time.
+   */
   handleIdle() {
     setInterval(() => {
       if (!this.isAboveGround() && !this.isDead() && !this.isHurt()) {
@@ -215,12 +185,18 @@ class Character extends MovableObject {
     }, 1000 / 5);
   }
 
+  /**
+   * Plays the "hurt" animation and sound for the character, and resets the idle timer.
+   */
   characterIsHurt() {
     this.playAnimation(this.IMAGES_HURT);
     hurt_sound.play();
     this.resetIdle();
   }
 
+  /**
+   * Plays the death animation and sound for the character, stops other sounds, and triggers the death screen.
+   */
   deathAnimation() {
     this.playAnimation(this.IMAGES_DEAD);
     death_sound.play();
@@ -233,17 +209,27 @@ class Character extends MovableObject {
     }, 1500);
   }
 
+  /**
+   * Initiates the character's jump action, setting vertical speed and playing the jump sound.
+   * Also resets the idle timer.
+   */
   jump() {
     this.speedY = 30;
     jumping_sound.play();
     this.resetIdle();
   }
 
+  /**
+   * Resets the idle timer, indicating that the character has moved or performed an action.
+   */
   resetIdle() {
     this.lastMovementTime = Date.now();
     snoring_sound.pause();
   }
 
+  /**
+   * Checks the duration of inactivity to determine if the character should enter a short or long idle state.
+   */
   checkIdleState() {
     const idleTime = Date.now() - this.lastMovementTime;
     if (idleTime > 30000) {
@@ -253,11 +239,17 @@ class Character extends MovableObject {
     }
   }
 
+  /**
+   * Plays the character's short idle animation and stops the snoring sound.
+   */
   characterIdleAnimation() {
     this.playAnimation(this.IMAGES_IDLE);
     snoring_sound.pause();
   }
 
+  /**
+   * Plays the character's long idle animation and starts the snoring sound.
+   */
   characterLongIdle() {
     this.playAnimation(this.IMAGES_LONG_IDLE);
     snoring_sound.play();

@@ -15,6 +15,12 @@ class BottleStatusbar extends Statusbar {
     this.setPercentage(0);
   }
 
+  /**
+ * Determines the image index to be used based on the current percentage.
+ * 
+ * The function returns an index corresponding to a predefined range of percentage values
+ * @returns {number} - The index of the image corresponding to the current percentage.
+ */
   resolveImageIndex() {
     if (this.percentage >= 100) return 5;
     else if (this.percentage >= 80) return 4;

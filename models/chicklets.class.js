@@ -7,7 +7,7 @@ class Chicklets extends MovableObject {
     top: 5,
     bottom: 15,
     left: 10,
-    right: 10
+    right: 10,
   };
 
   IMAGES_WALKING = [
@@ -29,6 +29,13 @@ class Chicklets extends MovableObject {
     this.animate();
   }
 
+  /**
+   * Initiates the animation sequence for a chicklet.
+   *
+   * This function sets up two intervals:
+   * 1. Moves the chicklet to the left at 60 frames per second.
+   * 2. Plays the walking animation at 4 frames per second.
+   */
   animate() {
     setInterval(() => {
       this.moveLeft();
@@ -39,6 +46,10 @@ class Chicklets extends MovableObject {
     }, 250);
   }
 
+  /**
+   * Triggers the death animation for the chicklet.
+   * This plays a sound effect and displays the death image.
+   */
   deathAnimation() {
     chicken_sound.play();
     this.playAnimation(this.IMAGE_DEAD);

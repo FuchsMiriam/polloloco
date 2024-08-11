@@ -68,6 +68,11 @@ class Endboss extends MovableObject {
     this.animate();
   }
 
+  /**
+   * Initiates the animation sequence for the endboss. This function continuously checks the state of the endboss
+   * and triggers the appropriate animations and sounds based on its current state (alive, dead, or in combat).
+   * The animation loop runs at 250ms intervals.
+   */
   animate() {
     setInterval(() => {
       if (this.isDead()) {
@@ -86,6 +91,10 @@ class Endboss extends MovableObject {
     }, 250);
   }
 
+  /**
+   * Triggers the routine that runs when the endboss first comes into contact with the player.
+   * This includes stopping the background music and other sounds, and starting the endboss fight music.
+   */
   firstContactRoutine() {
     this.hadFirstContact = true;
     game_music.pause();
@@ -93,6 +102,10 @@ class Endboss extends MovableObject {
     endboss_fight.play();
   }
 
+  /**
+   * Handles the animation sequence that occurs after the first contact with the player.
+   * Initially, the endboss plays an alert animation, then switches to a walking animation and moves left.
+   */
   firstContactAnimation() {
     if (this.i < 10) {
       this.playAnimation(this.IMAGES_ALERT);
@@ -103,15 +116,27 @@ class Endboss extends MovableObject {
     this.i++;
   }
 
+  /**
+   * Checks if the endboss is currently moving.
+   *
+   * @returns {boolean} - Returns true if the endboss is moving (i.e., has a speed greater than 0).
+   */
   isMoving() {
     return this.speed > 0;
   }
 
+  /**
+   * Plays the "hurt" animation for the endboss and triggers the associated sound effect.
+   */
   endbossIsHurtAnimation() {
     this.playAnimation(this.IMAGES_HURT);
     endboss_hit.play();
   }
 
+  /**
+   * Plays the death animation for the endboss, pauses the fight music, and plays the victory sound.
+   * After a delay, all intervals are cleared, and the game won routine is triggered.
+   */
   deathAnimation() {
     this.playAnimation(this.IMAGES_DEAD);
     endboss_fight.pause();

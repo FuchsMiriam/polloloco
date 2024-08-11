@@ -22,6 +22,13 @@ class Chicken extends MovableObject {
     this.animate();
   }
 
+  /**
+   * Initiates the animation sequence for a chicken.
+   *
+   * This function sets up two intervals:
+   * 1. Moves the chicken to the left at 60 frames per second.
+   * 2. Plays the walking animation at 4 frames per second.
+   */
   animate() {
     setInterval(() => {
       this.moveLeft();
@@ -32,6 +39,10 @@ class Chicken extends MovableObject {
     }, 250);
   }
 
+  /**
+   * Triggers the death animation for the chicken.
+   * This plays a sound effect and displays the death image.
+   */
   deathAnimation() {
     chicken_sound.play();
     this.playAnimation(this.IMAGE_DEAD);
