@@ -58,37 +58,29 @@ class World {
     }, 100);
   }
 
+  /**
+   * Checks for collisions between the character and enemies, and handles the collisions.
+   * @function
+   */
   /*checkCollisions() {
     this.collisionWithEndboss = false;
     this.level.enemies.forEach((enemy, index) => {
-      if (this.character.isColliding(enemy) && !this.character.isHurt()) {
-        if (enemy instanceof Endboss) {
-          this.endboss = enemy;
-          this.character.hit();
-          this.statusBar.setPercentage(this.character.energy);
-        } else if (
-          this.character.speedY > 0 &&
-          this.character.isAboveGround()
-        ) {
-          this.killChickens(enemy, index);
-        } else if (!this.character.isAboveGround()) {
-          this.character.hit();
-          this.statusBar.setPercentage(this.character.energy);
-        }
+      if (this.character.isColliding(enemy) && !this.characterIsInvulnerable) {
+        this.handleEnemyCollision(enemy, index);
       }
     });
     this.checkThrowableCollisions();
   }*/
 
-  /**
-   * Checks for collisions between the character and enemies, and handles the collisions.
-   * @function
-   */
   checkCollisions() {
     this.collisionWithEndboss = false;
     this.level.enemies.forEach((enemy, index) => {
       if (this.character.isColliding(enemy) && !this.characterIsInvulnerable) {
-        this.handleEnemyCollision(enemy, index);
+        if (enemy instanceof Endboss) {
+          this.handleCharacterCollisionWithEndboss();
+        } else {
+          this.handleEnemyCollision(enemy, index);
+        }
       }
     });
     this.checkThrowableCollisions();
@@ -100,11 +92,23 @@ class World {
    * @param {object} enemy - The enemy that was collided with.
    * @param {number} index - The index of the enemy in the enemies array.
    */
-  handleEnemyCollision(enemy, index) {
+  /*handleEnemyCollision(enemy, index) {
     if (enemy instanceof Endboss) {
       this.handleEndbossCollision();
-    } else if (this.character.speedY > 0 && this.character.isAboveGround()) {
+    } else if (this.character.speedY < 0 && this.character.isAboveGround()) {
       this.killChickens(enemy, index);
+    } else if (!this.character.isAboveGround()) {
+      this.character.hit();
+      this.statusBar.setPercentage(this.character.energy);
+      this.activateInvulnerability();
+    }
+  }*/
+
+  handleEnemyCollision(enemy) {
+    if (enemy instanceof Endboss) {
+      this.handleEndbossCollision();
+    } else if (this.character.speedY < 0 && this.character.isAboveGround()) {
+      this.killChickens(enemy, false);
     } else if (!this.character.isAboveGround()) {
       this.character.hit();
       this.statusBar.setPercentage(this.character.energy);
@@ -131,52 +135,90 @@ class World {
    * Handles the collision with an Endboss, updating the character's health and status bar.
    * @function
    */
-  handleEndbossCollision() {
+  /*handleEndbossCollision() {
+    this.endboss = this.level.enemies.find((e) => e instanceof Endboss);
+    this.character.hit();
+    this.statusBar.setPercentage(this.character.energy);
+  }*/
+  handleCharacterCollisionWithEndboss() {
     this.endboss = this.level.enemies.find((e) => e instanceof Endboss);
     this.character.hit();
     this.statusBar.setPercentage(this.character.energy);
   }
 
-  /*killChickens(enemy) {
-    this.character.speedY = 30;
-    if (enemy instanceof Chicken || enemy instanceof Chicklets) {
-      if (typeof enemy.deathAnimation === "function") {
-        enemy.deathAnimation();
-
-        setTimeout(() => {
-          enemy.chickenKilled();
-          this.deleteChickens(enemy);
-        }, 200);
-      } else {
-        console.error("deathAnimation not defined for:", enemy);
-      }
-    }
-  }*/
-
   /**
-   * Handles the killing of a given enemy if it is of type `Chicken` or `Chicklets`.
-   * The enemy is animated with a death animation, then removed from the level's enemies list after a short delay.
+   * Kills the specified enemy if the conditions are met (e.g., player jumps on it or it is hit by a throwable object).
    *
-   * @param {Chicken|Chicklets} enemy - The enemy object to be killed. Must be an instance of `Chicken` or `Chicklets`.
-   * @returns {void}
-   * @throws {Error} Throws an error if `deathAnimation` is not defined for the enemy.
+   * @param {Chicken|Chicklets} enemy - The enemy object to be killed.
+   * @param {boolean} [byBottle=false] - Indicates whether the enemy was killed by a throwable object.
+   * @param {number} [index] - The index of the enemy in the enemies array.
    */
-  killChickens(enemy) {
+  /*killChickens(enemy, byBottle = false) {
+      const index = this.level.enemies.findIndex(e => e === enemy);
+    
+      console.log("Index found:", index);
+    
+      if (index === -1) {
+        console.error("Enemy not found in the list");
+        return;
+      }
+    
+      if (enemy instanceof Chicken || enemy instanceof Chicklets) {
+        if (byBottle || (this.character.speedY < 0 && this.character.isAboveGround())) {
+          if (typeof enemy.deathAnimation === "function") {
+            enemy.deathAnimation();
+    
+            setTimeout(() => {
+              enemy.chickenKilled();
+              this.deleteChickens(index);
+            }, 250);
+          } else {
+            console.error("deathAnimation not defined for:", enemy);
+          }
+        }
+      }
+    }*/
+
+  /*killChickens(enemy, byBottle = false) {
     if (enemy instanceof Chicken || enemy instanceof Chicklets) {
-      if (this.character.speedY > 0 && this.character.isAboveGround()) {
+      if (
+        byBottle ||
+        (this.character.speedY < 0 && this.character.isAboveGround())
+      ) {
         if (typeof enemy.deathAnimation === "function") {
           enemy.deathAnimation();
 
           setTimeout(() => {
-            enemy.chickenKilled();
-            this.deleteChickens(enemy);
+            if (this.level.enemies.includes(enemy)) {
+              enemy.chickenKilled();
+              this.deleteChickens(enemy);
+            } else {
+              console.error("Enemy already removed or index mismatch.");
+            }
           }, 250);
         } else {
           console.error("deathAnimation not defined for:", enemy);
         }
       }
     }
-  }
+  }*/
+
+  killChickens(enemy, byBottle = false) {
+    if (enemy instanceof Chicken || enemy instanceof Chicklets) {
+      if (byBottle || (this.character.speedY < 0 && this.character.isAboveGround())) {
+        if (typeof enemy.deathAnimation === "function") {
+          enemy.deathAnimation();
+  
+          setTimeout(() => {
+            enemy.chickenKilled();
+            this.level.enemies = this.level.enemies.filter(e => e !== enemy);
+          }, 200);
+        } else {
+          console.error("deathAnimation not defined for:", enemy);
+        }
+      }
+    }
+  }  
 
   /**
    * Removes the specified enemy from the level's enemies list.
@@ -185,31 +227,23 @@ class World {
    * @returns {void}
    * @throws {Error} Throws an error if the enemy is not found in the level's enemies list.
    */
-  deleteChickens(enemy) {
+  /*deleteChickens(enemy) {
     let i = this.level.enemies.indexOf(enemy);
     if (i > -1) {
       this.level.enemies.splice(i, 1);
     } else {
       console.error("Enemy not found in the list");
     }
-  }
+  }*/
 
-  /*checkThrowableCollisions() {
-    this.throwableObject.forEach((bottle) => {
-      this.level.enemies.forEach((enemy, index) => {
-        if (bottle.isColliding(enemy)) {
-          if (enemy instanceof Endboss) {
-            if (!enemy.endbossIsHurt) {
-              this.collisionWithEndboss = true;
-              enemy.hurtEndboss();
-              this.statusbarEndboss.setPercentage(enemy.energy);
-            }
-          } else if (enemy instanceof Chicken || enemy instanceof Chicklets) {
-            this.killChickens(enemy, index);
-          }
-        }
-      });
-    });
+  /*deleteChickens(enemy) {
+    const index = this.level.enemies.indexOf(enemy);
+    if (index !== -1) {
+      this.level.enemies.splice(index, 1);
+      console.log("Enemy removed successfully.");
+    } else {
+      console.error("Enemy not found for deletion:", enemy);
+    }
   }*/
 
   /**
@@ -232,11 +266,19 @@ class World {
    * @param {object} enemy - The enemy that was collided with.
    * @param {number} index - The index of the enemy in the enemies array.
    */
-  handleCollision(enemy, index) {
+  /*handleCollision(enemy, index) {
     if (enemy instanceof Endboss) {
       this.handleEndbossCollision(enemy);
     } else if (enemy instanceof Chicken || enemy instanceof Chicklets) {
-      this.killChickens(enemy, index);
+      this.killChickens(enemy, true, index);
+    }
+  }*/
+
+  handleCollision(enemy) {
+    if (enemy instanceof Endboss) {
+      this.handleEndbossCollision(enemy);
+    } else if (enemy instanceof Chicken || enemy instanceof Chicklets) {
+      this.killChickens(enemy, true);
     }
   }
 
@@ -252,27 +294,6 @@ class World {
       this.statusbarEndboss.setPercentage(endboss.energy);
     }
   }
-
-  /*checkThrowObjects() {
-    let currentTime = Date.now();
-    if (
-      this.keyboard.THROW &&
-      this.character.bottles > 0 &&
-      currentTime - this.lastThrowTime >= this.throwCooldown
-    ) {
-      let bottle = new ThrowableObject(
-        this.character.x + 20,
-        this.character.y + 100,
-        this.character.otherDirection
-      );
-      this.throwableObject.push(bottle);
-      this.character.bottles -= 1;
-      this.character.resetIdle();
-      this.statusbarBottle.setPercentage(this.character.bottles);
-
-      this.lastThrowTime = currentTime;
-    }
-  }*/
 
   /**
    * Checks if the character can throw an object and handles the throwing process.
