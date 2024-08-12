@@ -82,7 +82,11 @@ class Endboss extends MovableObject {
           this.firstContactRoutine();
         }
         if (this.hadFirstContact) {
-          this.firstContactAnimation();
+          if (this.checkEndbossAttack()) {
+            this.attackAnimation();
+          } else {
+            this.firstContactAnimation();
+          }
         } else {
           this.playAnimation(this.IMAGES_ALERT);
         }
@@ -123,6 +127,32 @@ class Endboss extends MovableObject {
    */
   isMoving() {
     return this.speed > 0;
+  }
+
+  /**
+   * Plays the attack animation if the endboss is close enough to the player and not currently hurt or dead.
+   */
+  attackAnimation() {
+    if (this.checkEndbossAttack() && !this.endbossIsHurt && !this.isDead()) {
+      this.playAnimation(this.IMAGES_ATTACK);
+    }
+  }
+
+  /**
+   * Checks if the endboss can attack, based on distance from the player.
+   * @returns {boolean} True if the endboss is close enough to attack.
+   */
+  checkEndbossAttack() {
+    return this.distanceCharacterEndboss() < 60;
+  }
+
+  /**
+   * Calculates the horizontal distance between the endboss and the character in the game.
+   *
+   * @returns {number} The absolute horizontal distance between the endboss and the character.
+   */
+  distanceCharacterEndboss() {
+    return Math.abs(this.x - world.character.x);
   }
 
   /**
