@@ -303,6 +303,7 @@ class World {
     if (this.canThrow()) {
       this.createBottle();
       this.updateCharacterState();
+      this.statusbarBottle.setPercentage(this.character.bottles);
     }
   }
 
@@ -340,9 +341,10 @@ class World {
    * @function
    */
   updateCharacterState() {
-    this.character.bottles -= 1;
-    this.character.resetIdle();
+    this.character.bottles -= 10;
+    console.log("Remaining bottles: ", this.character.bottles); 
     this.statusbarBottle.setPercentage(this.character.bottles);
+    this.character.resetIdle();
     this.lastThrowTime = Date.now();
   }
 
