@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: models/movable-object.class.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: models/movable-object.class.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>class MovableObject extends DrawableObject {
+  speed = 0.15;
+  otherDirection = false;
+  speedY = 0;
+  acceleration = 3;
+  energy = 100;
+  lastHit = 0;
+  coins = 0;
+  bottles = 0;
+  timePassed;
+
+  offset = {
+    top: 0,
+    bottom: 0,
+    left: 0,
+    right: 0,
+  };
+
+  /**
+   * Applies gravity to the character or object by adjusting its vertical position and speed.
+   * Gravity is applied every 40 milliseconds (25 times per second).
+   */
+  applyGravity() {
+    setInterval(() => {
+      if (this.isAboveGround() || this.speedY > 0) {
+        this.y -= this.speedY;
+        this.speedY -= this.acceleration;
+      }
+    }, 1000 / 25);
+  }
+
+  /**
+   * Checks if the character or object is above the ground.
+   *
+   * @returns {boolean} - Returns true if the object is a ThrowableObject or if its vertical position (y) is less than 210.
+   */
+  isAboveGround() {
+    if (this instanceof ThrowableObject) {
+      return true;
+    } else {
+      return this.y &lt; 210;
+    }
+  }
+
+  /**
+   * Checks if the character or object is colliding with another object.
+   * Collision detection considers offsets for more precise bounding box checks.
+   *
+   * @param {Object} obj - The object to check for a collision with.
+   * @returns {boolean} - Returns true if the two objects are colliding.
+   */
+  isColliding(obj) {
+    return (
+      this.x + this.width - this.offset.right >= obj.x + obj.offset.left &amp;&amp;
+      this.x + this.offset.left &lt;= obj.x + obj.width - obj.offset.right &amp;&amp;
+      this.y + this.height - this.offset.bottom >= obj.y + obj.offset.top &amp;&amp;
+      this.y + this.offset.top &lt;= obj.y + obj.height - obj.offset.bottom
+    );
+  }
+
+  /**
+   * Reduces the character's energy by 5 points when hit.
+   * If energy drops to 0, it stays at 0. Records the time of the hit for subsequent checks.
+   */
+  hit() {
+    this.energy -= 5;
+    if (this.energy &lt;= 0) {
+      this.energy = 0;
+    } else {
+      this.lastHit = new Date().getTime();
+    }
+  }
+
+  /**
+   * Reduces the endboss's energy by 10 points and triggers the hurt animation.
+   * If the endboss's energy drops to 0, the death animation is triggered.
+   * Prevents multiple hits within a short time by using a cooldown period.
+   */
+  hurtEndboss() {
+    if (!this.endbossIsHurt) {
+      this.endbossIsHurt = true;
+      this.energy -= 10;
+
+      if (this.energy &lt;= 0) {
+        this.energy = 0;
+        this.deathAnimation();
+      } else {
+        this.endbossIsHurtAnimation();
+      }
+
+      setTimeout(() => {
+        this.endbossIsHurt = false;
+      }, 500);
+    }
+  }
+
+  /**
+   * Checks if the character is currently hurt, based on the time since the last hit.
+   *
+   * @returns {boolean} - Returns true if the character was hit within the last second.
+   */
+  isHurt() {
+    this.timePassed = new Date().getTime() - this.lastHit;
+    this.timePassed = this.timePassed / 1000;
+    return this.timePassed &lt; 1;
+  }
+
+  /**
+   * Checks if the endboss is currently hurt, based on the time since the last hit.
+   *
+   * @returns {boolean} - Returns true if the endboss was hit within the last second.
+   */
+  endbossIsHurt() {
+    let timePassed = new Date().getTime() - this.lastHit;
+    timePassed = timePassed / 1000;
+    return timePassed &lt; 1;
+  }
+
+  /**
+   * Checks if the character or object is dead (i.e., if its energy is 0).
+   *
+   * @returns {boolean} - Returns true if the energy is 0, indicating the character is dead.
+   */
+  isDead() {
+    return this.energy == 0;
+  }
+
+  /**
+   * Checks if the chicken character is killed (i.e., if its energy is 0).
+   *
+   * @returns {boolean} - Returns true if the chicken's energy is 0, indicating it is killed.
+   */
+  chickenKilled() {
+    return this.energy == 0;
+  }
+
+  /**
+   * Plays an animation by cycling through a set of images.
+   * The images are stored in an array, and the current image index is updated each time the function is called.
+   *
+   * @param {Array&lt;string>} images - An array of image paths representing the animation frames.
+   */
+  playAnimation(images) {
+    let i = this.currentImage % images.length;
+    let path = images[i];
+    this.img = this.imageCache[path];
+    this.currentImage++;
+  }
+
+  /**
+   * Moves the character or object to the right by increasing its x-coordinate by its speed.
+   */
+  moveRight() {
+    this.x += this.speed;
+  }
+
+  /**
+   * Moves the character or object to the left by decreasing its x-coordinate by its speed.
+   */
+  moveLeft() {
+    this.x -= this.speed;
+  }
+
+  /**
+   * Initiates a jump by setting the vertical speed (speedY) to a positive value.
+   */
+  jump() {
+    this.speedY = 30;
+  }
+
+  /**
+   * Increases the character's coin count by 10.
+   */
+  addCoins() {
+    this.coins += 10;
+  }
+
+  /**
+   * Increases the character's bottle count by 10.
+   */
+  addBottles() {
+    this.bottles += 10;
+  }
+}
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#addStoppableInterval">addStoppableInterval</a></li><li><a href="global.html#adjustCanvasSize">adjustCanvasSize</a></li><li><a href="global.html#buttonsPressEvents">buttonsPressEvents</a></li><li><a href="global.html#clearAllIntervals">clearAllIntervals</a></li><li><a href="global.html#deathScreen">deathScreen</a></li><li><a href="global.html#enterFullscreen">enterFullscreen</a></li><li><a href="global.html#exitFullscreen">exitFullscreen</a></li><li><a href="global.html#exitGame">exitGame</a></li><li><a href="global.html#fullscreen">fullscreen</a></li><li><a href="global.html#gameWon">gameWon</a></li><li><a href="global.html#hideGameOverContainer">hideGameOverContainer</a></li><li><a href="global.html#hideStartScreen">hideStartScreen</a></li><li><a href="global.html#init">init</a></li><li><a href="global.html#initGame">initGame</a></li><li><a href="global.html#level1">level1</a></li><li><a href="global.html#playMusic">playMusic</a></li><li><a href="global.html#preventBodyClick">preventBodyClick</a></li><li><a href="global.html#redirectToIndexPage">redirectToIndexPage</a></li><li><a href="global.html#restartGame">restartGame</a></li><li><a href="global.html#showCanvas">showCanvas</a></li><li><a href="global.html#showCloseButton">showCloseButton</a></li><li><a href="global.html#showControls">showControls</a></li><li><a href="global.html#showFullscreenIcon">showFullscreenIcon</a></li><li><a href="global.html#showFullscreenMessage">showFullscreenMessage</a></li><li><a href="global.html#showGame">showGame</a></li><li><a href="global.html#showLoadingScreen">showLoadingScreen</a></li><li><a href="global.html#showStartScreen">showStartScreen</a></li><li><a href="global.html#showStory">showStory</a></li><li><a href="global.html#showVolumeIcon">showVolumeIcon</a></li><li><a href="global.html#startGame">startGame</a></li><li><a href="global.html#stopAllSounds">stopAllSounds</a></li><li><a href="global.html#toggleMute">toggleMute</a></li><li><a href="global.html#updateMuteIcon">updateMuteIcon</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.3</a> on Tue Aug 13 2024 17:36:04 GMT+0200 (Mitteleuropäische Sommerzeit)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

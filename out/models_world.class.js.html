@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: models/world.class.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: models/world.class.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>class World {
+  character = new Character();
+  level = level1;
+  canvas;
+  ctx;
+  keyboard;
+  camera_x = 0;
+  statusBar = new Statusbar();
+  statusbarBottle = new BottleStatusbar();
+  statusbarCoin = new CoinStatusbar();
+  statusbarEndboss = new EndbossStatusbar();
+  throwableObject = [];
+  collisionWithEndboss = false;
+  lastThrowTime = 0;
+  throwCooldown = 1500;
+  characterIsInvulnerable = false;
+  invulnerabilityDuration = 2500;
+
+  constructor(canvas, keyboard) {
+    this.ctx = canvas.getContext("2d");
+    this.canvas = canvas;
+    this.keyboard = keyboard;
+
+    this.level.enemies.forEach((enemy) => {
+      if (enemy instanceof Endboss) {
+        this.endboss = enemy;
+      }
+    });
+
+    this.draw();
+    this.setWorld();
+    this.run();
+  }
+
+  /**
+   * Sets the world context for the character.
+   * @function
+   */
+  setWorld() {
+    this.character.world = this;
+  }
+
+  /**
+   * Starts the game loops by setting intervals for various game checks and actions.
+   * @function
+   */
+  run() {
+    // Check for throw objects, collect bottles and coins every 200 milliseconds
+    setInterval(() => {
+      this.checkThrowObjects();
+      this.collectBottles();
+      this.collectCoins();
+    }, 200);
+
+    // Check for collisions every 100 milliseconds
+    setInterval(() => {
+      this.checkCollisions();
+    }, 50);
+  }
+
+  /**
+   * Checks for collisions between the character and enemies, and handles the collisions.
+   * @function
+   */
+  checkCollisions() {
+    this.collisionWithEndboss = false;
+    this.level.enemies.forEach((enemy) => {
+      if (this.character.isColliding(enemy) &amp;&amp; !this.characterIsInvulnerable) {
+        if (enemy instanceof Endboss) {
+          this.handleCharacterCollisionWithEndboss();
+        } else {
+          this.handleEnemyCollision(enemy);
+        }
+      }
+    });
+    this.checkThrowableCollisions();
+  }
+
+  /**
+   * Handles the collision between the character and an enemy.
+   * @function
+   * @param {object} enemy - The enemy that was collided with.
+   * @param {number} index - The index of the enemy in the enemies array.
+   */
+  handleEnemyCollision(enemy) {
+    if (enemy instanceof Endboss) {
+      this.handleEndbossCollision();
+    } else if (!this.character.isAboveGround()) {
+      this.character.hit();
+      this.statusBar.setPercentage(this.character.energy);
+      this.activateInvulnerability();
+    } else if (this.character.speedY &lt; 0 &amp;&amp; this.character.isAboveGround()) {
+      this.killChickens(enemy, false);
+      this.activateInvulnerability();
+    }
+  }
+
+  /**
+   * Activates invulnerability for the character for a specified duration.
+   * The character will be immune to damage during this time.
+   *
+   * @function
+   * @memberof World
+   * @returns {void}
+   */
+  activateInvulnerability() {
+    this.characterIsInvulnerable = true;
+    setTimeout(() => {
+      this.characterIsInvulnerable = false;
+    }, this.invulnerabilityDuration);
+  }
+
+  /**
+   * Handles the collision with an Endboss, updating the character's health and status bar and setting invulnerability.
+   * @function
+   */
+  handleCharacterCollisionWithEndboss() {
+    if (!this.characterIsInvulnerable) {
+      this.endboss = this.level.enemies.find((e) => e instanceof Endboss);
+      if (this.endboss) {
+        this.character.hit();
+        this.statusBar.setPercentage(this.character.energy);
+        this.activateInvulnerability();
+      }
+    }
+  }
+
+  /**
+   * Kills the specified enemy if the conditions are met (e.g., player jumps on it or it is hit by a throwable object).
+   *
+   * @param {Chicken|Chicklets} enemy - The enemy object to be killed.
+   * @param {boolean} [byBottle=false] - Indicates whether the enemy was killed by a throwable object.
+   * @param {number} [index] - The index of the enemy in the enemies array.
+   */
+  killChickens(enemy, byBottle = false) {
+    if (enemy instanceof Chicken || enemy instanceof Chicklets) {
+      if (
+        byBottle ||
+        (this.character.speedY &lt; 0 &amp;&amp; this.character.isAboveGround())
+      ) {
+        if (typeof enemy.deathAnimation === "function") {
+          enemy.deathAnimation();
+
+          setTimeout(() => {
+            enemy.chickenKilled();
+            this.level.enemies = this.level.enemies.filter((e) => e !== enemy);
+          }, 250);
+        } else {
+          console.error("deathAnimation not defined for:", enemy);
+        }
+      }
+    }
+  }
+
+  /**
+   * Checks for collisions between throwable objects and enemies, and handles the collisions.
+   * @function
+   */
+  checkThrowableCollisions() {
+    this.throwableObject.forEach((bottle) => {
+      this.level.enemies.forEach((enemy, index) => {
+        if (bottle.isColliding(enemy)) {
+          this.handleCollision(enemy, index);
+        }
+      });
+    });
+  }
+
+  /**
+   * Handles the collision between a throwable object and an enemy.
+   * @function
+   * @param {object} enemy - The enemy that was collided with.
+   * @param {number} index - The index of the enemy in the enemies array.
+   */
+  handleCollision(enemy) {
+    if (enemy instanceof Endboss) {
+      this.handleEndbossCollision(enemy);
+    } else if (enemy instanceof Chicken || enemy instanceof Chicklets) {
+      this.killChickens(enemy, true);
+    }
+  }
+
+  /**
+   * Handles the collision with an Endboss.
+   * @function
+   * @param {Endboss} endboss - The Endboss that was collided with.
+   */
+  handleEndbossCollision(endboss) {
+    if (!endboss.endbossIsHurt) {
+      this.collisionWithEndboss = true;
+      endboss.hurtEndboss();
+      this.statusbarEndboss.setPercentage(endboss.energy);
+    }
+  }
+
+  /**
+   * Checks if the character can throw an object and handles the throwing process.
+   * @function
+   */
+  checkThrowObjects() {
+    if (this.canThrow()) {
+      this.createBottle();
+      this.updateCharacterState();
+      this.statusbarBottle.setPercentage(this.character.bottles);
+    }
+  }
+
+  /**
+   * Determines whether the character can throw an object based on keyboard input,
+   * the number of available bottles, and the cooldown period.
+   * @function
+   * @returns {boolean} True if the object can be thrown, false otherwise.
+   */
+  canThrow() {
+    let currentTime = Date.now();
+    return (
+      this.keyboard.THROW &amp;&amp;
+      this.character.bottles > 0 &amp;&amp;
+      currentTime - this.lastThrowTime >= this.throwCooldown
+    );
+  }
+
+  /**
+   * Creates a new ThrowableObject and adds it to the list of throwable objects.
+   * @function
+   */
+  createBottle() {
+    let bottle = new ThrowableObject(
+      this.character.x + 20,
+      this.character.y + 100,
+      this.character.otherDirection
+    );
+    this.throwableObject.push(bottle);
+  }
+
+  /**
+   * Updates the character's state after throwing an object, including decreasing
+   * the number of bottles, resetting the idle state, and updating the status bar.
+   * @function
+   */
+  updateCharacterState() {
+    this.character.bottles -= 10;
+    this.statusbarBottle.setPercentage(this.character.bottles);
+    this.character.resetIdle();
+    this.lastThrowTime = Date.now();
+  }
+
+  /**
+   * Displays the Endboss health bar on the canvas if the Endboss has had first contact.
+   * @function
+   */
+  showEndbossHealthbar() {
+    if (this.endboss &amp;&amp; this.endboss.hadFirstContact) {
+      this.addToMap(this.statusbarEndboss);
+    }
+  }
+
+  /**
+   * Clears the canvas and redraws all game objects, including background, status bars, and characters.
+   * @function
+   */
+  draw() {
+    this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+    this.ctx.translate(this.camera_x, 0);
+
+    this.addObjectsToMap(this.level.backgroundObjects);
+    this.addObjectsToMap(this.level.clouds);
+    this.ctx.translate(-this.camera_x, 0);
+    this.addToMap(this.statusBar);
+    this.addToMap(this.statusbarBottle);
+    this.addToMap(this.statusbarCoin);
+    this.showEndbossHealthbar();
+
+    this.ctx.translate(this.camera_x, 0);
+    this.addObjectsToMap(this.level.enemies);
+    this.addObjectsToMap(this.level.bottles);
+    this.addObjectsToMap(this.level.coins);
+    this.addObjectsToMap(this.throwableObject);
+    this.addToMap(this.character);
+
+    this.ctx.translate(-this.camera_x, 0);
+
+    let self = this;
+    requestAnimationFrame(function () {
+      self.draw();
+    });
+  }
+
+  /**
+   * Adds a list of objects to the canvas map.
+   * @function
+   * @param {Array} objects - Array of objects to be added to the map.
+   */
+  addObjectsToMap(objects) {
+    objects.forEach((o) => {
+      this.addToMap(o);
+    });
+  }
+
+  /**
+   * Draws an object on the canvas and handles its direction.
+   * @function
+   * @param {object} mo - The object to be drawn on the canvas.
+   */
+  addToMap(mo) {
+    if (mo.otherDirection) {
+      this.flipImage(mo);
+    }
+
+    mo.draw(this.ctx);
+    //mo.drawFrame(this.ctx);
+
+    if (mo.otherDirection) {
+      this.flipImageBack(mo);
+    }
+  }
+
+  /**
+   * Flips an object horizontally on the canvas.
+   * @function
+   * @param {object} mo - The object to be flipped.
+   */
+  flipImage(mo) {
+    this.ctx.save();
+    this.ctx.translate(mo.width, 0);
+    this.ctx.scale(-1, 1);
+    mo.x = mo.x * -1;
+  }
+
+  /**
+   * Restores the canvas state and flips the object back to its original orientation.
+   * @function
+   * @param {object} mo - The object to be flipped back.
+   */
+  flipImageBack(mo) {
+    mo.x = mo.x * -1;
+    this.ctx.restore();
+  }
+
+  /**
+   * Collects bottles from the level if the character is colliding with them and the number of bottles is less than 100.
+   * @function
+   */
+  collectBottles() {
+    this.level.bottles.forEach((bottle) => {
+      if (this.character.isColliding(bottle) &amp;&amp; this.character.bottles &lt; 100) {
+        this.bottleCollected(bottle);
+        bottleSound.play();
+        this.character.addBottles();
+        this.statusbarBottle.setPercentage(this.character.bottles);
+      }
+    });
+  }
+
+  /**
+   * Collects coins from the level if the character is colliding with them.
+   * @function
+   */
+  collectCoins() {
+    this.level.coins.forEach((coin) => {
+      if (this.character.isColliding(coin)) {
+        this.coinCollected(coin);
+        coinSound.play();
+        this.character.addCoins();
+        this.statusbarCoin.setPercentage(this.character.coins);
+      }
+    });
+  }
+
+  /**
+   * Handles the removal of a collected bottle from the level's list of bottles.
+   * @function
+   * @param {object} bottle - The bottle that was collected.
+   */
+  bottleCollected(bottle) {
+    let i = this.level.bottles.indexOf(bottle);
+    if (i > -1) {
+      this.level.bottles.splice(i, 1);
+    }
+  }
+
+  /**
+   * Handles the removal of a collected coin from the level's list of coins.
+   * @function
+   * @param {object} coin - The coin that was collected.
+   */
+  coinCollected(coin) {
+    let i = this.level.coins.indexOf(coin);
+    if (i > -1) {
+      this.level.coins.splice(i, 1);
+    }
+  }
+}
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#addStoppableInterval">addStoppableInterval</a></li><li><a href="global.html#adjustCanvasSize">adjustCanvasSize</a></li><li><a href="global.html#buttonsPressEvents">buttonsPressEvents</a></li><li><a href="global.html#clearAllIntervals">clearAllIntervals</a></li><li><a href="global.html#deathScreen">deathScreen</a></li><li><a href="global.html#enterFullscreen">enterFullscreen</a></li><li><a href="global.html#exitFullscreen">exitFullscreen</a></li><li><a href="global.html#exitGame">exitGame</a></li><li><a href="global.html#fullscreen">fullscreen</a></li><li><a href="global.html#gameWon">gameWon</a></li><li><a href="global.html#hideGameOverContainer">hideGameOverContainer</a></li><li><a href="global.html#hideStartScreen">hideStartScreen</a></li><li><a href="global.html#init">init</a></li><li><a href="global.html#initGame">initGame</a></li><li><a href="global.html#level1">level1</a></li><li><a href="global.html#playMusic">playMusic</a></li><li><a href="global.html#preventBodyClick">preventBodyClick</a></li><li><a href="global.html#redirectToIndexPage">redirectToIndexPage</a></li><li><a href="global.html#restartGame">restartGame</a></li><li><a href="global.html#showCanvas">showCanvas</a></li><li><a href="global.html#showCloseButton">showCloseButton</a></li><li><a href="global.html#showControls">showControls</a></li><li><a href="global.html#showFullscreenIcon">showFullscreenIcon</a></li><li><a href="global.html#showFullscreenMessage">showFullscreenMessage</a></li><li><a href="global.html#showGame">showGame</a></li><li><a href="global.html#showLoadingScreen">showLoadingScreen</a></li><li><a href="global.html#showStartScreen">showStartScreen</a></li><li><a href="global.html#showStory">showStory</a></li><li><a href="global.html#showVolumeIcon">showVolumeIcon</a></li><li><a href="global.html#startGame">startGame</a></li><li><a href="global.html#stopAllSounds">stopAllSounds</a></li><li><a href="global.html#toggleMute">toggleMute</a></li><li><a href="global.html#updateMuteIcon">updateMuteIcon</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.3</a> on Tue Aug 13 2024 17:36:04 GMT+0200 (Mitteleuropäische Sommerzeit)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
