@@ -3,20 +3,6 @@ let world;
 let keyboard = new Keyboard();
 let intervalIds = [];
 
-/*function startGame() {
-  hideStartScreen();
-  hideGameOverContainer();
-  showCanvas();
-  showCloseButton();
-  showFullscreenIcon();
-  showVolumeIcon();
-  playMusic();
-  initGame();
-  world = new World(canvas, keyboard);
-  buttonsPressEvents();
-  preventBodyClick();
-}*/
-
 /**
  * Starts the game by setting up the initial UI, playing music, and initializing the game world.
  */
@@ -179,6 +165,7 @@ function showStartScreen() {
   document.querySelector(".game-over-container").classList.add("d-none");
   document.querySelector(".game-won-container").classList.add("d-none");
   document.querySelector(".startscreen").classList.remove("d-none");
+  document.querySelector(".privacy-sidebar").classList.remove("d-none");
 }
 
 document.addEventListener("DOMContentLoaded", () => {

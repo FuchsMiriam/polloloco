@@ -27,7 +27,7 @@ const allSounds = [
   coinSound,
   endboss_hit,
   endboss_fight,
-  endboss_dead,
+  endboss_attack,
   walking_sound,
   snoring_sound,
   jumping_sound,
