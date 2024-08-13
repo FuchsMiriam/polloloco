@@ -10,12 +10,7 @@ function startGame() {
   showLoadingScreen();
 
   setTimeout(() => {
-    hideStartScreen();
-    hideGameOverContainer();
-    showCanvas();
-    showCloseButton();
-    showFullscreenIcon();
-    showVolumeIcon();
+    setupUI();
     playMusic();
     initGame();
     world = new World(canvas, keyboard);
@@ -23,8 +18,31 @@ function startGame() {
     preventBodyClick();
 
     showGame();
-    document.querySelector(".privacy-sidebar").classList.add("d-none");
+
   }, 3000);
+}
+
+/**
+ * Sets up the user interface for the game by hiding or showing specific elements.
+ * 
+ * This function performs the following tasks:
+ * - Hides the start screen.
+ * - Hides the game over container.
+ * - Shows the game canvas.
+ * - Displays the close button.
+ * - Displays the fullscreen icon.
+ * - Displays the volume icon.
+ * - Hides the privacy sidebar.
+ * 
+ */
+function setupUI() {
+  hideStartScreen();
+  hideGameOverContainer();
+  showCanvas();
+  showCloseButton();
+  showFullscreenIcon();
+  showVolumeIcon();
+  document.querySelector(".privacy-sidebar").classList.add("d-none");
 }
 
 /**

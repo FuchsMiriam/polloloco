@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: js/game.js</title>
+    <title>JSDoc: Source: game.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: js/game.js</h1>
+    <h1 class="page-title">Source: game.js</h1>
 
     
 
@@ -31,20 +31,6 @@ let world;
 let keyboard = new Keyboard();
 let intervalIds = [];
 
-/*function startGame() {
-  hideStartScreen();
-  hideGameOverContainer();
-  showCanvas();
-  showCloseButton();
-  showFullscreenIcon();
-  showVolumeIcon();
-  playMusic();
-  initGame();
-  world = new World(canvas, keyboard);
-  buttonsPressEvents();
-  preventBodyClick();
-}*/
-
 /**
  * Starts the game by setting up the initial UI, playing music, and initializing the game world.
  */
@@ -52,12 +38,7 @@ function startGame() {
   showLoadingScreen();
 
   setTimeout(() => {
-    hideStartScreen();
-    hideGameOverContainer();
-    showCanvas();
-    showCloseButton();
-    showFullscreenIcon();
-    showVolumeIcon();
+    setupUI();
     playMusic();
     initGame();
     world = new World(canvas, keyboard);
@@ -65,7 +46,31 @@ function startGame() {
     preventBodyClick();
 
     showGame();
+
   }, 3000);
+}
+
+/**
+ * Sets up the user interface for the game by hiding or showing specific elements.
+ * 
+ * This function performs the following tasks:
+ * - Hides the start screen.
+ * - Hides the game over container.
+ * - Shows the game canvas.
+ * - Displays the close button.
+ * - Displays the fullscreen icon.
+ * - Displays the volume icon.
+ * - Hides the privacy sidebar.
+ * 
+ */
+function setupUI() {
+  hideStartScreen();
+  hideGameOverContainer();
+  showCanvas();
+  showCloseButton();
+  showFullscreenIcon();
+  showVolumeIcon();
+  document.querySelector(".privacy-sidebar").classList.add("d-none");
 }
 
 /**
@@ -501,13 +506,13 @@ document.addEventListener("fullscreenchange", () => {
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#addStoppableInterval">addStoppableInterval</a></li><li><a href="global.html#adjustCanvasSize">adjustCanvasSize</a></li><li><a href="global.html#buttonsPressEvents">buttonsPressEvents</a></li><li><a href="global.html#clearAllIntervals">clearAllIntervals</a></li><li><a href="global.html#deathScreen">deathScreen</a></li><li><a href="global.html#enterFullscreen">enterFullscreen</a></li><li><a href="global.html#exitFullscreen">exitFullscreen</a></li><li><a href="global.html#exitGame">exitGame</a></li><li><a href="global.html#fullscreen">fullscreen</a></li><li><a href="global.html#gameWon">gameWon</a></li><li><a href="global.html#hideGameOverContainer">hideGameOverContainer</a></li><li><a href="global.html#hideStartScreen">hideStartScreen</a></li><li><a href="global.html#init">init</a></li><li><a href="global.html#initGame">initGame</a></li><li><a href="global.html#level1">level1</a></li><li><a href="global.html#playMusic">playMusic</a></li><li><a href="global.html#preventBodyClick">preventBodyClick</a></li><li><a href="global.html#redirectToIndexPage">redirectToIndexPage</a></li><li><a href="global.html#restartGame">restartGame</a></li><li><a href="global.html#showCanvas">showCanvas</a></li><li><a href="global.html#showCloseButton">showCloseButton</a></li><li><a href="global.html#showControls">showControls</a></li><li><a href="global.html#showFullscreenIcon">showFullscreenIcon</a></li><li><a href="global.html#showFullscreenMessage">showFullscreenMessage</a></li><li><a href="global.html#showGame">showGame</a></li><li><a href="global.html#showLoadingScreen">showLoadingScreen</a></li><li><a href="global.html#showStartScreen">showStartScreen</a></li><li><a href="global.html#showStory">showStory</a></li><li><a href="global.html#showVolumeIcon">showVolumeIcon</a></li><li><a href="global.html#startGame">startGame</a></li><li><a href="global.html#stopAllSounds">stopAllSounds</a></li><li><a href="global.html#toggleMute">toggleMute</a></li><li><a href="global.html#updateMuteIcon">updateMuteIcon</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#addStoppableInterval">addStoppableInterval</a></li><li><a href="global.html#adjustCanvasSize">adjustCanvasSize</a></li><li><a href="global.html#buttonsPressEvents">buttonsPressEvents</a></li><li><a href="global.html#clearAllIntervals">clearAllIntervals</a></li><li><a href="global.html#deathScreen">deathScreen</a></li><li><a href="global.html#enterFullscreen">enterFullscreen</a></li><li><a href="global.html#exitFullscreen">exitFullscreen</a></li><li><a href="global.html#exitGame">exitGame</a></li><li><a href="global.html#fullscreen">fullscreen</a></li><li><a href="global.html#gameWon">gameWon</a></li><li><a href="global.html#hideGameOverContainer">hideGameOverContainer</a></li><li><a href="global.html#hideStartScreen">hideStartScreen</a></li><li><a href="global.html#init">init</a></li><li><a href="global.html#playMusic">playMusic</a></li><li><a href="global.html#preventBodyClick">preventBodyClick</a></li><li><a href="global.html#restartGame">restartGame</a></li><li><a href="global.html#setupUI">setupUI</a></li><li><a href="global.html#showCanvas">showCanvas</a></li><li><a href="global.html#showCloseButton">showCloseButton</a></li><li><a href="global.html#showControls">showControls</a></li><li><a href="global.html#showFullscreenIcon">showFullscreenIcon</a></li><li><a href="global.html#showFullscreenMessage">showFullscreenMessage</a></li><li><a href="global.html#showGame">showGame</a></li><li><a href="global.html#showLoadingScreen">showLoadingScreen</a></li><li><a href="global.html#showStartScreen">showStartScreen</a></li><li><a href="global.html#showStory">showStory</a></li><li><a href="global.html#showVolumeIcon">showVolumeIcon</a></li><li><a href="global.html#startGame">startGame</a></li><li><a href="global.html#stopAllSounds">stopAllSounds</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.3</a> on Tue Aug 13 2024 17:36:04 GMT+0200 (Mitteleuropäische Sommerzeit)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.3</a> on Tue Aug 13 2024 18:43:28 GMT+0200 (Mitteleuropäische Sommerzeit)
 </footer>
 
 <script> prettyPrint(); </script>
