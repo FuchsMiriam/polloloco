@@ -22,7 +22,17 @@ function initGame() {
       new Chicklets(),
       new Endboss(),
     ],
-    [new Coin(), new Coin(), new Coin(), new Coin(), new Coin(), new Coin(), new Coin()],
+    [
+      new Coin(),
+      new Coin(),
+      new Coin(),
+      new Coin(),
+      new Coin(),
+      new Coin(),
+      new Coin(),
+      new Coin(),
+      new Coin(),
+    ],
     [
       new Bottle(),
       new Bottle(),

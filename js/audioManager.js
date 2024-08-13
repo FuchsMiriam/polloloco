@@ -7,6 +7,7 @@ coinSound = new Audio("../audio/coin.mp3");
 
 endboss_hit = new Audio("../audio/endboss_hit.mp3");
 endboss_fight = new Audio("../audio/endboss_fight.mp3");
+endboss_attack = new Audio("../audio/endboss_attack.mp3");
 
 walking_sound = new Audio("../audio/walking.mp3");
 snoring_sound = new Audio("../audio/snoring.mp3");
@@ -26,6 +27,7 @@ const allSounds = [
   coinSound,
   endboss_hit,
   endboss_fight,
+  endboss_dead,
   walking_sound,
   snoring_sound,
   jumping_sound,

@@ -155,6 +155,7 @@ class Endboss extends MovableObject {
   attackAnimation() {
     if (this.checkEndbossAttack() && !this.endbossIsHurt && !this.isDead()) {
       this.playAnimation(this.IMAGES_ATTACK);
+      endboss_attack.play();
     }
   }
 
