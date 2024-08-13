@@ -23,6 +23,7 @@ function startGame() {
     preventBodyClick();
 
     showGame();
+    document.querySelector(".privacy-sidebar").classList.add("d-none");
   }, 3000);
 }
 
@@ -165,7 +166,6 @@ function showStartScreen() {
   document.querySelector(".game-over-container").classList.add("d-none");
   document.querySelector(".game-won-container").classList.add("d-none");
   document.querySelector(".startscreen").classList.remove("d-none");
-  document.querySelector(".privacy-sidebar").classList.remove("d-none");
 }
 
 document.addEventListener("DOMContentLoaded", () => {
