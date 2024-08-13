@@ -4,7 +4,7 @@ class Character extends MovableObject {
   speed = 10;
   world;
   x = 120;
-  //y = 210;
+  y = 210;
 
   offset = {
     top: 120,
@@ -87,7 +87,6 @@ class Character extends MovableObject {
     this.applyGravity();
     this.animate(this.IMAGES_WALKING);
     this.lastMovementTime = Date.now();
-    this.y = 150;
   }
 
   /**

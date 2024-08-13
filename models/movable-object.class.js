@@ -42,15 +42,6 @@ class MovableObject extends DrawableObject {
     }
   }
 
-  /* isColliding(obj) {
-    return (
-      this.x + this.width >= obj.x &&
-      this.x <= obj.x + obj.width &&
-      this.y + this.offsetY + this.height >= obj.y &&
-      this.y + this.offsetY <= obj.y + obj.height
-    );
-  }*/
-
   /**
    * Checks if the character or object is colliding with another object.
    * Collision detection considers offsets for more precise bounding box checks.
@@ -79,16 +70,6 @@ class MovableObject extends DrawableObject {
       this.lastHit = new Date().getTime();
     }
   }
-
-  /*hurtEndboss() {
-  this.energy -= 5;
-  if (this.energy <= 0) {
-    this.energy = 0;
-    this.deathAnimation();
-  } else {
-    this.endbossIsHurtAnimation();
-  }
-}*/
 
   /**
    * Reduces the endboss's energy by 10 points and triggers the hurt animation.

@@ -2,12 +2,6 @@ class ThrowableObject extends MovableObject {
   characterDirection;
 
   offset = { top: 0, bottom: 0, left: 0, right: 0 };
-  /*offset = {
-    top: 5,
-    bottom: 5,
-    left: 5,
-    right: 5,
-  };*/
 
   BOTTLE_ROTATING = [
     "./img/6_salsa_bottle/bottle_rotation/1_bottle_rotation.png",

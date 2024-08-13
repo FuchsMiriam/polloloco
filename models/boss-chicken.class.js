@@ -73,28 +73,6 @@ class Endboss extends MovableObject {
    * and triggers the appropriate animations and sounds based on its current state (alive, dead, or in combat).
    * The animation loop runs at 250ms intervals.
    */
-  /*animate() {
-    setInterval(() => {
-      if (this.isDead()) {
-        this.deathAnimation();
-      } else {
-        if (!this.hadFirstContact && world.character.x > 2750) {
-          this.firstContactRoutine();
-        }
-        if (this.hadFirstContact) {
-          if (this.checkEndbossAttack()) {
-            this.attackAnimation();
-          } else {
-            this.firstContactAnimation();
-          }
-        } else {
-          this.playAnimation(this.IMAGES_ALERT);
-        }
-        world.showEndbossHealthbar();
-      }
-    }, 250);
-  }*/
-
   animate() {
     setInterval(() => {
       if (this.isDead()) {
