@@ -55,7 +55,7 @@ class World {
     // Check for collisions every 100 milliseconds
     setInterval(() => {
       this.checkCollisions();
-    }, 100);
+    }, 50);
   }
 
   /**
@@ -74,12 +74,12 @@ class World {
 
   checkCollisions() {
     this.collisionWithEndboss = false;
-    this.level.enemies.forEach((enemy, index) => {
+    this.level.enemies.forEach((enemy) => {
       if (this.character.isColliding(enemy) && !this.characterIsInvulnerable) {
         if (enemy instanceof Endboss) {
           this.handleCharacterCollisionWithEndboss();
         } else {
-          this.handleEnemyCollision(enemy, index);
+          this.handleEnemyCollision(enemy);
         }
       }
     });
@@ -104,7 +104,7 @@ class World {
     }
   }*/
 
-  handleEnemyCollision(enemy) {
+  /*handleEnemyCollision(enemy) {
     if (enemy instanceof Endboss) {
       this.handleEndbossCollision();
     } else if (this.character.speedY < 0 && this.character.isAboveGround()) {
@@ -114,7 +114,20 @@ class World {
       this.statusBar.setPercentage(this.character.energy);
       this.activateInvulnerability();
     }
-  }
+  }*/
+
+    handleEnemyCollision(enemy) {
+      if (enemy instanceof Endboss) {
+        this.handleEndbossCollision();
+      } else if (!this.character.isAboveGround()) {
+        this.character.hit();
+        this.statusBar.setPercentage(this.character.energy);
+        this.activateInvulnerability();
+      } else if (this.character.speedY < 0 && this.character.isAboveGround()) {
+        this.killChickens(enemy, false);
+      }
+    }
+    
 
   /**
    * Activates invulnerability for the character for a specified duration.
@@ -205,6 +218,7 @@ class World {
 
   killChickens(enemy, byBottle = false) {
     if (enemy instanceof Chicken || enemy instanceof Chicklets) {
+      console.log("isAboveGround (killChickens):", this.character.isAboveGround());
       if (byBottle || (this.character.speedY < 0 && this.character.isAboveGround())) {
         if (typeof enemy.deathAnimation === "function") {
           enemy.deathAnimation();
@@ -212,7 +226,7 @@ class World {
           setTimeout(() => {
             enemy.chickenKilled();
             this.level.enemies = this.level.enemies.filter(e => e !== enemy);
-          }, 200);
+          }, 250);
         } else {
           console.error("deathAnimation not defined for:", enemy);
         }
@@ -341,8 +355,7 @@ class World {
    * @function
    */
   updateCharacterState() {
-    this.character.bottles -= 10;
-    console.log("Remaining bottles: ", this.character.bottles); 
+    this.character.bottles -= 10; 
     this.statusbarBottle.setPercentage(this.character.bottles);
     this.character.resetIdle();
     this.lastThrowTime = Date.now();
@@ -411,7 +424,7 @@ class World {
     }
 
     mo.draw(this.ctx);
-    mo.drawFrame(this.ctx);
+    //mo.drawFrame(this.ctx);
 
     if (mo.otherDirection) {
       this.flipImageBack(mo);
