@@ -57,7 +57,7 @@ class World {
     // Check for collisions every 50 milliseconds
     setInterval(() => {
       this.checkCollisions();
-    }, 50);
+    }, 20);
   }
 
   /**

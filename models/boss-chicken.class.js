@@ -2,7 +2,7 @@ class Endboss extends MovableObject {
   height = 350;
   width = 300;
   y = 95;
-  speed = 20;
+  speed = 25;
 
   offset = {
     top: 90,
@@ -97,7 +97,7 @@ class Endboss extends MovableObject {
    * Checks if the first contact with the player has occurred and handles it.
    */
   checkFirstContact() {
-    if (world.character.x > 2700) {
+    if (world.character.x > 2500) {
       this.firstContactRoutine();
     } else {
       this.playAnimation(this.IMAGES_ALERT);
