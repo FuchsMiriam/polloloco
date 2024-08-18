@@ -14,7 +14,9 @@ class World {
   lastThrowTime = 0;
   throwCooldown = 1500;
   characterIsInvulnerable = false;
-  invulnerabilityDuration = 2500;
+  invulnerabilityDuration = 3000;
+  lastHitTime = 0;
+  hitCooldown = 300;
 
   constructor(canvas, keyboard) {
     this.ctx = canvas.getContext("2d");
@@ -52,7 +54,7 @@ class World {
       this.collectCoins();
     }, 200);
 
-    // Check for collisions every 100 milliseconds
+    // Check for collisions every 50 milliseconds
     setInterval(() => {
       this.checkCollisions();
     }, 50);
@@ -65,7 +67,7 @@ class World {
   checkCollisions() {
     this.collisionWithEndboss = false;
     this.level.enemies.forEach((enemy) => {
-      if (this.character.isColliding(enemy) && !this.characterIsInvulnerable) {
+      if (this.character.isColliding(enemy)) {
         if (enemy instanceof Endboss) {
           this.handleCharacterCollisionWithEndboss();
         } else {
@@ -83,15 +85,22 @@ class World {
    * @param {number} index - The index of the enemy in the enemies array.
    */
   handleEnemyCollision(enemy) {
+    const currentTime = Date.now();
+    if (currentTime - this.lastHitTime < this.hitCooldown) {
+      return;
+    }
     if (enemy instanceof Endboss) {
       this.handleEndbossCollision();
-    } else if (!this.character.isAboveGround()) {
-      this.character.hit();
-      this.statusBar.setPercentage(this.character.energy);
-      this.activateInvulnerability();
     } else if (this.character.speedY < 0 && this.character.isAboveGround()) {
-      this.killChickens(enemy, false);
       this.activateInvulnerability();
+      this.killChickens(enemy, false);
+    } else if (!this.character.isAboveGround()) {
+      if (!this.characterIsInvulnerable) {
+        this.character.hit();
+        this.statusBar.setPercentage(this.character.energy);
+        this.activateInvulnerability();
+        this.lastHitTime = currentTime;
+      }
     }
   }
 

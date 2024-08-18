@@ -181,7 +181,6 @@ class Character extends MovableObject {
           this.characterIdleAnimation();
         }
       }
-
       this.checkIdleState();
     }, 1000 / 5);
   }
@@ -216,6 +215,9 @@ class Character extends MovableObject {
    */
   jump() {
     this.speedY = 30;
+    this.currentAnimation = this.IMAGES_JUMPING;
+    this.currentImage = 0;
+    this.playAnimation(this.currentAnimation);
     jumping_sound.play();
     this.resetIdle();
   }
@@ -233,9 +235,9 @@ class Character extends MovableObject {
    */
   checkIdleState() {
     const idleTime = Date.now() - this.lastMovementTime;
-    if (idleTime > 30000) {
+    if (idleTime > 15000) {
       this.characterLongIdle();
-    } else if (idleTime > 15000) {
+    } else if (idleTime > 1000) {
       this.characterIdleAnimation();
     }
   }

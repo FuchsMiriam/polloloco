@@ -63,7 +63,7 @@ class MovableObject extends DrawableObject {
    * If energy drops to 0, it stays at 0. Records the time of the hit for subsequent checks.
    */
   hit() {
-    this.energy -= 5;
+    this.energy -= 1;
     if (this.energy <= 0) {
       this.energy = 0;
     } else {
@@ -141,6 +141,10 @@ class MovableObject extends DrawableObject {
    * @param {Array<string>} images - An array of image paths representing the animation frames.
    */
   playAnimation(images) {
+    if (images !== this.currentAnimation) {
+      this.currentAnimation = images;
+      this.currentImage = 0;
+    }
     let i = this.currentImage % images.length;
     let path = images[i];
     this.img = this.imageCache[path];
